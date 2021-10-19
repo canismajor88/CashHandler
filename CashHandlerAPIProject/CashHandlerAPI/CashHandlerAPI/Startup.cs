@@ -9,6 +9,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CashHandlerAPI.Data;
+using CashHandlerAPI.Helper;
+using CashHandlerAPI.Repos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
@@ -77,12 +80,13 @@ namespace CashHandlerAPI
             #endregion
 
             #region dependency injection
-
-             services.AddSingleton(Configuration);
-
+            services.AddSingleton(Configuration);
+             services.AddSingleton<IUserCredentialsRepo, UserCredentialRepo>();
+             services.AddSingleton<ITokenGenerator, TokenGenerator>();
+             services.AddSingleton<ITokenHelper, TokenHelper>();
             #endregion
 
-           
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

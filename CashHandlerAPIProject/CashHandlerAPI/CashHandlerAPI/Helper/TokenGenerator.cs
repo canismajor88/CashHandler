@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace CashHandlerAPI.Helper
 {
-    public class TokenGenerator
+    public class TokenGenerator : ITokenGenerator
     {
 
         #region private
@@ -25,7 +25,7 @@ namespace CashHandlerAPI.Helper
         #endregion
 
         #region publicMethods
-        public string GetToken(string customerId)
+        public string CreateToken(string userName)
         {
             var timeGap = short.Parse(_configuration["TokenSettings:ExpirationLength"]);
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -34,7 +34,7 @@ namespace CashHandlerAPI.Helper
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new(ClaimTypes.Name,customerId)
+                    new(ClaimTypes.Name,userName)
                 }),
                 Issuer = _configuration["TokenSettings:IssuerLocation"],
                 Audience = _configuration["TokenSettings:AudienceLocation"],

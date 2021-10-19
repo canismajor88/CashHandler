@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace CashHandlerAPI.Helper
 {
-    interface ITokenGenerator
+  public  interface ITokenGenerator
     {
         string CreateToken(string userName);
     }
