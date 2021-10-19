@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 
 namespace CashHandlerAPI.Helper
 {
-    interface ITokenHelper
+  public interface ITokenHelper
     {
+        string GetUserName(string token);
+        string GetToken(string token);
     }
 }

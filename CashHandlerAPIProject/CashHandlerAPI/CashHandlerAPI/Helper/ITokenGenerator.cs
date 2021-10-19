@@ -7,5 +7,6 @@ namespace CashHandlerAPI.Helper
 {
     interface ITokenGenerator
     {
+        string CreateToken(string userName);
     }
 }
