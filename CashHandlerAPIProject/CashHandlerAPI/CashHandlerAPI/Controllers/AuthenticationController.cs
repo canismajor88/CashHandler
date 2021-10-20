@@ -33,7 +33,7 @@ namespace CashHandlerAPI.Controllers
         #endregion
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
-        [Route("authenticate")]
+        [Route("login")]
         public async Task<IActionResult> Authenticate([FromBody] UserCredential userCredential)
         {
             try
