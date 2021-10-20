@@ -25,7 +25,7 @@ module.exports = function (config) {
       suppressAll: true // removes the duplicated traces
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/cash-handler-ui'),
+      dir: require('path').join(__dirname, './coverage/ui-cash'),
       subdir: '.',
       reporters: [
         { type: 'html' },

@@ -1,12 +1,12 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "analytics": "63d06c42-6481-49c6-a9e9-c25635588d1a"
+    "analytics": "88c35148-ac07-49db-8792-8054d234d090"
   },
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "cash-handler-ui": {
+    "ui-cash": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:application": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/cash-handler-ui",
+            "outputPath": "dist/ui-cash",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -30,12 +30,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
+              "src/styles.css"
             ],
-            "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.min.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -74,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "cash-handler-ui:build:production"
+              "browserTarget": "ui-cash:build:production"
             },
             "development": {
-              "browserTarget": "cash-handler-ui:build:development"
+              "browserTarget": "ui-cash:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -85,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "cash-handler-ui:build"
+            "browserTarget": "ui-cash:build"
           }
         },
         "test": {
@@ -108,5 +105,5 @@
       }
     }
   },
-  "defaultProject": "cash-handler-ui"
+  "defaultProject": "ui-cash"
 }

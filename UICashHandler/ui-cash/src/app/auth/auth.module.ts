@@ -2,28 +2,25 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { AuthRoutingModule } from './auth-routing.module';
+import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
-import {AppComponent} from "../app.component";
-import { LoginUserComponent } from './components/login-user/login-user.component';
-import {FormsModule} from "@angular/forms";
 
 
 @NgModule({
   declarations: [
+    LoginComponent,
     RegisterComponent,
-    ResetPasswordComponent,
-    LoginUserComponent,
+    ResetPasswordComponent
   ],
   imports: [
     CommonModule,
-    AuthRoutingModule,
-    FormsModule
+    AuthRoutingModule
   ],
-  exports:[
+  exports : [
+    LoginComponent,
     RegisterComponent,
-    ResetPasswordComponent,
-    LoginUserComponent,
-  ],
+    ResetPasswordComponent
+  ]
 })
 export class AuthModule { }
