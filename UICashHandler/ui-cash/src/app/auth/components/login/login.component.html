@@ -13,7 +13,7 @@
                class="form-control"
                id="loginUsername"
                placeholder="Enter username">
-        <p>Username valid: {{username.valid}} </p>
+        <div *ngIf="!username.valid && username.touched"> Username is not valid </div>
       </div>
       <hr/>
       <p></p>
@@ -27,7 +27,7 @@
                class="form-control"
                id="loginPassword"
                placeholder="Password">
-        <p>Password valid: {{password.valid}} </p>
+        <div *ngIf="!password.valid && password.touched"> Password is not valid </div>
       </div>
       <div class="form-group form-check">
         <a [routerLink]="['/reset-password']">Forgot Password</a>
@@ -35,8 +35,7 @@
       <button type="submit"
               [disabled]="f.invalid"
               class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i>Login</button>
-
-
+      <div class="text-danger" *ngIf="!loginSuccess&&loginAttempted"> Username or Password was not valid </div>
     </form>
   </div>
 </div>

@@ -31,6 +31,9 @@ namespace CashHandlerAPI.Controllers
             _tokenGenerator = tokenGenerator;
         }
         #endregion
+
+        #region endPoints
+
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [Route("login")]
@@ -43,16 +46,31 @@ namespace CashHandlerAPI.Controllers
                 {
                     _logger.Log(LogLevel.Information, "user was found");
                     var token = _tokenGenerator.CreateToken(userCredential.UserName);
-                    return Ok(token);
+                    //json sending back
+                    return Ok(new
+                    {
+                        token = token
+                        ,
+                        succeeded = true
+                    });
                 }
                 _logger.Log(LogLevel.Information, "user was not found");
-                return StatusCode(StatusCodes.Status401Unauthorized);
+                return StatusCode(StatusCodes.Status401Unauthorized, new
+                {
+                    succeeded = false
+                });
             }
             catch
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    succeeded = false
+                });
             }
         }
+
+        #endregion
+
 
     }
 }

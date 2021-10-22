@@ -8,13 +8,24 @@ import {NgForm} from "@angular/forms";
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
+  loginSuccess=false;
+  loginAttempted=false;
   constructor(private apiService : CashHandlerAuthService) { }
 
   ngOnInit(): void {
   }
 
   login(f: NgForm) {
-
+    this.loginAttempted=true;
+  this.apiService.login(f.value).subscribe(
+    x=>{
+      console.log("User logged in")
+      this.loginSuccess=true;
+    },
+    error => {
+      console.log(error)
+      this.loginSuccess=false;
+    },
+    )
   }
 }

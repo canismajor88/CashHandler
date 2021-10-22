@@ -15,8 +15,8 @@ namespace CashHandlerAPI.Repos
         {
             new UserCredential
             {
-                Password = "strongPassword",
-                UserName = "CoolGuy6969"
+                Password = "Admin",
+                UserName = "Admin"
             }
         };
         #endregion
