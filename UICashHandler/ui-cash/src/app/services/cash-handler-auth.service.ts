@@ -4,7 +4,7 @@ import {HttpClient} from "@angular/common/http";
 @Injectable({
   providedIn: 'root'
 })
-export class CashHandlerApiService {
+export class CashHandlerAuthService {
 
   constructor(private httpClient:HttpClient) { }
   public login(username:string,password:string){
