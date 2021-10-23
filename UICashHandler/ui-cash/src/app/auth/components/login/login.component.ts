@@ -19,7 +19,7 @@ export class LoginComponent implements OnInit {
     this.loginAttempted=true;
   this.apiService.login(f.value).subscribe(
     x=>{
-      console.log("User logged in")
+      console.log()
       this.loginSuccess=true;
     },
     error => {

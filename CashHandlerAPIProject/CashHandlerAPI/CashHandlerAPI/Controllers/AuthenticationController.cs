@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CashHandlerAPI.Data;
 using CashHandlerAPI.Helper;
 using CashHandlerAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
@@ -47,13 +48,13 @@ namespace CashHandlerAPI.Controllers
                     _logger.Log(LogLevel.Information, "user was found");
                     var token = _tokenGenerator.CreateToken(userCredential.UserName);
                     //json sending back
+                    Result result = new() { Payload = token, Status = typeof(OkResult), Success = true };
                     return Ok(new
                     {
-                        token = token
-                        ,
-                        succeeded = true
+                       Result=result
                     });
                 }
+
                 _logger.Log(LogLevel.Information, "user was not found");
                 return StatusCode(StatusCodes.Status401Unauthorized, new
                 {

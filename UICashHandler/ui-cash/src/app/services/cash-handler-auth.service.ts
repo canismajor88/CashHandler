@@ -13,8 +13,9 @@ export class CashHandlerAuthService {
    return  this.httpClient.post(this.authURl+"/login",userCred).pipe(
      map((response:any)=>{
        const user= response;
-       if(user.succeeded){
-        localStorage.setItem('token',user.token)
+       if(user.Result.Success){
+         console.log(user.Result)
+        localStorage.setItem('token',user.Result.Payload);
        }
     })
    )
