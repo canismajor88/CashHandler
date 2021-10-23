@@ -1,8 +1,20 @@
 <div class="row">
   <div class="col-md-6 offset-md-3 mt-4">
-    <h3>Login</h3>
+    <h3>Register</h3>
     <form #f="ngForm"
           (ngSubmit)="register(f)">
+      <div class="form-group">
+        <label for="loginUsername">Email</label>
+        <input type="text"
+               name="Email"
+               ngModel
+               required
+               #email="ngModel"
+               class="form-control"
+               id="Email"
+               placeholder="Enter Email">
+        <div *ngIf="!email.valid && email.touched"> Email is not valid </div>
+      </div>
       <div class="form-group">
         <label for="loginUsername">Username</label>
         <input type="text"
@@ -30,23 +42,21 @@
         <div *ngIf="!password.valid && password.touched"> Password is not valid </div>
       </div>
       <div class="form-group">
-        <label for="loginPassword">Password</label>
+        <label for="loginPassword">Re-Enter Password</label>
         <input type="password"
-               name="password"
+               name="passwordConfirm"
                ngModel
                required
                #passwordConfirm="ngModel"
                class="form-control"
                id="loginPassword"
                placeholder="Password">
-        <div *ngIf="!passwordConfirm.valid && passwordConfirm.touched"> Password is not valid </div>
-      </div>
-      <div class="form-group form-check">
-        <a [routerLink]="['/reset-password']">Forgot Password</a>
+        <div *ngIf="passwordConfirm.value != password.value"> Passwords does not match</div>
       </div>
       <button type="submit"
               [disabled]="f.invalid"
-              class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i>Login</button>
+              class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i>Register</button>
+      <div> <a [routerLink]="['/login']">Login</a></div>
     </form>
   </div>
 </div>

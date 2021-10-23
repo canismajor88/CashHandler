@@ -68,7 +68,37 @@ namespace CashHandlerAPI.Controllers
                 });
             }
         }
-
+        [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Route("register")]
+        public async Task<IActionResult> Register([FromBody] UserCredential userCredential)
+        {
+            try
+            {
+                var isFound = await _iUserCredentialsRepo.IsUser(userCredential);
+                if (!isFound)
+                { _logger.Log(LogLevel.Information,"user was added");
+                    if(await _iUserCredentialsRepo.AddUser(userCredential))
+                    //json sending back
+                    return Ok(new
+                    {
+                        succeeded = true
+                    });
+                }
+                _logger.Log(LogLevel.Information, "user was not added");
+                return StatusCode(StatusCodes.Status401Unauthorized, new
+                {
+                    succeeded = false
+                });
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    succeeded = false
+                });
+            }
+        }
         #endregion
 
 
