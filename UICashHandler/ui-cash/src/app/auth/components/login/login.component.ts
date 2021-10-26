@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import {CashHandlerApiService} from "../../../services/cash-handler-api.service";
+import {CashHandlerAuthService} from "../../../services/cash-handler-auth.service";
+import {NgForm} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -7,15 +8,24 @@ import {CashHandlerApiService} from "../../../services/cash-handler-api.service"
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
-  constructor(private apiService : CashHandlerApiService) { }
+  loginSuccess=false;
+  loginAttempted=false;
+  constructor(private apiService : CashHandlerAuthService) { }
 
   ngOnInit(): void {
   }
-  login(username: HTMLInputElement, password: HTMLInputElement){
 
-    this.apiService.login(username.value,password.value).subscribe((data)=>{
-      console.log(data)
-    })
+  login(f: NgForm) {
+    this.loginAttempted=true;
+  this.apiService.login(f.value).subscribe(
+    x=>{
+      console.log()
+      this.loginSuccess=true;
+    },
+    error => {
+      console.log(error)
+      this.loginSuccess=false;
+    },
+    )
   }
 }

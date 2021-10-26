@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CashHandlerApiService } from './cash-handler-api.service';
+import { CashHandlerAuthService } from './cash-handler-auth.service';
 
 describe('CashHandlerApiService', () => {
-  let service: CashHandlerApiService;
+  let service: CashHandlerAuthService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CashHandlerApiService);
+    service = TestBed.inject(CashHandlerAuthService);
   });
 
   it('should be created', () => {

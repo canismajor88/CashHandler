@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using CashHandlerAPI.Data;
 using CashHandlerAPI.Helper;
 using CashHandlerAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
@@ -31,6 +32,9 @@ namespace CashHandlerAPI.Controllers
             _tokenGenerator = tokenGenerator;
         }
         #endregion
+
+        #region endPoints
+
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [Route("login")]
@@ -43,16 +47,61 @@ namespace CashHandlerAPI.Controllers
                 {
                     _logger.Log(LogLevel.Information, "user was found");
                     var token = _tokenGenerator.CreateToken(userCredential.UserName);
-                    return Ok(token);
+                    //json sending back
+                    Result result = new() { Payload = token, Status = typeof(OkResult), Success = true };
+                    return Ok(new
+                    {
+                       Result=result
+                    });
                 }
+
                 _logger.Log(LogLevel.Information, "user was not found");
-                return StatusCode(StatusCodes.Status401Unauthorized);
+                return StatusCode(StatusCodes.Status401Unauthorized, new
+                {
+                    succeeded = false
+                });
             }
             catch
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    succeeded = false
+                });
             }
         }
+        [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Route("register")]
+        public async Task<IActionResult> Register([FromBody] UserCredential userCredential)
+        {
+            try
+            {
+                var isFound = await _iUserCredentialsRepo.IsUser(userCredential);
+                if (!isFound)
+                { _logger.Log(LogLevel.Information,"user was added");
+                    if(await _iUserCredentialsRepo.AddUser(userCredential))
+                    //json sending back
+                    return Ok(new
+                    {
+                        succeeded = true
+                    });
+                }
+                _logger.Log(LogLevel.Information, "user was not added");
+                return StatusCode(StatusCodes.Status401Unauthorized, new
+                {
+                    succeeded = false
+                });
+            }
+            catch
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    succeeded = false
+                });
+            }
+        }
+        #endregion
+
 
     }
 }

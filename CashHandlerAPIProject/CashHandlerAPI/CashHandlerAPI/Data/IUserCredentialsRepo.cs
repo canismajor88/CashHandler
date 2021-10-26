@@ -9,5 +9,6 @@ namespace CashHandlerAPI.Data
    public interface IUserCredentialsRepo
     {
         Task<bool> IsUser(UserCredential userCredentials);
+        public Task<bool> AddUser(UserCredential userCredential);
     }
 }
