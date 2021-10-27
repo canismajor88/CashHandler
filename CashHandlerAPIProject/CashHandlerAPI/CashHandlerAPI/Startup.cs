@@ -11,9 +11,11 @@ using System.Text;
 using System.Threading.Tasks;
 using CashHandlerAPI.Data;
 using CashHandlerAPI.Helper;
+using CashHandlerAPI.Models;
 using CashHandlerAPI.Repos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 
@@ -34,6 +36,13 @@ namespace CashHandlerAPI
 
 
             #region services
+
+            IdentityBuilder builder = services.AddIdentityCore<UserCredential>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+            });
+            builder.AddDefaultTokenProviders();
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -80,11 +89,14 @@ namespace CashHandlerAPI
             #endregion
 
             #region dependency injection
-            services.AddSingleton(Configuration);
+             services.AddSingleton(Configuration);
              services.AddSingleton<IUserCredentialsRepo, UserCredentialRepo>();
              services.AddSingleton<ITokenGenerator, TokenGenerator>();
              services.AddSingleton<ITokenHelper, TokenHelper>();
-            #endregion
+             services.AddSingleton<IEmailHelper, EmailHelper>();
+             services.Configure<EmailOptions>(Configuration.GetSection("Mailjet"));
+
+             #endregion
 
 
         }

@@ -4,12 +4,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using System.Web;
 using CashHandlerAPI.Data;
 using CashHandlerAPI.Helper;
 using CashHandlerAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,14 +24,19 @@ namespace CashHandlerAPI.Controllers
         private readonly ILogger<AuthenticationController> _logger;
         private readonly IUserCredentialsRepo _iUserCredentialsRepo;
         private readonly ITokenGenerator _tokenGenerator;
+        private readonly IEmailHelper _emailHelper;
+        private readonly IOptions<EmailOptions> _emailOptions;
         #endregion
 
         #region constructors
-        public AuthenticationController(ILogger<AuthenticationController> logger, IUserCredentialsRepo userRepo, ITokenGenerator tokenGenerator)
+        public AuthenticationController(ILogger<AuthenticationController> logger, IUserCredentialsRepo userRepo, ITokenGenerator tokenGenerator
+            , IEmailHelper emailHelper, IOptions<EmailOptions> emailOptions)
         {
             _logger = logger;
             _iUserCredentialsRepo = userRepo;
             _tokenGenerator = tokenGenerator;
+            _emailHelper = emailHelper;
+            _emailOptions = emailOptions;
         }
         #endregion
 
@@ -80,11 +87,12 @@ namespace CashHandlerAPI.Controllers
                 if (!isFound)
                 { _logger.Log(LogLevel.Information,"user was added");
                     if(await _iUserCredentialsRepo.AddUser(userCredential))
-                    //json sending back
-                    return Ok(new
-                    {
-                        succeeded = true
-                    });
+                        //json sending back
+
+                        return Ok(new
+                        {
+                            succeeded = true
+                        });
                 }
                 _logger.Log(LogLevel.Information, "user was not added");
                 return StatusCode(StatusCodes.Status401Unauthorized, new
