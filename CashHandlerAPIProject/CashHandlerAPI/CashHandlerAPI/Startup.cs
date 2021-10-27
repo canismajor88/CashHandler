@@ -16,6 +16,7 @@ using CashHandlerAPI.Repos;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json.Serialization;
 
@@ -37,11 +38,17 @@ namespace CashHandlerAPI
 
             #region services
 
-            IdentityBuilder builder = services.AddIdentityCore<UserCredential>(options =>
+            IdentityBuilder builder = services.AddIdentityCore<User>(options =>
             {
                 options.Password.RequireDigit = false;
                 options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 4;
+                options.Password.RequireNonAlphanumeric = false;
             });
+            builder.AddEntityFrameworkStores<ApplicationDBContext>();
+            services.AddDbContext<ApplicationDBContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
             builder.AddDefaultTokenProviders();
             services.AddAuthentication(options =>
             {
