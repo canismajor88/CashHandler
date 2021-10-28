@@ -48,7 +48,8 @@ namespace CashHandlerAPI
             });
             builder.AddEntityFrameworkStores<ApplicationDBContext>();
             services.AddDbContext<ApplicationDBContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DbConnection")));
+                options.UseSqlServer(Environment.GetEnvironmentVariable("DB_CONN_STRING")
+                                     ?? Configuration.GetConnectionString("DbConnection")));
             builder.AddDefaultTokenProviders();
             services.AddAuthentication(options =>
             {
