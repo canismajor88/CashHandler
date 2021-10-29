@@ -19,7 +19,7 @@ namespace CashHandlerAPI.Models
         public DateTime? LastSignIn { get; set; }
         public long? RegisterId { get; set; }
 
-        public virtual Register? Register { get; set; }
-        public virtual ICollection<Transaction>? Transactions { get; set; }
+        public virtual Register Register { get; set; }
+        public virtual ICollection<Transaction> Transactions { get; set; }
     }
 }
