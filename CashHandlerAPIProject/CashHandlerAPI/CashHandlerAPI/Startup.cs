@@ -46,8 +46,8 @@ namespace CashHandlerAPI
                 options.Password.RequiredLength = 4;
                 options.Password.RequireNonAlphanumeric = false;
             });
-            builder.AddEntityFrameworkStores<ApplicationDBContext>();
-            services.AddDbContext<ApplicationDBContext>(options =>
+            builder.AddEntityFrameworkStores<CashHandlerDBContext>();
+            services.AddDbContext<CashHandlerDBContext>(options =>
                 options.UseSqlServer(Environment.GetEnvironmentVariable("DB_CONN_STRING")
                                      ?? Configuration.GetConnectionString("DbConnection")));
             builder.AddDefaultTokenProviders();

@@ -22,6 +22,8 @@ namespace CashHandlerAPI.Repos
             }
         };
         #endregion
+
+
         #region public methods
         public Task<bool> IsUser(UserCredential userCredentials)
         {

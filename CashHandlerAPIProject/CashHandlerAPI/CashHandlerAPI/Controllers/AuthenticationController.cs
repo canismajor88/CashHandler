@@ -11,6 +11,7 @@ using CashHandlerAPI.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -28,12 +29,12 @@ namespace CashHandlerAPI.Controllers
         private readonly IEmailHelper _emailHelper;
         private readonly IOptions<EmailOptions> _emailOptions;
         private readonly UserManager<User> _userManager;
-
+        private readonly CashHandlerDBContext _context;
         #endregion
 
         #region constructors
         public AuthenticationController(ILogger<AuthenticationController> logger, IUserCredentialsRepo userRepo, ITokenGenerator tokenGenerator
-            , IEmailHelper emailHelper, IOptions<EmailOptions> emailOptions ,UserManager<User> userManager)
+            , IEmailHelper emailHelper, IOptions<EmailOptions> emailOptions ,UserManager<User> userManager, CashHandlerDBContext context)
         {
             _logger = logger;
             _iUserCredentialsRepo = userRepo;
@@ -41,6 +42,7 @@ namespace CashHandlerAPI.Controllers
             _emailHelper = emailHelper;
             _emailOptions = emailOptions;
             _userManager = userManager;
+            _context = context;
         }
         #endregion
 
@@ -53,8 +55,8 @@ namespace CashHandlerAPI.Controllers
         {
             try
             {
-                var isFound = await _iUserCredentialsRepo.IsUser(userCredential);
-                if (isFound)
+                var isFound = await _context.Users.FirstOrDefaultAsync(u => u.Username == userCredential.UserName);
+                if (isFound!=null)
                 {
                     _logger.Log(LogLevel.Information, "user was found");
                     var token = _tokenGenerator.CreateToken(userCredential.UserName);
@@ -72,8 +74,9 @@ namespace CashHandlerAPI.Controllers
                     succeeded = false
                 });
             }
-            catch
+            catch(Exception exception)
             {
+                Console.WriteLine(exception);
                 return StatusCode(StatusCodes.Status500InternalServerError, new
                 {
                     succeeded = false
@@ -87,14 +90,14 @@ namespace CashHandlerAPI.Controllers
         {
             try
             {
-                var isFound = await _iUserCredentialsRepo.IsUser(userCredential);
+                var isFound = await _context.Users.FirstOrDefaultAsync(u => u.Username == userCredential.UserName);
                 var newUser = new User
                 {
-                    UserName = userCredential.UserName,
-                    Email = userCredential.Email
+                    Username = userCredential.UserName,
+                    //Email = userCredential.Email
                 };
                 var result = await _userManager.CreateAsync(newUser, userCredential.Password);
-                if (!isFound&&result.Succeeded)
+                if (isFound!=null&&result.Succeeded)
                 { _logger.Log(LogLevel.Information,"user was added");
                     if(await _iUserCredentialsRepo.AddUser(userCredential))
                         //json sending back
