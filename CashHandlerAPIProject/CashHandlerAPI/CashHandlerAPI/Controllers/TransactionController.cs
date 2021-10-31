@@ -24,22 +24,8 @@ namespace CashHandlerAPI.Controllers
         [Route("Add")]
         public async Task<StatusCodeResult> Create()
         {
-            try
-            {
-                await _context.CashBalances.AddAsync(new CashBalance
-                {
-                    Amount = 69,
-                    Currency = "Blaze"
-                });
-                await _context.SaveChangesAsync();
-                return Ok();
-            }
-            catch(Exception e)
-            {
-                Console.WriteLine(e);
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-           
+
+            return null;
         }
 
         //// GET: TransactionController/Edit/5

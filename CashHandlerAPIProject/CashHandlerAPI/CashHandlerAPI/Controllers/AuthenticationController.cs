@@ -55,18 +55,24 @@ namespace CashHandlerAPI.Controllers
         {
             try
             {
-                var isFound = await _context.Users.FirstOrDefaultAsync(u => u.Username == userCredential.UserName);
-                if (isFound!=null)
-                {
-                    _logger.Log(LogLevel.Information, "user was found");
-                    var token = _tokenGenerator.CreateToken(userCredential.UserName);
-                    //json sending back
-                    Result result = new() { Payload = token, Status = typeof(OkResult), Success = true };
-                    return Ok(new
-                    {
-                       Result=result
-                    });
-                }
+                //var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userCredential.UserName);
+               
+               // if (currentUser!=null)
+               // {
+                   // var passwordResult = _userManager.PasswordHasher.VerifyHashedPassword(currentUser, currentUser.PasswordHash,
+                       // userCredential.Password);
+                    //if (passwordResult == PasswordVerificationResult.Success)
+                   // {
+                        _logger.Log(LogLevel.Information, "user was found");
+                        var token = _tokenGenerator.CreateToken(userCredential.UserName);
+                        //json sending back
+                        Result result = new() { Payload = token, Status = typeof(OkResult), Success = true };
+                        return Ok(new
+                        {
+                            Result = result
+                        });
+                   // }
+               // }
 
                 _logger.Log(LogLevel.Information, "user was not found");
                 return StatusCode(StatusCodes.Status401Unauthorized, new
@@ -90,14 +96,15 @@ namespace CashHandlerAPI.Controllers
         {
             try
             {
-                var isFound = await _context.Users.FirstOrDefaultAsync(u => u.Username == userCredential.UserName);
+               // var isFound = await _context.User.FirstOrDefaultAsync(u => u.UserName == userCredential.UserName);
+               var isFound = false;
                 var newUser = new User
                 {
-                    Username = userCredential.UserName,
-                    //Email = userCredential.Email
+                    UserName = userCredential.UserName,
+                    Email = userCredential.Email,
                 };
                 var result = await _userManager.CreateAsync(newUser, userCredential.Password);
-                if (isFound!=null&&result.Succeeded)
+                if (isFound==null&&result.Succeeded)
                 { _logger.Log(LogLevel.Information,"user was added");
                     if(await _iUserCredentialsRepo.AddUser(userCredential))
                         //json sending back

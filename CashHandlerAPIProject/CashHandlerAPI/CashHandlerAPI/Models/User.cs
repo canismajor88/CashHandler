@@ -13,13 +13,11 @@ namespace CashHandlerAPI.Models
             Transactions = new HashSet<Transaction>();
         }
 
-        public string UserId { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
         public DateTime? LastSignIn { get; set; }
-        public long? RegisterId { get; set; }
-
-        public virtual Register Register { get; set; }
+        public long? CashBalanceId { get; set; }
+        public MoneyAmount? MoneyAmount { get; set; }
+        public long? MoneyAmountId { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
+        public CashBalance CashBalance { get; set; }
     }
 }
