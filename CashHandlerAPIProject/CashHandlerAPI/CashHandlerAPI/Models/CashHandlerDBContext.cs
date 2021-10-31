@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -6,7 +7,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace CashHandlerAPI.Models
 {
-    public partial class CashHandlerDBContext : DbContext
+    public partial class CashHandlerDBContext : IdentityDbContext<User>
     {
 
         public CashHandlerDBContext(DbContextOptions<CashHandlerDBContext> options)

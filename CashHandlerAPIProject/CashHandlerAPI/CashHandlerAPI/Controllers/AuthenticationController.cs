@@ -55,14 +55,14 @@ namespace CashHandlerAPI.Controllers
         {
             try
             {
-                //var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userCredential.UserName);
+                var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userCredential.UserName);
                
-               // if (currentUser!=null)
-               // {
-                   // var passwordResult = _userManager.PasswordHasher.VerifyHashedPassword(currentUser, currentUser.PasswordHash,
-                       // userCredential.Password);
-                    //if (passwordResult == PasswordVerificationResult.Success)
-                   // {
+                if (currentUser!=null)
+                {
+                    var passwordResult = _userManager.PasswordHasher.VerifyHashedPassword(currentUser, currentUser.PasswordHash,
+                        userCredential.Password);
+                    if (passwordResult == PasswordVerificationResult.Success)
+                    {
                         _logger.Log(LogLevel.Information, "user was found");
                         var token = _tokenGenerator.CreateToken(userCredential.UserName);
                         //json sending back
@@ -71,8 +71,8 @@ namespace CashHandlerAPI.Controllers
                         {
                             Result = result
                         });
-                   // }
-               // }
+                    }
+                }
 
                 _logger.Log(LogLevel.Information, "user was not found");
                 return StatusCode(StatusCodes.Status401Unauthorized, new
@@ -96,9 +96,8 @@ namespace CashHandlerAPI.Controllers
         {
             try
             {
-               // var isFound = await _context.User.FirstOrDefaultAsync(u => u.UserName == userCredential.UserName);
-               var isFound = false;
-                var newUser = new User
+                 var isFound = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userCredential.UserName);
+                 var newUser = new User
                 {
                     UserName = userCredential.UserName,
                     Email = userCredential.Email,
