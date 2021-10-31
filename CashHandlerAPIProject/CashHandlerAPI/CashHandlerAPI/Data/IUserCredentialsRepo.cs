@@ -10,5 +10,7 @@ namespace CashHandlerAPI.Data
     {
         Task<bool> IsUser(UserCredential userCredentials);
         public Task<bool> AddUser(UserCredential userCredential);
+        Task<bool> IsUser(CreateUserCredential userCredentials);
+        Task<bool> AddUser(CreateUserCredential userCredential);
     }
 }

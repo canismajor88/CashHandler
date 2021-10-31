@@ -22,6 +22,8 @@ namespace CashHandlerAPI.Repos
             }
         };
         #endregion
+
+
         #region public methods
         public Task<bool> IsUser(UserCredential userCredentials)
         {
@@ -40,6 +42,33 @@ namespace CashHandlerAPI.Repos
                 return Task.FromResult(false);
             }
         }
+
+        public Task<bool> IsUser(CreateUserCredential userCredentials)
+        {
+            //todo check db
+            return Task.FromResult(_myUsers.Contains(new UserCredential
+            {
+                UserName = userCredentials.UserName,
+                Password = userCredentials.Password,
+            }));
+        }
+
+        public Task<bool> AddUser(CreateUserCredential userCredential)
+        {
+            try
+            {
+                _myUsers.Add(new UserCredential{
+                    UserName = userCredential.UserName,
+                    Password = userCredential.Password,
+                });
+                return Task.FromResult(true);
+            }
+            catch
+            {
+                return Task.FromResult(false);
+            }
+        }
+
         #endregion
     }
 }
