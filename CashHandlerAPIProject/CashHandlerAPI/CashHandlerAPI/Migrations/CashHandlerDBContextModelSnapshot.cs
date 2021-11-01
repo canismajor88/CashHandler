@@ -20,29 +20,13 @@ namespace CashHandlerAPI.Migrations
                 .HasAnnotation("ProductVersion", "5.0.11")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("CashHandlerAPI.Models.CashBalance", b =>
-                {
-                    b.Property<long>("CashBalanceId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double?>("Amount")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Currency")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("CashBalanceId");
-
-                    b.ToTable("CashBalance");
-                });
-
             modelBuilder.Entity("CashHandlerAPI.Models.MoneyAmount", b =>
                 {
                     b.Property<long>("MoneyAmountId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("bigint")
-                        .HasColumnName("MoneyAmountID");
+                        .HasColumnName("MoneyAmountID")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int?>("DimesAmount")
                         .HasColumnType("int");
@@ -125,10 +109,6 @@ namespace CashHandlerAPI.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<long?>("CashBalanceId")
-                        .HasColumnType("bigint")
-                        .HasColumnName("CashBalanceID");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -182,8 +162,6 @@ namespace CashHandlerAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MoneyAmountId");
-
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
 
@@ -194,7 +172,7 @@ namespace CashHandlerAPI.Migrations
 
                     b.HasIndex(new[] { "NormalizedEmail" }, "EmailIndex");
 
-                    b.HasIndex(new[] { "CashBalanceId" }, "IX_AspNetUsers_CashBalanceID");
+                    b.HasIndex(new[] { "MoneyAmountId" }, "IX_AspNetUsers_MoneyAmountID");
 
                     b.HasIndex(new[] { "NormalizedUserName" }, "UserNameIndex")
                         .IsUnique()
@@ -346,16 +324,9 @@ namespace CashHandlerAPI.Migrations
 
             modelBuilder.Entity("CashHandlerAPI.Models.User", b =>
                 {
-                    b.HasOne("CashHandlerAPI.Models.CashBalance", "CashBalance")
-                        .WithMany()
-                        .HasForeignKey("CashBalanceId");
-
                     b.HasOne("CashHandlerAPI.Models.MoneyAmount", "MoneyAmount")
-                        .WithMany("AspNetUsers")
-                        .HasForeignKey("MoneyAmountId")
-                        .HasConstraintName("FK_AspNetUsers_MoneyAmount");
-
-                    b.Navigation("CashBalance");
+                        .WithMany()
+                        .HasForeignKey("MoneyAmountId");
 
                     b.Navigation("MoneyAmount");
                 });
@@ -409,11 +380,6 @@ namespace CashHandlerAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CashHandlerAPI.Models.MoneyAmount", b =>
-                {
-                    b.Navigation("AspNetUsers");
                 });
 
             modelBuilder.Entity("CashHandlerAPI.Models.User", b =>

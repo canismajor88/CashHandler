@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CashHandlerAPI.Migrations
 {
-    public partial class Added_Schema : Migration
+    public partial class New_schema : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -22,24 +22,11 @@ namespace CashHandlerAPI.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CashBalance",
-                columns: table => new
-                {
-                    CashBalanceId = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Amount = table.Column<double>(type: "float", nullable: true),
-                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CashBalance", x => x.CashBalanceId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "MoneyAmount",
                 columns: table => new
                 {
-                    MoneyAmountID = table.Column<long>(type: "bigint", nullable: false),
+                    MoneyAmountID = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     DollarCoinAmount = table.Column<int>(type: "int", nullable: true),
                     HalfDollarAmount = table.Column<int>(type: "int", nullable: true),
                     QuartersAmount = table.Column<int>(type: "int", nullable: true),
@@ -86,7 +73,6 @@ namespace CashHandlerAPI.Migrations
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     LastSignIn = table.Column<DateTime>(type: "datetime", nullable: true),
-                    CashBalanceID = table.Column<long>(type: "bigint", nullable: true),
                     MoneyAmountID = table.Column<long>(type: "bigint", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -107,13 +93,7 @@ namespace CashHandlerAPI.Migrations
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_CashBalance_CashBalanceID",
-                        column: x => x.CashBalanceID,
-                        principalTable: "CashBalance",
-                        principalColumn: "CashBalanceId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_AspNetUsers_MoneyAmount",
+                        name: "FK_AspNetUsers_MoneyAmount_MoneyAmountID",
                         column: x => x.MoneyAmountID,
                         principalTable: "MoneyAmount",
                         principalColumn: "MoneyAmountID",
@@ -260,11 +240,6 @@ namespace CashHandlerAPI.Migrations
                 column: "NormalizedEmail");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUsers_CashBalanceID",
-                table: "AspNetUsers",
-                column: "CashBalanceID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_MoneyAmountID",
                 table: "AspNetUsers",
                 column: "MoneyAmountID");
@@ -307,9 +282,6 @@ namespace CashHandlerAPI.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "CashBalance");
 
             migrationBuilder.DropTable(
                 name: "MoneyAmount");
