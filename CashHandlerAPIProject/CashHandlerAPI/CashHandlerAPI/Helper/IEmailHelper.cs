@@ -5,6 +5,6 @@ namespace CashHandlerAPI.Helper
 {
    public interface IEmailHelper
    {
-       Task Send(string emailAddress, string body, EmailOptions emailOptions);
+       public Task Send(string emailAddress, string body, string subject, EmailOptions emailOptions);
    }
 }

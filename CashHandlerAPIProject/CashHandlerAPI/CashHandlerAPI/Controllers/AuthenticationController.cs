@@ -106,7 +106,8 @@ namespace CashHandlerAPI.Controllers
                     var urlString = uriBuilder.ToString();
 
                     var emailBody = $"Please confirm your email by clicking on the link below </br>{urlString}";
-                    await _emailHelper.Send(userCredential.Email, emailBody, _emailOptions.Value);
+                    const string? emailSubject = "Verification Email";
+                    await _emailHelper.Send(userCredential.Email, emailBody, emailSubject,_emailOptions.Value);
 
                     var result = new Result
                     {
