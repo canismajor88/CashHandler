@@ -96,7 +96,7 @@ namespace CashHandlerAPI
              services.AddSingleton<ITokenGenerator, TokenGenerator>();
              services.AddSingleton<ITokenHelper, TokenHelper>();
              services.AddSingleton<IEmailHelper, EmailHelper>();
-             services.Configure<EmailOptions>(Configuration.GetSection("Mailjet"));
+             services.Configure<EmailOptions>(Configuration.GetSection("GmailAPI"));
              services.AddScoped<IDatabaseHelper, DatabaseHelper>();
              #endregion
 

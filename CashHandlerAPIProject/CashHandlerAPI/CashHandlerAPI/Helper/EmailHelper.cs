@@ -9,14 +9,14 @@ namespace CashHandlerAPI.Helper
     {
         public async Task Send(string emailAddress, string body, EmailOptions emailOptions)
         {
-            MailMessage mailMessage = new MailMessage(emailOptions.SenderEmail, emailAddress);
+            MailMessage mailMessage = new MailMessage(emailOptions.UserName_SenderEmail, emailAddress);
             mailMessage.Subject = "verify email";
             mailMessage.Body = body;
-            SmtpClient smtpClient = new("smtp.gmail.com", 587);
+            SmtpClient smtpClient = new(emailOptions.Host, emailOptions.Port);
             smtpClient.Credentials = new System.Net.NetworkCredential()
             {
-                UserName = "cashhandler17@gmail.com",
-                Password = "LotroFan123!"
+                UserName = emailOptions.UserName_SenderEmail,
+                Password = emailOptions.ApiKeySecret
             };
             smtpClient.EnableSsl=true;
             smtpClient.Send(mailMessage);
