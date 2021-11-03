@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs/operators";
 
 @Injectable({
@@ -21,13 +21,10 @@ export class CashHandlerAuthService {
    )
   }
   public register(userCred:any){
-    let headers=new HttpHeaders({
-      'confirmEmailURL':'http://localhost:4200/'
-    })
-    let options={headers: headers};
-    return  this.httpClient.post(this.authURl+"/register",userCred,options).pipe(
+    return  this.httpClient.post(this.authURl+"/register",userCred).pipe(
       map((response:any)=>{
-        console.log(response)
-      }));
+        const user= response;
+      })
+    )
   }
 }

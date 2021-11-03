@@ -1,11 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using System.Web;
+using CashHandlerAPI.Data;
 using CashHandlerAPI.Helper;
 using CashHandlerAPI.Models;
-using CashHandlerAPI.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -21,26 +24,25 @@ namespace CashHandlerAPI.Controllers
     {
         #region private
         private readonly ILogger<AuthenticationController> _logger;
+        private readonly IUserCredentialsRepo _iUserCredentialsRepo;
         private readonly ITokenGenerator _tokenGenerator;
         private readonly IEmailHelper _emailHelper;
         private readonly IOptions<EmailOptions> _emailOptions;
         private readonly UserManager<User> _userManager;
         private readonly CashHandlerDBContext _context;
-        private readonly IDatabaseHelper _databaseHelper;
-
         #endregion
 
         #region constructors
-        public AuthenticationController(ILogger<AuthenticationController> logger, ITokenGenerator tokenGenerator, IEmailHelper emailHelper, 
-            IOptions<EmailOptions> emailOptions ,UserManager<User> userManager, CashHandlerDBContext context, IDatabaseHelper databaseHelper)
+        public AuthenticationController(ILogger<AuthenticationController> logger, IUserCredentialsRepo userRepo, ITokenGenerator tokenGenerator
+            , IEmailHelper emailHelper, IOptions<EmailOptions> emailOptions ,UserManager<User> userManager, CashHandlerDBContext context)
         {
             _logger = logger;
+            _iUserCredentialsRepo = userRepo;
             _tokenGenerator = tokenGenerator;
             _emailHelper = emailHelper;
             _emailOptions = emailOptions;
             _userManager = userManager;
             _context = context;
-            _databaseHelper = databaseHelper;
         }
         #endregion
 
@@ -53,12 +55,15 @@ namespace CashHandlerAPI.Controllers
         {
             try
             {
+                var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userCredential.UserName);
                
-               
-                if ( _databaseHelper.IsValidUserNameAndPassword(userCredential.UserName,userCredential.Password).Result)
+                if (currentUser!=null)
                 {
-                   
-                    _logger.Log(LogLevel.Information, "user was found");
+                    var passwordResult = _userManager.PasswordHasher.VerifyHashedPassword(currentUser, currentUser.PasswordHash,
+                        userCredential.Password);
+                    if (passwordResult == PasswordVerificationResult.Success)
+                    {
+                        _logger.Log(LogLevel.Information, "user was found");
                         var token = _tokenGenerator.CreateToken(userCredential.UserName);
                         //json sending back
                         Result result = new() { Payload = token, Status = typeof(OkResult), Success = true };
@@ -66,6 +71,7 @@ namespace CashHandlerAPI.Controllers
                         {
                             Result = result
                         });
+                    }
                 }
 
                 _logger.Log(LogLevel.Information, "user was not found");
@@ -74,9 +80,9 @@ namespace CashHandlerAPI.Controllers
                     succeeded = false
                 });
             }
-            catch(Exception e)
+            catch(Exception exception)
             {
-                _logger.Log(LogLevel.Error, e.Message);
+                Console.WriteLine(exception);
                 return StatusCode(StatusCodes.Status500InternalServerError, new
                 {
                     succeeded = false
@@ -90,55 +96,31 @@ namespace CashHandlerAPI.Controllers
         {
             try
             {
-                
-
-                if (_databaseHelper.CreateNewUser(userCredential.UserName,
-                    userCredential.Password, userCredential.Email).Result)
+                 var isFound = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userCredential.UserName);
+                 var newUser = new User
                 {
-                    var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userCredential.UserName);
-                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user );
-                    var confirmEmailUrl = Request.Headers["confirmEmailURL"];
-                    var uriBuilder = new UriBuilder(confirmEmailUrl);
-                    var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-                    query["token"] = token;
-                    query["userid"] = user.Id;
-                    uriBuilder.Query = query.ToString();
-                    var urlString = uriBuilder.ToString();
+                    UserName = userCredential.UserName,
+                    Email = userCredential.Email,
+                };
+                var result = await _userManager.CreateAsync(newUser, userCredential.Password);
+                if (isFound==null&&result.Succeeded)
+                { _logger.Log(LogLevel.Information,"user was added");
+                    if(await _iUserCredentialsRepo.AddUser(userCredential))
+                        //json sending back
 
-                    var emailBody = $"Please confirm your email by clicking on the link below </br>{urlString}";
-                    await _emailHelper.Send(userCredential.Email, emailBody, _emailOptions.Value);
-
-                    var result = new Result
-                    {
-                        Payload = "user was added",
-                        Status = Ok(),
-                        Success = true
-                    };
                         return Ok(new
                         {
-                           result
+                            succeeded = true
                         });
                 }
-                var badResult = new Result
-                {
-                    Payload = "user was not added",
-                    Status =BadRequest(),
-                    Success = true
-                };
-                return BadRequest(badResult);
+                _logger.Log(LogLevel.Information, "user was not added");
+                return BadRequest(result);
             }
-            catch(Exception e)
+            catch
             {
-                _logger.Log(LogLevel.Error,e.Message);
-                var badResult = new Result
-                {
-                    Payload = "server error",
-                    Status = StatusCodes.Status500InternalServerError,
-                    Success = false
-                };
                 return StatusCode(StatusCodes.Status500InternalServerError, new
                 {
-                   badResult
+                    succeeded = false
                 });
             }
         }

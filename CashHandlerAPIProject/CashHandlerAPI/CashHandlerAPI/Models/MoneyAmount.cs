@@ -7,6 +7,12 @@ namespace CashHandlerAPI.Models
 {
     public partial class MoneyAmount
     {
+        public MoneyAmount()
+        {
+            AspNetUsers = new HashSet<User>();
+        }
+
+        public long MoneyAmountId { get; set; }
         public int? DollarCoinAmount { get; set; }
         public int? HalfDollarAmount { get; set; }
         public int? QuartersAmount { get; set; }
@@ -20,6 +26,7 @@ namespace CashHandlerAPI.Models
         public int? FivesAmount { get; set; }
         public int? OnesAmount { get; set; }
         public int? TotalAmount { get; set; }
-        public long MoneyAmountId { get; set; }
+
+        public virtual ICollection<User> AspNetUsers { get; set; }
     }
 }

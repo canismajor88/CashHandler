@@ -1,4 +1,4 @@
-﻿namespace CashHandlerAPI.ViewModels
+﻿namespace CashHandlerAPI.Models
 {
     public record Result
     {
