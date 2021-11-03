@@ -7,6 +7,7 @@ namespace CashHandlerAPI.Helper
 {
     public class EmailHelper:IEmailHelper
     {
+        #region public methods
         public Task Send(string emailAddress, string body, string subject ,EmailOptions emailOptions)
         {
             MailMessage mailMessage = new(emailOptions.UserName_SenderEmail, emailAddress);
@@ -22,5 +23,8 @@ namespace CashHandlerAPI.Helper
             smtpClient.Send(mailMessage);
             return Task.CompletedTask;
         }
+
+        #endregion
+        
     }
 }

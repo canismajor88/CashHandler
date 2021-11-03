@@ -9,9 +9,9 @@ import {NgForm} from "@angular/forms";
 })
 export class ChangePasswordComponent implements OnInit {
   userCreditails:any ={};
-  PasswordReset:boolean=false;
-  PasswordResetError:boolean=false;
-  PasswordSubmitted:boolean=false;
+  passwordReset:boolean=false;
+  passwordResetError:boolean=false;
+  passwordSubmitted:boolean=false;
   constructor(private  route: ActivatedRoute,private cashHandlerApi: CashHandlerAuthService) { }
 
   ngOnInit(): void {
@@ -20,16 +20,16 @@ export class ChangePasswordComponent implements OnInit {
   }
 
   changePassword() {
-    this.PasswordSubmitted=true;
+    this.passwordSubmitted=true;
     this.cashHandlerApi.ChangePassword(this.userCreditails).subscribe(x=>{
-      this.PasswordReset=true;
-      this.PasswordResetError=false;
-      this.PasswordSubmitted=false;
+      this.passwordReset=true;
+      this.passwordResetError=false;
+      this.passwordSubmitted=false;
         console.log(x)
       },error => {
-      this.PasswordReset=false;
-      this.PasswordResetError=true;
-      this.PasswordSubmitted=false;
+      this.passwordReset=false;
+      this.passwordResetError=true;
+      this.passwordSubmitted=false;
         console.log(error)
       }
     )

@@ -8,7 +8,14 @@ namespace CashHandlerAPI.ViewModels
 {
     public record ResetPasswordCredential
     {
-        [Required]
-        public string Email { get; init; }
+        
+
+        #region public propeties
+
+         [Required]
+         public string Email { get; init; }
+
+        #endregion
+       
     }
 }

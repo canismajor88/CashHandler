@@ -11,7 +11,7 @@ export class ConfirmEmailComponent implements OnInit {
   confirmed:boolean=false
   token!:string | null
   userId!:string | null
-  Submitted:boolean=false;
+  submitted:boolean=false;
   constructor(private  route: ActivatedRoute,private cashHandlerApi: CashHandlerAuthService) { }
 
   ngOnInit(): void {
@@ -20,14 +20,14 @@ export class ConfirmEmailComponent implements OnInit {
     this.confirmEmail()
   }
   confirmEmail(){
-    this.Submitted=true;
+    this.submitted=true;
   this.cashHandlerApi.ConfirmEmail(this.token,this.userId).subscribe(x=>{
     console.log(x)
-    this.Submitted=false
+    this.submitted=false
     this.confirmed=true;
     },error => {
     console.log(error)
-    this.Submitted=false;
+    this.submitted=false;
     this.confirmed=false;
     }
   )

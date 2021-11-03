@@ -1,11 +1,10 @@
-﻿using System;
+﻿using CashHandlerAPI.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace CashHandlerAPI.Models
+namespace CashHandlerAPI.Data
 {
     public partial class CashHandlerDBContext : IdentityDbContext<User>
     {

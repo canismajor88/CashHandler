@@ -3,6 +3,7 @@ using System;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using System.Web;
+using CashHandlerAPI.Data;
 using CashHandlerAPI.Helper;
 using CashHandlerAPI.Models;
 using CashHandlerAPI.ViewModels;
