@@ -15,7 +15,6 @@ namespace CashHandlerAPI.Models
         {
         }
 
-       
         public virtual DbSet<User> AspNetUsers { get; set; }
         public virtual DbSet<MoneyAmount> MoneyAmounts { get; set; }
         public virtual DbSet<Transaction> Transactions { get; set; }
@@ -25,19 +24,15 @@ namespace CashHandlerAPI.Models
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
-
-          
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
 
-                entity.HasIndex(e => e.CashBalanceId, "IX_AspNetUsers_CashBalanceID");
+                entity.HasIndex(e => e.MoneyAmountId, "IX_AspNetUsers_MoneyAmountID");
 
                 entity.HasIndex(e => e.NormalizedUserName, "UserNameIndex")
                     .IsUnique()
                     .HasFilter("([NormalizedUserName] IS NOT NULL)");
-
-                entity.Property(e => e.CashBalanceId).HasColumnName("CashBalanceID");
 
                 entity.Property(e => e.Email).HasMaxLength(256);
 
@@ -50,23 +45,13 @@ namespace CashHandlerAPI.Models
                 entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
-
-                entity.HasOne(d => d.MoneyAmount)
-                    .WithMany(p => p.AspNetUsers)
-                    .HasForeignKey(d => d.MoneyAmountId)
-                    .HasConstraintName("FK_AspNetUsers_MoneyAmount");
             });
-
-
-
 
             modelBuilder.Entity<MoneyAmount>(entity =>
             {
                 entity.ToTable("MoneyAmount");
 
-                entity.Property(e => e.MoneyAmountId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("MoneyAmountID");
+                entity.Property(e => e.MoneyAmountId).HasColumnName("MoneyAmountID");
             });
 
             modelBuilder.Entity<Transaction>(entity =>
@@ -87,9 +72,9 @@ namespace CashHandlerAPI.Models
                     .HasConstraintName("FK_Transactions_Users");
             });
 
-          
+       
         }
 
-      
+       
     }
 }
