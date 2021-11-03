@@ -8,6 +8,7 @@ import { ResetPasswordComponent } from './components/reset-password/reset-passwo
 import {FormsModule} from "@angular/forms";
 import { ConfirmEmailComponent } from './components/confirm-email/confirm-email.component';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import {SplashModule} from "../splash/splash.module";
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
   imports: [
     CommonModule,
     AuthRoutingModule,
-    FormsModule
+    FormsModule,
+    SplashModule
   ],
   exports : [
     LoginComponent,

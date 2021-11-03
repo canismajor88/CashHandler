@@ -97,14 +97,10 @@ namespace CashHandlerAPI.Controllers
                     userCredential.Password, userCredential.Email).Result)
                 {
                     var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userCredential.UserName);
-                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user );
+                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var confirmEmailUrl = Request.Headers["confirmEmailURL"];
-                    var uriBuilder = new UriBuilder(confirmEmailUrl);
-                    var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-                    query["token"] = token;
-                    query["userid"] = user.Id;
-                    uriBuilder.Query = query.ToString();
-                    var urlString = uriBuilder.ToString();
+
+                    var urlString=  _emailHelper.UrlStringBuilder(confirmEmailUrl, token, user.Id);
 
                     var emailBody = $"Please confirm your email by clicking on the link below </br>{urlString}";
                     const string? emailSubject = "Verification Email";
@@ -190,13 +186,7 @@ namespace CashHandlerAPI.Controllers
                 {
                     var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                     var resetPasswordURL = Request.Headers["resetPasswordURL"];
-                    var uriBuilder = new UriBuilder(resetPasswordURL);
-                    var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-                    query["token"] = token;
-                    query["userid"] = user.Id;
-                    uriBuilder.Query = query.ToString();
-                    var urlString = uriBuilder.ToString();
-
+                    var urlString = _emailHelper.UrlStringBuilder(resetPasswordURL, token, user.Id);
                     var emailBody = $"Please reset password by clicking on the link below </br>{urlString}";
                     const string? emailSubject = "Reset Password Email";
                     await _emailHelper.Send(userCredential.Email, emailBody, emailSubject, _emailOptions.Value);

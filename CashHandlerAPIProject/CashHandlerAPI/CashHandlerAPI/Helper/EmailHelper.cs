@@ -1,6 +1,8 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using System.Web;
 using CashHandlerAPI.ViewModels;
 
 namespace CashHandlerAPI.Helper
@@ -22,6 +24,16 @@ namespace CashHandlerAPI.Helper
             smtpClient.EnableSsl=true;
             smtpClient.Send(mailMessage);
             return Task.CompletedTask;
+        }
+
+        public  string UrlStringBuilder(string receiverAddress, string token, string userId)
+        {
+            var uriBuilder = new UriBuilder(receiverAddress);
+            var query = HttpUtility.ParseQueryString(uriBuilder.Query);
+            query["token"] = token;
+            query["userid"] = userId;
+            uriBuilder.Query = query.ToString();
+            return uriBuilder.ToString();
         }
 
         #endregion
