@@ -3,6 +3,7 @@ using System;
 using System.Net.Mime;
 using System.Threading.Tasks;
 using System.Web;
+using CashHandlerAPI.Data;
 using CashHandlerAPI.Helper;
 using CashHandlerAPI.Models;
 using CashHandlerAPI.ViewModels;
@@ -49,13 +50,13 @@ namespace CashHandlerAPI.Controllers
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [Route("login")]
-        public async Task<IActionResult> Authenticate([FromBody] UserCredential userCredential)
+        public async Task<IActionResult> Authenticate([FromBody] LoginCredential userCredential)
         {
             try
             {
                
                
-                if ( _databaseHelper.IsValidUserNameAndPassword(userCredential.UserName,userCredential.Password).Result)
+                if ( _databaseHelper.IsValidLogin(userCredential.UserName,userCredential.Password).Result)
                 {
                    
                     _logger.Log(LogLevel.Information, "user was found");
@@ -96,17 +97,14 @@ namespace CashHandlerAPI.Controllers
                     userCredential.Password, userCredential.Email).Result)
                 {
                     var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userCredential.UserName);
-                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user );
+                    var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     var confirmEmailUrl = Request.Headers["confirmEmailURL"];
-                    var uriBuilder = new UriBuilder(confirmEmailUrl);
-                    var query = HttpUtility.ParseQueryString(uriBuilder.Query);
-                    query["token"] = token;
-                    query["userid"] = user.Id;
-                    uriBuilder.Query = query.ToString();
-                    var urlString = uriBuilder.ToString();
+
+                    var urlString=  _emailHelper.UrlStringBuilder(confirmEmailUrl, token, user.Id);
 
                     var emailBody = $"Please confirm your email by clicking on the link below </br>{urlString}";
-                    await _emailHelper.Send(userCredential.Email, emailBody, _emailOptions.Value);
+                    const string? emailSubject = "Verification Email";
+                    await _emailHelper.Send(userCredential.Email, emailBody, emailSubject,_emailOptions.Value);
 
                     var result = new Result
                     {
@@ -121,7 +119,7 @@ namespace CashHandlerAPI.Controllers
                 }
                 var badResult = new Result
                 {
-                    Payload = "user was not added",
+                    Payload = "user was not added, there was a duplicate username or email",
                     Status =BadRequest(),
                     Success = true
                 };
@@ -142,6 +140,112 @@ namespace CashHandlerAPI.Controllers
                 });
             }
         }
+
+        [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Route("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail([FromBody] EmailCredential userCredential)
+        {
+            try
+            {
+                var dbResult = await _databaseHelper.ConfirmEmail(userCredential.UserId, userCredential.Token);
+                if (dbResult)
+                {
+                    return Ok();
+                }
+
+                return Unauthorized();
+
+
+            }
+            catch (Exception e)
+            {
+                _logger.Log(LogLevel.Error, e.Message);
+                var badResult = new Result
+                {
+                    Payload = "server error",
+                    Status = StatusCodes.Status500InternalServerError,
+                    Success = false
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    badResult
+                });
+            }
+        }
+
+        [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Route("reset-password")]
+        public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordCredential userCredential)
+        {
+            try
+            {
+                var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userCredential.Email);
+                if (user != null && user.EmailConfirmed)
+                {
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                    var resetPasswordURL = Request.Headers["resetPasswordURL"];
+                    var urlString = _emailHelper.UrlStringBuilder(resetPasswordURL, token, user.Id);
+                    var emailBody = $"Please reset password by clicking on the link below </br>{urlString}";
+                    const string? emailSubject = "Reset Password Email";
+                    await _emailHelper.Send(userCredential.Email, emailBody, emailSubject, _emailOptions.Value);
+                    return Ok();
+                }
+
+                return Unauthorized();
+
+
+            }
+            catch (Exception e)
+            {
+                _logger.Log(LogLevel.Error, e.Message);
+                var badResult = new Result
+                {
+                    Payload = "server error",
+                    Status = StatusCodes.Status500InternalServerError,
+                    Success = false
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    badResult
+                });
+            }
+        }
+        [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Route("change-password")]
+        public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordCredential userCredential)
+        {
+            try
+            {
+                var dbResult = await _databaseHelper.ChangePassword(userCredential.UserId, userCredential.Token,
+                    userCredential.NewPassword);
+                if (dbResult)
+                {
+                    return Ok();
+                }
+
+                return Unauthorized();
+
+
+            }
+            catch (Exception e)
+            {
+                _logger.Log(LogLevel.Error, e.Message);
+                var badResult = new Result
+                {
+                    Payload = "server error",
+                    Status = StatusCodes.Status500InternalServerError,
+                    Success = false
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    badResult
+                });
+            }
+        }
+
         #endregion
 
 

@@ -1,0 +1,17 @@
+<app-nav-bar></app-nav-bar>
+<div class="row">
+  <div class="col-md-6 offset-md-3 mt-4">
+    <div class="alert alert-primary" *ngIf="submitted" role="alert">
+    Loading
+    </div>
+    <h3>Confirm Email</h3>
+    <div class="alert alert-primary" *ngIf="confirmed" role="alert">
+     Email Confirmed
+    </div>
+    <div class="alert alert-warning" *ngIf="!confirmed" role="alert">
+      Unable to Confirm Email
+    </div>
+  </div>
+</div>
+
+

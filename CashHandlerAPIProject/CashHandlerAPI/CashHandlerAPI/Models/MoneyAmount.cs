@@ -7,6 +7,8 @@ namespace CashHandlerAPI.Models
 {
     public partial class MoneyAmount
     {
+        #region public propeties
+
         public int? DollarCoinAmount { get; set; }
         public int? HalfDollarAmount { get; set; }
         public int? QuartersAmount { get; set; }
@@ -21,5 +23,8 @@ namespace CashHandlerAPI.Models
         public int? OnesAmount { get; set; }
         public int? TotalAmount { get; set; }
         public long MoneyAmountId { get; set; }
+
+        #endregion
+      
     }
 }

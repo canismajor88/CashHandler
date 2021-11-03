@@ -1,3 +1,4 @@
+<app-nav-bar></app-nav-bar>
 <div class="row">
   <div class="col-md-6 offset-md-3 mt-4">
     <h3>Login</h3>
@@ -35,8 +36,18 @@
               [disabled]="f.invalid"
               class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i>Login</button>
       <div class="text-danger" *ngIf="!loginSuccess&&loginAttempted"> Username or Password was not valid </div>
-      <div> <a [routerLink]="['/register']">Register Account</a></div>
       <div> <a [routerLink]="['/reset-password']">Forgot Password</a></div>
     </form>
+  </div>
+</div>
+<div class="col-md-6 offset-md-3 mt-4">
+  <div class="alert alert-primary" *ngIf="loginAttempted" role="alert">
+    Loading
+  </div>
+  <div class="alert alert-primary" *ngIf="loginSuccess" role="alert">
+  This is a place holder we will navigate to cash handler home
+  </div>
+  <div class="alert alert-warning" *ngIf="loginError" role="alert">
+    Username or password is incorrect or Account my not be verified. Please check email
   </div>
 </div>

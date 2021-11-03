@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {HttpClientModule} from "@angular/common/http";
 
 const routes: Routes = [
-  {path:'',redirectTo:'/login',pathMatch:'full'},
+  {path:'',redirectTo:'/splash',pathMatch:'full'},
 ];
 
 @NgModule({

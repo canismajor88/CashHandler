@@ -1,3 +1,4 @@
+<app-nav-bar></app-nav-bar>
 <div class="row">
   <div class="col-md-6 offset-md-3 mt-4">
     <h3>Register</h3>
@@ -58,8 +59,19 @@
       <button type="submit"
               [disabled]="f.invalid"
               class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i>Register</button>
-      <div> <a [routerLink]="['/login']">Login</a></div>
+      <div *ngIf="userCreated"> <a [routerLink]="['/login']">Login</a></div>
     </form>
+    <div class="col-md-6 offset-md-3 mt-4">
+      <div class="alert alert-primary" *ngIf="userSubmitted" role="alert">
+       Loading
+      </div>
+      <div class="alert alert-primary" *ngIf="userCreated" role="alert">
+        Account Created Check Email for Account Verification
+      </div>
+      <div class="alert alert-warning" *ngIf="creationError" role="alert">
+        Username or Email was taken
+      </div>
+    </div>
   </div>
 </div>
 

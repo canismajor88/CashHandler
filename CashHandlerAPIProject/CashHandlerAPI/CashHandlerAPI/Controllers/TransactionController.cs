@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using CashHandlerAPI.Data;
 using CashHandlerAPI.Models;
 
 namespace CashHandlerAPI.Controllers

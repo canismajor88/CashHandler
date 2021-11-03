@@ -5,6 +5,7 @@ namespace CashHandlerAPI.Helper
 {
     public class TokenHelper:ITokenHelper
     {
+        #region public methods
         public string GetUserName(string token)
         {
 
@@ -20,5 +21,8 @@ namespace CashHandlerAPI.Helper
             var tokenString = authorizationString.Split(' ').Last();
             return tokenString;
         }
+
+        #endregion
+       
     }
 }
