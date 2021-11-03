@@ -10,6 +10,7 @@ import {NgForm} from "@angular/forms";
 export class LoginComponent implements OnInit {
   loginSuccess=false;
   loginAttempted=false;
+  loginError=false;
   constructor(private apiService : CashHandlerAuthService) { }
 
   ngOnInit(): void {
@@ -20,11 +21,15 @@ export class LoginComponent implements OnInit {
   this.apiService.login(f.value).subscribe(
     x=>{
       console.log()
+      this.loginAttempted=false;
       this.loginSuccess=true;
+      this.loginError=false;
     },
     error => {
       console.log(error)
+      this.loginError=true;
       this.loginSuccess=false;
+      this.loginAttempted=false
     },
     )
   }

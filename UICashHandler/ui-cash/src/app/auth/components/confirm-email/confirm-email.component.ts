@@ -8,10 +8,10 @@ import {CashHandlerAuthService} from "../../../services/cash-handler-auth.servic
   styleUrls: ['./confirm-email.component.css']
 })
 export class ConfirmEmailComponent implements OnInit {
-  confirmed:boolean=true
+  confirmed:boolean=false
   token!:string | null
   userId!:string | null
-
+  Submitted:boolean=false;
   constructor(private  route: ActivatedRoute,private cashHandlerApi: CashHandlerAuthService) { }
 
   ngOnInit(): void {
@@ -20,11 +20,14 @@ export class ConfirmEmailComponent implements OnInit {
     this.confirmEmail()
   }
   confirmEmail(){
+    this.Submitted=true;
   this.cashHandlerApi.ConfirmEmail(this.token,this.userId).subscribe(x=>{
     console.log(x)
+    this.Submitted=false
     this.confirmed=true;
     },error => {
     console.log(error)
+    this.Submitted=false;
     this.confirmed=false;
     }
   )

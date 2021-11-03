@@ -229,7 +229,7 @@ namespace CashHandlerAPI.Controllers
             try
             {
                 var dbResult = await _databaseHelper.ChangePassword(userCredential.UserId, userCredential.Token,
-                    userCredential.Token);
+                    userCredential.NewPassword);
                 if (dbResult)
                 {
                     return Ok();

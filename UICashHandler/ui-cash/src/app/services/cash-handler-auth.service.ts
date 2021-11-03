@@ -48,7 +48,7 @@ export class CashHandlerAuthService {
     let options={headers: headers};
     return  this.httpClient.post(this.authURl+"/reset-password",userCred,options).pipe(
       map((response:any)=>{
-        console.log(response.result)
+        console.log(response)
       }));
   }
 
