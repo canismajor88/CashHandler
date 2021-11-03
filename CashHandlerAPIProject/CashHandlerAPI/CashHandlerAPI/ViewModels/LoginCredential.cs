@@ -3,7 +3,7 @@
 namespace CashHandlerAPI.ViewModels
 {
     //record like class but not mutable
-    public record UserCredential
+    public record LoginCredential
     {
         #region public properties
         //init ( initialize instead of set because records are immutable)records have build in comparison operators so we don't have to make our own

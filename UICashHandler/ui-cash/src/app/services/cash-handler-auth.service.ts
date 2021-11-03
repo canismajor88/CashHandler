@@ -22,12 +22,38 @@ export class CashHandlerAuthService {
   }
   public register(userCred:any){
     let headers=new HttpHeaders({
-      'confirmEmailURL':'http://localhost:4200/'
+      'confirmEmailURL':'http://localhost:4200/confirm_email'
     })
     let options={headers: headers};
     return  this.httpClient.post(this.authURl+"/register",userCred,options).pipe(
       map((response:any)=>{
-        console.log(response)
+        console.log(response.result)
       }));
   }
+
+  public ConfirmEmail(token:any, userId:any){
+    let userCred:any;
+    userCred={
+      token:token,
+      userId:userId
+    }
+    return  this.httpClient.post(this.authURl+"/confirm-email",userCred)
+  }
+
+
+  public ResetPassword(userCred:any){
+    let headers=new HttpHeaders({
+      'resetPasswordURL':'http://localhost:4200/change-password'
+    })
+    let options={headers: headers};
+    return  this.httpClient.post(this.authURl+"/reset-password",userCred,options).pipe(
+      map((response:any)=>{
+        console.log(response.result)
+      }));
+  }
+
+  public ChangePassword(userCred:any){
+    return  this.httpClient.post(this.authURl+"/change-password",userCred)
+  }
 }
+

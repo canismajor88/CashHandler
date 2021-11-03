@@ -18,13 +18,14 @@ namespace CashHandlerAPI.Helper
             _context = context;
         }
 
-        public async Task<bool> IsValidUserNameAndPassword(string userName,string password)
+        public async Task<bool> IsValidLogin(string userName,string password)
         {
             var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
             if (currentUser == null) return false;
             var passwordResult = _userManager.PasswordHasher.VerifyHashedPassword(currentUser, currentUser.PasswordHash,
                 password);
-            return passwordResult != PasswordVerificationResult.Failed;
+            if (passwordResult == PasswordVerificationResult.Failed) return false;
+            return currentUser.EmailConfirmed != false;
         }
 
         public async Task<bool> CreateNewUser(string userName, string password, string email)
@@ -62,6 +63,20 @@ namespace CashHandlerAPI.Helper
             currentUser.MoneyAmount = moneyAmountResult.Entity;
             _context.Update(currentUser);
            return await _context.SaveChangesAsync(true)>0;
+        }
+
+        public async Task<bool> ConfirmEmail(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var confirm = await _userManager.ConfirmEmailAsync(user, Uri.UnescapeDataString(token));
+            return confirm.Succeeded;
+        }
+
+        public async Task<bool> ChangePassword(string userId, string token, string newPassword)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
+            return result.Succeeded;
         }
     }
 }
