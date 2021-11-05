@@ -1,0 +1,9 @@
+.gradient{
+  background: rgb(14,158,152);
+  background: linear-gradient(90deg, rgba(14,158,152,1) 0%, rgba(25,103,19,1) 100%, rgba(0,212,255,1) 100%);
+}
+.page-header{
+  margin-top: 4rem;
+  font-size: 1.25rem;
+  
+}
