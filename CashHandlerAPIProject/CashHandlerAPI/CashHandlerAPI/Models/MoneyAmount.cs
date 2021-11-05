@@ -21,7 +21,7 @@ namespace CashHandlerAPI.Models
         public int? TensAmount { get; set; }
         public int? FivesAmount { get; set; }
         public int? OnesAmount { get; set; }
-        public int? TotalAmount { get; set; }
+        public decimal? TotalAmount { get; set; }
         public long MoneyAmountId { get; set; }
 
         #endregion
