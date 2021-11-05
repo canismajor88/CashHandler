@@ -1,10 +1,11 @@
-﻿using CashHandlerAPI.Models;
+﻿using System;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace CashHandlerAPI.Data
+namespace CashHandlerAPI.Models
 {
     public partial class CashHandlerDBContext : IdentityDbContext<User>
     {
@@ -23,6 +24,7 @@ namespace CashHandlerAPI.Data
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
+
             modelBuilder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.NormalizedEmail, "EmailIndex");
@@ -44,13 +46,20 @@ namespace CashHandlerAPI.Data
                 entity.Property(e => e.NormalizedUserName).HasMaxLength(256);
 
                 entity.Property(e => e.UserName).HasMaxLength(256);
+
+                entity.HasOne(d => d.MoneyAmount)
+                    .WithMany(p => p.AspNetUsers)
+                    .HasForeignKey(d => d.MoneyAmountId);
             });
+
 
             modelBuilder.Entity<MoneyAmount>(entity =>
             {
                 entity.ToTable("MoneyAmount");
 
                 entity.Property(e => e.MoneyAmountId).HasColumnName("MoneyAmountID");
+
+                entity.Property(e => e.TotalAmount).HasColumnType("decimal(18, 0)");
             });
 
             modelBuilder.Entity<Transaction>(entity =>
@@ -71,9 +80,9 @@ namespace CashHandlerAPI.Data
                     .HasConstraintName("FK_Transactions_Users");
             });
 
-       
+          
         }
 
-       
+   
     }
 }

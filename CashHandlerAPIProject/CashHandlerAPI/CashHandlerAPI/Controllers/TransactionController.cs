@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using CashHandlerAPI.Data;
 using CashHandlerAPI.Models;
 using System.Net.Mime;
 using CashHandlerAPI.ViewModels;

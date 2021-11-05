@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using CashHandlerAPI.Data;
 using CashHandlerAPI.Models;
 using CashHandlerAPI.ViewModels;
 using Microsoft.AspNetCore.Identity;
