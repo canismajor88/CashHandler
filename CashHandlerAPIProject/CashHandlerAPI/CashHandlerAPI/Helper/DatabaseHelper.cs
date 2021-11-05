@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CashHandlerAPI.Data;
 using CashHandlerAPI.Models;
+using CashHandlerAPI.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -82,6 +83,39 @@ namespace CashHandlerAPI.Helper
             var user = await _userManager.FindByIdAsync(userId);
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
             return result.Succeeded;
+        }
+
+        public async Task<bool> InitializeMoneyAmount(MoneyAmountViewModel moneyamout, string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user.MoneyAmount == null) return false;
+            var varMoneyAmout = user.MoneyAmount;
+
+            varMoneyAmout.DollarCoinAmount = moneyamout.DollarCoinAmount;
+            varMoneyAmout.HalfDollarAmount = moneyamout.HalfDollarAmount;
+            varMoneyAmout.QuartersAmount = moneyamout.QuartersAmount;
+            varMoneyAmout.DimesAmount = moneyamout.DimesAmount;
+            varMoneyAmout.NicklesAmount = moneyamout.NicklesAmount;
+            varMoneyAmout.PenniesAmount = moneyamout.PenniesAmount;
+            varMoneyAmout.HundredsAmount = moneyamout.HundredsAmount;
+            varMoneyAmout.FiftiesAmount = moneyamout.FiftiesAmount;
+            varMoneyAmout.TwentiesAmount = moneyamout.TwentiesAmount;
+            varMoneyAmout.TensAmount = moneyamout.TensAmount;
+            varMoneyAmout.FivesAmount = moneyamout.FivesAmount;
+            varMoneyAmout.OnesAmount = moneyamout.OnesAmount;
+
+            var coinAmount = varMoneyAmout.DollarCoinAmount + varMoneyAmout.HalfDollarAmount * .5 +
+                            varMoneyAmout.QuartersAmount * .25 + varMoneyAmout.DimesAmount * .1 +
+                            varMoneyAmout.NicklesAmount * .05 + varMoneyAmout.PenniesAmount * .01;
+
+            double dollarAmount = (double)(varMoneyAmout.HundredsAmount * 100 + varMoneyAmout.FiftiesAmount * 50 +
+                                  varMoneyAmout.TwentiesAmount * 20 + varMoneyAmout.FivesAmount * 5 +
+                                  varMoneyAmout.OnesAmount + varMoneyAmout.TensAmount * 10);
+            var total = coinAmount + dollarAmount;
+            varMoneyAmout.TotalAmount = (int?)total;
+
+            _context.Update(user);
+            return await _context.SaveChangesAsync(true) > 0;
         }
         #endregion
     }
