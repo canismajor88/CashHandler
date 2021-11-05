@@ -8,6 +8,7 @@ using CashHandlerAPI.Helper;
 using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Identity;
 using System;
+using CashHandlerAPI.Data;
 using Microsoft.AspNetCore.Http;
 
 namespace CashHandlerAPI.Controllers

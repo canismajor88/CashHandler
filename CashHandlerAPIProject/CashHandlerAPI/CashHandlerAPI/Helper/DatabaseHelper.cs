@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using CashHandlerAPI.CashHandlerLogic;
+using CashHandlerAPI.Data;
 using CashHandlerAPI.Models;
 using CashHandlerAPI.ViewModels;
 using Microsoft.AspNetCore.Identity;
@@ -85,36 +87,26 @@ namespace CashHandlerAPI.Helper
             return result.Succeeded;
         }
 
-        public async Task<bool> InitializeMoneyAmount(MoneyAmountViewModel moneyamout, string username)
+        public async Task<bool> InitializeMoneyAmount(MoneyAmountViewModel moneyamount, string username)
         {
             var user = await _userManager.FindByNameAsync(username);
             var moneyAmountDB = await _context.MoneyAmounts.FindAsync(user.MoneyAmountId);
-            if (moneyamout == null) return false;
-            
 
-            moneyAmountDB.DollarCoinAmount = moneyamout.DollarCoinAmount;
-            moneyAmountDB.HalfDollarAmount = moneyamout.HalfDollarAmount;
-            moneyAmountDB.QuartersAmount = moneyamout.QuartersAmount;
-            moneyAmountDB.DimesAmount = moneyamout.DimesAmount;
-            moneyAmountDB.NicklesAmount = moneyamout.NicklesAmount;
-            moneyAmountDB.PenniesAmount = moneyamout.PenniesAmount;
-            moneyAmountDB.HundredsAmount = moneyamout.HundredsAmount;
-            moneyAmountDB.FiftiesAmount = moneyamout.FiftiesAmount;
-            moneyAmountDB.TwentiesAmount = moneyamout.TwentiesAmount;
-            moneyAmountDB.TensAmount = moneyamout.TensAmount;
-            moneyAmountDB.FivesAmount = moneyamout.FivesAmount;
-            moneyAmountDB.OnesAmount = moneyamout.OnesAmount;
 
-            var coinAmount = moneyAmountDB.DollarCoinAmount + moneyAmountDB.HalfDollarAmount * .5 +
-                            moneyAmountDB.QuartersAmount * .25 + moneyAmountDB.DimesAmount * .1 +
-                            moneyAmountDB.NicklesAmount * .05 + moneyAmountDB.PenniesAmount * .01;
+            moneyAmountDB.DollarCoinAmount = moneyamount.DollarCoinAmount;
+            moneyAmountDB.HalfDollarAmount = moneyamount.HalfDollarAmount;
+            moneyAmountDB.QuartersAmount = moneyamount.QuartersAmount;
+            moneyAmountDB.DimesAmount = moneyamount.DimesAmount;
+            moneyAmountDB.NicklesAmount = moneyamount.NicklesAmount;
+            moneyAmountDB.PenniesAmount = moneyamount.PenniesAmount;
+            moneyAmountDB.HundredsAmount = moneyamount.HundredsAmount;
+            moneyAmountDB.FiftiesAmount = moneyamount.FiftiesAmount;
+            moneyAmountDB.TwentiesAmount = moneyamount.TwentiesAmount;
+            moneyAmountDB.TensAmount = moneyamount.TensAmount;
+            moneyAmountDB.FivesAmount = moneyamount.FivesAmount;
+            moneyAmountDB.OnesAmount = moneyamount.OnesAmount;
 
-            var dollarAmount = (moneyAmountDB.HundredsAmount * 100 + moneyAmountDB.FiftiesAmount * 50 +
-                                  moneyAmountDB.TwentiesAmount * 20 + moneyAmountDB.FivesAmount * 5 +
-                                  moneyAmountDB.OnesAmount + moneyAmountDB.TensAmount * 10);
-            var total = coinAmount + dollarAmount;
-            moneyAmountDB.TotalAmount = (decimal)total;
-
+            moneyAmountDB.TotalAmount = MoneyAmountsLogic.GetMoneyAmountsTotal(moneyamount);
             _context.Update(user);
             _context.Update(moneyAmountDB);
             return await _context.SaveChangesAsync(true) > 0;
