@@ -123,6 +123,45 @@ namespace CashHandlerAPI.Controllers
                 });
             }
         }
+
+        [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Route("run-transaction")]
+        public async Task<IActionResult> RunTransaction([FromBody] MoneyAmountViewModel moneyAmount, [FromBody] decimal itemWorth,
+            [FromHeader] string authorization)
+        {
+            try
+            {
+                var username = _tokenHelper.GetUserName(_tokenHelper.GetToken(authorization));
+                var dbResult = await _databaseHelper.RunTransaction(moneyAmount, username,itemWorth);
+
+                if (dbResult)
+                {
+                    return Ok( new Result
+                    {
+                        Payload = _databaseHelper.GetMoneyAmountViewModel(username).Result
+                    });
+                }
+
+                return Unauthorized();
+
+
+            }
+            catch (Exception e)
+            {
+                _logger.Log(LogLevel.Error, e.Message);
+                var badResult = new Result
+                {
+                    Payload = "server error",
+                    Status = StatusCodes.Status500InternalServerError,
+                    Success = false
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    badResult
+                });
+            }
+        }
     }
 
 }

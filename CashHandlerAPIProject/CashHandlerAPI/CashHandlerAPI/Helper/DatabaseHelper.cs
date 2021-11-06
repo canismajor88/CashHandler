@@ -87,14 +87,35 @@ namespace CashHandlerAPI.Helper
             return result.Succeeded;
         }
 
-        public async Task<bool> InitializeMoneyAmount(MoneyAmountViewModel moneyamount, string username)
+        public async Task<bool> InitializeMoneyAmount(MoneyAmountViewModel moneyAmountViewModel, string username)
         {
             var user = await _userManager.FindByNameAsync(username);
+            if (user == null) return false;
             var moneyAmountDB = await _context.MoneyAmounts.FindAsync(user.MoneyAmountId);
-            moneyAmountDB = MoneyAmountsLogic.UpdateMoneyAmount(moneyAmountDB, moneyamount);
+            if (moneyAmountDB == null) return false;
+            moneyAmountDB = MoneyAmountsLogic.UpdateMoneyAmount(moneyAmountDB, moneyAmountViewModel);
             _context.Update(user);
             _context.Update(moneyAmountDB);
             return await _context.SaveChangesAsync(true) > 0;
+        }
+        //moneyAmountViewModel here is with what ever amount customer has given
+        public async Task<bool> RunTransaction(MoneyAmountViewModel moneyAmountViewModel, string username, decimal itemCost)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null) return false;
+            var moneyAmountDB = await _context.MoneyAmounts.FindAsync(user.MoneyAmountId);
+            if (moneyAmountDB==null) return false;
+            moneyAmountDB = MoneyAmountsLogic.RunTransaction(moneyAmountDB, moneyAmountViewModel, itemCost);
+            _context.Update(user);
+            _context.Update(moneyAmountDB);
+            return await _context.SaveChangesAsync(true) > 0;
+        }
+
+        public async Task<MoneyAmountViewModel> GetMoneyAmountViewModel(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            var moneyAmountDB = await _context.MoneyAmounts.FindAsync(user.MoneyAmountId);
+            return MoneyAmountsLogic.CreateMoneyAmountViewModel(moneyAmountDB);
         }
         #endregion
     }

@@ -32,5 +32,7 @@ namespace CashHandlerAPI.ViewModels
         public int FivesAmount { get; set; }
         [Required]
         public int OnesAmount { get; set; }
+
+        public int? TotalAmount { get; set; }
     }
 }

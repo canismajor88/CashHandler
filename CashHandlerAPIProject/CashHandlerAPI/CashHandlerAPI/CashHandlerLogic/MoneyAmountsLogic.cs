@@ -21,7 +21,7 @@ namespace CashHandlerAPI.CashHandlerLogic
             return coinAmount + dollarAmount;
         }
 
-      public static MoneyAmount RunTransaction(MoneyAmount moneyAmountDB,MoneyAmountViewModel moneyAmountViewModel ,decimal itemCost, decimal amountCustomerHasGiven)
+      public static MoneyAmount RunTransaction(MoneyAmount moneyAmountDB,MoneyAmountViewModel moneyAmountViewModel ,decimal itemCost)
       {
             var realTotal = (decimal) moneyAmountDB.TotalAmount + itemCost;//money we are actually at
 
@@ -90,5 +90,24 @@ namespace CashHandlerAPI.CashHandlerLogic
           return moneyAmountDB;
       }
 
+        public static MoneyAmountViewModel CreateMoneyAmountViewModel(MoneyAmount moneyAmountDb)
+        {
+            return new MoneyAmountViewModel
+            {
+                DollarCoinAmount = (int)moneyAmountDb.DollarCoinAmount,
+                HalfDollarAmount = (int)moneyAmountDb.HalfDollarAmount,
+                QuartersAmount = (int)moneyAmountDb.QuartersAmount,
+                DimesAmount = (int)moneyAmountDb.DimesAmount,
+                NicklesAmount = (int)moneyAmountDb.NicklesAmount,
+                PenniesAmount = (int)moneyAmountDb.PenniesAmount,
+                HundredsAmount = (int)moneyAmountDb.HundredsAmount,
+                FiftiesAmount = (int)moneyAmountDb.FiftiesAmount,
+                TwentiesAmount = (int)moneyAmountDb.TwentiesAmount,
+                TensAmount = (int)moneyAmountDb.TensAmount,
+                FivesAmount = (int)moneyAmountDb.FivesAmount,
+                OnesAmount = (int)moneyAmountDb.OnesAmount,
+                TotalAmount = (int)moneyAmountDb.TotalAmount
+            };
+        }
     }
 }
