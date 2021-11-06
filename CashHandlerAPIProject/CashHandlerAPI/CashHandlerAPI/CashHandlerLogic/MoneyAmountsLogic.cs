@@ -55,7 +55,6 @@ namespace CashHandlerAPI.CashHandlerLogic
                 TransactionAmountsProcessor((int)moneyAmountDB.NicklesAmount, (decimal).05, realTotal, moneyAmountDB);
             moneyAmountDB.PenniesAmount -=
                 TransactionAmountsProcessor((int)moneyAmountDB.PenniesAmount, (decimal).01, realTotal, moneyAmountDB);
-
             return moneyAmountDB;
       }
         private static int TransactionAmountsProcessor(int moneyDenominationAmount, decimal denominationWorth, decimal targetAmount, MoneyAmount moneyAmountDB)

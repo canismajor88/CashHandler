@@ -101,7 +101,10 @@ namespace CashHandlerAPI.Controllers
                 
                 if (dbResult)
                 {
-                    return Ok();
+                    return Ok(new Result
+                    {
+                        Payload = _databaseHelper.GetMoneyAmountViewModel(username).Result
+                    });
                 }
 
                 return Unauthorized();
@@ -127,13 +130,13 @@ namespace CashHandlerAPI.Controllers
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [Route("run-transaction")]
-        public async Task<IActionResult> RunTransaction([FromBody] MoneyAmountViewModel moneyAmount, [FromBody] decimal itemWorth,
+        public async Task<IActionResult> RunTransaction([FromBody] MoneyAmountViewModel moneyAmount,
             [FromHeader] string authorization)
         {
             try
             {
                 var username = _tokenHelper.GetUserName(_tokenHelper.GetToken(authorization));
-                var dbResult = await _databaseHelper.RunTransaction(moneyAmount, username,itemWorth);
+                var dbResult = await _databaseHelper.RunTransaction(moneyAmount, username,(decimal)moneyAmount.TransactionAmount);
 
                 if (dbResult)
                 {

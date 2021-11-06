@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -32,7 +33,9 @@ namespace CashHandlerAPI.ViewModels
         public int FivesAmount { get; set; }
         [Required]
         public int OnesAmount { get; set; }
-
-        public int? TotalAmount { get; set; }
+        [AllowNull]
+        public decimal? TotalAmount { get; set; }
+        [AllowNull]
+        public decimal? TransactionAmount { get; set; }
     }
 }
