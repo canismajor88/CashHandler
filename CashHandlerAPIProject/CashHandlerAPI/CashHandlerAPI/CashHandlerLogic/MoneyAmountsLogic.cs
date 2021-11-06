@@ -55,6 +55,7 @@ namespace CashHandlerAPI.CashHandlerLogic
                 TransactionAmountsProcessor((int)moneyAmountDB.NicklesAmount, (decimal).05, realTotal, moneyAmountDB);
             moneyAmountDB.PenniesAmount -=
                 TransactionAmountsProcessor((int)moneyAmountDB.PenniesAmount, (decimal).01, realTotal, moneyAmountDB);
+            // todo calculates correctly but still need a way to give message back to user
             return moneyAmountDB;
       }
         private static int TransactionAmountsProcessor(int moneyDenominationAmount, decimal denominationWorth, decimal targetAmount, MoneyAmount moneyAmountDB)
