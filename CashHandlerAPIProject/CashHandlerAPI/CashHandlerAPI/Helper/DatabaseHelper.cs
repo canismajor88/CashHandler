@@ -91,22 +91,7 @@ namespace CashHandlerAPI.Helper
         {
             var user = await _userManager.FindByNameAsync(username);
             var moneyAmountDB = await _context.MoneyAmounts.FindAsync(user.MoneyAmountId);
-
-
-            moneyAmountDB.DollarCoinAmount = moneyamount.DollarCoinAmount;
-            moneyAmountDB.HalfDollarAmount = moneyamount.HalfDollarAmount;
-            moneyAmountDB.QuartersAmount = moneyamount.QuartersAmount;
-            moneyAmountDB.DimesAmount = moneyamount.DimesAmount;
-            moneyAmountDB.NicklesAmount = moneyamount.NicklesAmount;
-            moneyAmountDB.PenniesAmount = moneyamount.PenniesAmount;
-            moneyAmountDB.HundredsAmount = moneyamount.HundredsAmount;
-            moneyAmountDB.FiftiesAmount = moneyamount.FiftiesAmount;
-            moneyAmountDB.TwentiesAmount = moneyamount.TwentiesAmount;
-            moneyAmountDB.TensAmount = moneyamount.TensAmount;
-            moneyAmountDB.FivesAmount = moneyamount.FivesAmount;
-            moneyAmountDB.OnesAmount = moneyamount.OnesAmount;
-
-            moneyAmountDB.TotalAmount = MoneyAmountsLogic.GetMoneyAmountsTotal(moneyamount);
+            moneyAmountDB = MoneyAmountsLogic.UpdateMoneyAmount(moneyAmountDB, moneyamount);
             _context.Update(user);
             _context.Update(moneyAmountDB);
             return await _context.SaveChangesAsync(true) > 0;

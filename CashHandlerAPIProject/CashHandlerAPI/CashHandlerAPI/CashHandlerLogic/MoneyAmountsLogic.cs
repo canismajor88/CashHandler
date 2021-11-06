@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CashHandlerAPI.Models;
 using CashHandlerAPI.ViewModels;
 
 namespace CashHandlerAPI.CashHandlerLogic
@@ -20,6 +21,74 @@ namespace CashHandlerAPI.CashHandlerLogic
             return coinAmount + dollarAmount;
         }
 
+      public static MoneyAmount RunTransaction(MoneyAmount moneyAmountDB,MoneyAmountViewModel moneyAmountViewModel ,decimal itemCost, decimal amountCustomerHasGiven)
+      {
+            var realTotal = (decimal) moneyAmountDB.TotalAmount + itemCost;//money we are actually at
+
+            moneyAmountDB = UpdateMoneyAmount(moneyAmountDB, moneyAmountViewModel);//update money amount to what user has given us before we make change
+            
+            var amountOfChangeToGiveBack = moneyAmountDB.TotalAmount - realTotal;
+
+            if (amountOfChangeToGiveBack <= 0) return moneyAmountDB;
+
+            moneyAmountDB.HundredsAmount -=
+                TransactionAmountsProcessor((int)moneyAmountDB.HundredsAmount, 100, realTotal, moneyAmountDB);
+            moneyAmountDB.FiftiesAmount -=
+                TransactionAmountsProcessor((int)moneyAmountDB.FiftiesAmount, 50, realTotal, moneyAmountDB);
+            moneyAmountDB.TwentiesAmount -=
+                TransactionAmountsProcessor((int)moneyAmountDB.TwentiesAmount, 20, realTotal, moneyAmountDB);
+            moneyAmountDB.TensAmount -=
+                TransactionAmountsProcessor((int)moneyAmountDB.TensAmount, 10, realTotal, moneyAmountDB);
+            moneyAmountDB.FivesAmount -=
+                TransactionAmountsProcessor((int)moneyAmountDB.FivesAmount, 5, realTotal, moneyAmountDB);
+            moneyAmountDB.OnesAmount -=
+                TransactionAmountsProcessor((int)moneyAmountDB.OnesAmount, 1, realTotal, moneyAmountDB);
+            moneyAmountDB.DollarCoinAmount -=
+                TransactionAmountsProcessor((int)moneyAmountDB.DollarCoinAmount, 1, realTotal, moneyAmountDB);
+            moneyAmountDB.HalfDollarAmount -=
+                TransactionAmountsProcessor((int)moneyAmountDB.HalfDollarAmount, (decimal).5, realTotal, moneyAmountDB);
+            moneyAmountDB.QuartersAmount -=
+                TransactionAmountsProcessor((int)moneyAmountDB.QuartersAmount, (decimal).25, realTotal, moneyAmountDB);
+            moneyAmountDB.DimesAmount -=
+                TransactionAmountsProcessor((int)moneyAmountDB.DimesAmount, (decimal).1, realTotal, moneyAmountDB);
+            moneyAmountDB.NicklesAmount -=
+                TransactionAmountsProcessor((int)moneyAmountDB.NicklesAmount, (decimal).05, realTotal, moneyAmountDB);
+            moneyAmountDB.PenniesAmount -=
+                TransactionAmountsProcessor((int)moneyAmountDB.PenniesAmount, (decimal).01, realTotal, moneyAmountDB);
+
+            return moneyAmountDB;
+      }
+        private static int TransactionAmountsProcessor(int moneyDenominationAmount, decimal denominationWorth, decimal targetAmount, MoneyAmount moneyAmountDB)
+        {
+            int i;
+            for (i = 0; i != moneyDenominationAmount && moneyAmountDB.TotalAmount > targetAmount; i++)
+                moneyAmountDB.TotalAmount -= denominationWorth;
+            //put the bill back
+            if (moneyAmountDB.TotalAmount < targetAmount)
+            {
+                i--;
+                moneyAmountDB.TotalAmount += denominationWorth;
+            }
+
+            return i;
+        }
+        public static MoneyAmount UpdateMoneyAmount(MoneyAmount moneyAmountDB, MoneyAmountViewModel moneyAmountViewModel)
+      {
+          moneyAmountDB.DollarCoinAmount = moneyAmountViewModel.DollarCoinAmount;
+          moneyAmountDB.HalfDollarAmount = moneyAmountViewModel.HalfDollarAmount;
+          moneyAmountDB.QuartersAmount = moneyAmountViewModel.QuartersAmount;
+          moneyAmountDB.DimesAmount = moneyAmountViewModel.DimesAmount;
+          moneyAmountDB.NicklesAmount = moneyAmountViewModel.NicklesAmount;
+          moneyAmountDB.PenniesAmount = moneyAmountViewModel.PenniesAmount;
+          moneyAmountDB.HundredsAmount = moneyAmountViewModel.HundredsAmount;
+          moneyAmountDB.FiftiesAmount = moneyAmountViewModel.FiftiesAmount;
+          moneyAmountDB.TwentiesAmount = moneyAmountViewModel.TwentiesAmount;
+          moneyAmountDB.TensAmount = moneyAmountViewModel.TensAmount;
+          moneyAmountDB.FivesAmount = moneyAmountViewModel.FivesAmount;
+          moneyAmountDB.OnesAmount = moneyAmountViewModel.OnesAmount;
+          moneyAmountDB.TotalAmount = GetMoneyAmountsTotal(moneyAmountViewModel);
+          return moneyAmountDB;
+      }
 
     }
 }
