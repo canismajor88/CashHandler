@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { AuthModule } from "./auth/auth.module";
 import { SplashModule } from "./splash/splash.module";
 import { CashHandlerModule } from "./cash-handler/cash-handler.module";
+import { MoneyAmountService } from "./services/money-amount/money-amount.service";
+import { TransactionsService } from "./services/transactions/transactions.service";
 
 @NgModule({
   declarations: [
@@ -18,7 +20,7 @@ import { CashHandlerModule } from "./cash-handler/cash-handler.module";
     SplashModule,
     CashHandlerModule
   ],
-  providers: [],
+  providers: [TransactionsService, MoneyAmountService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

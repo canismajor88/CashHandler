@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CashHandlerAuthService } from "../../../services/cash-handler-auth.service";
+import { CashHandlerAuthService } from "../../../services/cash-handler-auth/cash-handler-auth.service";
 import { NgForm } from "@angular/forms";
 import { Router } from "@angular/router";
 
@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
       this.loginAttempted=false;
       this.loginSuccess=true;
       this.loginError=false;
-      this.router.navigate(['/dashboard']);
+      this.router.navigate(['/transactions']);
     },
     error => {
       console.log(error)

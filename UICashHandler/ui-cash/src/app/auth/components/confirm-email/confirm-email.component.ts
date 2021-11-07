@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {CashHandlerAuthService} from "../../../services/cash-handler-auth.service";
+import {CashHandlerAuthService} from "../../../services/cash-handler-auth/cash-handler-auth.service";
 
 @Component({
   selector: 'app-confirm-email',

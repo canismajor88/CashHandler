@@ -1,9 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { DashboardComponent } from "./components/dashboard/dashboard.component";
+import {AddTransactionComponent} from "./components/add-transaction/add-transaction.component";
+import {RebalanceComponent} from "./components/rebalance/rebalance.component";
+import { TransactionsComponent } from "./components/transactions/transactions.component";
+import {UserProfileComponent} from "./components/user-profile/user-profile.component";
 
 const routes: Routes = [
-  {path: 'dashboard', component:DashboardComponent},
+  { path: 'transactions', component: TransactionsComponent },
+  {path: 'add-transaction', component:AddTransactionComponent},
+  {path: 'rebalance', component:RebalanceComponent},
+  {path: 'user-profile', component:UserProfileComponent},
 ];
 
 @NgModule({
