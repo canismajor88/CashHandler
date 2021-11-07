@@ -10,6 +10,7 @@ export class SplashScreenComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    localStorage.setItem('token',"");
   }
 
 }
