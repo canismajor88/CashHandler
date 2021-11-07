@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
       this.loginAttempted=false;
       this.loginSuccess=true;
       this.loginError=false;
+      // TODO: route to login landing page component
     },
     error => {
       console.log(error)

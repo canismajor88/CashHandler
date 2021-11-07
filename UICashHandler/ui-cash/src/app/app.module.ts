@@ -3,8 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {AuthModule} from "./auth/auth.module";
-import {SplashModule} from "./splash/splash.module";
+import { AuthModule } from "./auth/auth.module";
+import { SplashModule } from "./splash/splash.module";
+import { CashHandlerModule } from "./cash-handler/cash-handler.module";
+import { DashboardComponent } from './cash-handler/components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +16,9 @@ import {SplashModule} from "./splash/splash.module";
     BrowserModule,
     AppRoutingModule,
     AuthModule,
-    SplashModule
+    SplashModule,
+    CashHandlerModule,
+    DashboardComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
