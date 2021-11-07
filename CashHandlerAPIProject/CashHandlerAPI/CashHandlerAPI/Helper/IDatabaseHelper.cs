@@ -11,7 +11,7 @@ namespace CashHandlerAPI.Helper
       public Task<bool> ChangePassword(string userId, string token, string newPassword);
       public Task<bool> InitializeMoneyAmount(MoneyAmountViewModel moneyAmountViewModel, string username);
 
-      public Task<bool> RunTransaction(MoneyAmountViewModel moneyAmountViewModel, string username,
+      public Task<AddTransactionResult> RunTransaction(MoneyAmountViewModel moneyAmountViewModel, string username,
           decimal itemCost);
 
       public Task<MoneyAmountViewModel> GetMoneyAmountViewModel(string username);

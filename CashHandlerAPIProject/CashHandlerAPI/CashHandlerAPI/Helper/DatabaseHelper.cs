@@ -99,16 +99,29 @@ namespace CashHandlerAPI.Helper
             return await _context.SaveChangesAsync(true) > 0;
         }
         //moneyAmountViewModel here is with what ever amount customer has given
-        public async Task<bool> RunTransaction(MoneyAmountViewModel moneyAmountViewModel, string username, decimal itemCost)
+        public async Task<AddTransactionResult> RunTransaction(MoneyAmountViewModel moneyAmountViewModel, string username, decimal itemCost)
         {
             var user = await _userManager.FindByNameAsync(username);
-            if (user == null) return false;
+            if (user == null) return new AddTransactionResult{Success = false};
             var moneyAmountDB = await _context.MoneyAmounts.FindAsync(user.MoneyAmountId);
-            if (moneyAmountDB==null) return false;
+            await _context.Transactions.AddAsync(new Transaction
+            {
+                Amount = (double) itemCost,
+                TransDate = DateTime.Now,
+                Denominations = "hello",
+                UserId = user.Id,
+                User = user
+            });
+            if (moneyAmountDB==null) return new AddTransactionResult{Success = false};
             moneyAmountDB = MoneyAmountsLogic.RunTransaction(moneyAmountDB, moneyAmountViewModel, itemCost);
+            var giveBackString = MoneyAmountsLogic.GenerateTransactionString(moneyAmountDB, moneyAmountViewModel);
             _context.Update(user);
             _context.Update(moneyAmountDB);
-            return await _context.SaveChangesAsync(true) > 0;
+            var transactionResult = new AddTransactionResult();
+            transactionResult.MoneyAmountViewModel = MoneyAmountsLogic.CreateMoneyAmountViewModel(moneyAmountDB);
+            transactionResult.Success = await _context.SaveChangesAsync(true) > 0;
+            transactionResult.GiveBackString = giveBackString;
+            return transactionResult;
         }
 
         public async Task<MoneyAmountViewModel> GetMoneyAmountViewModel(string username)

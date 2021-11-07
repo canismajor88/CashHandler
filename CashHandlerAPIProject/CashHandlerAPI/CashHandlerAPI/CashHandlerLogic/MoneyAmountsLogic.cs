@@ -90,6 +90,34 @@ namespace CashHandlerAPI.CashHandlerLogic
           return moneyAmountDB;
       }
 
+        public static string GenerateTransactionString(MoneyAmount moneyAmountDb,
+            MoneyAmountViewModel moneyAmountViewModel)
+        {
+            string output = "Give back ";
+            if (moneyAmountViewModel.HundredsAmount - moneyAmountDb.HundredsAmount > 0)
+                output = output +( moneyAmountViewModel.HundredsAmount - moneyAmountDb.HundredsAmount) + " hundreds, ";
+            if (moneyAmountViewModel.FiftiesAmount - moneyAmountDb.FiftiesAmount > 0)
+                output = output + (moneyAmountViewModel.FiftiesAmount - moneyAmountDb.FiftiesAmount) + " fifties, ";
+            if (moneyAmountViewModel.TwentiesAmount - moneyAmountDb.TwentiesAmount > 0)
+                output = output + (moneyAmountViewModel.TwentiesAmount - moneyAmountDb.TwentiesAmount) + " twenties, ";
+            if (moneyAmountViewModel.TensAmount - moneyAmountDb.TensAmount > 0)
+                output = output + (moneyAmountViewModel.TensAmount - moneyAmountDb.TensAmount) + " tens, ";
+            if (moneyAmountViewModel.OnesAmount - moneyAmountDb.OnesAmount > 0)
+                output = output + (moneyAmountViewModel.OnesAmount - moneyAmountDb.OnesAmount) + " ones, ";
+            if (moneyAmountViewModel.DollarCoinAmount - moneyAmountDb.DollarCoinAmount > 0)
+                output = output + (moneyAmountViewModel.DollarCoinAmount - moneyAmountDb.DollarCoinAmount) + " dollar coins, ";
+            if (moneyAmountViewModel.HalfDollarAmount - moneyAmountDb.HalfDollarAmount > 0)
+                output = output + (moneyAmountViewModel.HalfDollarAmount - moneyAmountDb.HalfDollarAmount) + " half dollars, ";
+            if (moneyAmountViewModel.QuartersAmount - moneyAmountDb.QuartersAmount > 0)
+                output = output + (moneyAmountViewModel.QuartersAmount - moneyAmountDb.QuartersAmount) + " quarters, ";
+            if (moneyAmountViewModel.DimesAmount - moneyAmountDb.DimesAmount > 0)
+                output = output + (moneyAmountViewModel.DimesAmount - moneyAmountDb.DimesAmount) + " dimes, ";
+            if (moneyAmountViewModel.NicklesAmount - moneyAmountDb.NicklesAmount > 0)
+                output = output + (moneyAmountViewModel.NicklesAmount - moneyAmountDb.NicklesAmount) + " nickles, ";
+            if (moneyAmountViewModel.PenniesAmount - moneyAmountDb.PenniesAmount > 0)
+                output = output + (moneyAmountViewModel.PenniesAmount - moneyAmountDb.PenniesAmount) + " pennies, ";
+            return output;
+        }
         public static MoneyAmountViewModel CreateMoneyAmountViewModel(MoneyAmount moneyAmountDb)
         {
             return new MoneyAmountViewModel
