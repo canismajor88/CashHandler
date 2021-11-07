@@ -1,1 +1,11 @@
-<p>dashboard works!</p>
+<body>
+  <header>
+    <app-user-nav-bar></app-user-nav-bar>
+  </header>
+  <div>
+    <app-add-transaction *ngIf="addTransaction"></app-add-transaction>
+    <app-transactions *ngIf="listTransactions"></app-transactions>
+    <app-rebalance *ngIf="rebalance"></app-rebalance>
+    <app-user-profile *ngIf="userProfile"></app-user-profile>
+  </div>
+</body>
