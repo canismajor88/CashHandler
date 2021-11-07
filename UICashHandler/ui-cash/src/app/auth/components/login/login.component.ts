@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {CashHandlerAuthService} from "../../../services/cash-handler-auth.service";
-import {NgForm} from "@angular/forms";
+import { CashHandlerAuthService } from "../../../services/cash-handler-auth.service";
+import { NgForm } from "@angular/forms";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ export class LoginComponent implements OnInit {
   loginSuccess=false;
   loginAttempted=false;
   loginError=false;
-  constructor(private apiService : CashHandlerAuthService) { }
+  constructor(private router: Router, private apiService : CashHandlerAuthService) { }
 
   ngOnInit(): void {
   }
@@ -24,7 +25,7 @@ export class LoginComponent implements OnInit {
       this.loginAttempted=false;
       this.loginSuccess=true;
       this.loginError=false;
-      // TODO: route to login landing page component
+      this.router.navigate(['/dashboard']);
     },
     error => {
       console.log(error)

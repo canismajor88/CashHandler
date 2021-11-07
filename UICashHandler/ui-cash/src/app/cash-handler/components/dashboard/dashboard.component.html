@@ -1,6 +1,53 @@
 <body>
   <header>
-    <app-user-nav-bar></app-user-nav-bar>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top gradient ">
+      <div class="container">
+
+        <a class="navbar-brand" href="#">
+          <span style="color: lightgreen ; font-weight: bold" >Cash</span>
+          <span style="font-weight: bolder">Handler</span>
+          <i class="bi bi-currency-exchange"></i></a>
+
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+          <ul class="navbar-nav ms-auto">
+
+            <li class="nav-item">
+              <a class="nav-link active" (click)="viewAddTransaction()">
+                <span style="font-weight: bold ; color: lightgreen">Add New</span> </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" (click)="viewListTransactions()">
+                <span style="font-weight: bold ; color: lightgreen">History</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" (click)="viewRebalance()" >
+                <span style="font-weight: bold ; color: lightgreen">Rebalance</span> </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" (click)="viewUserProfile()" >
+                <span style="font-weight: bold ; color: lightgreen">Profile</span> </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" (click)="viewAddTransaction()" >
+                <span style="font-weight: bold ; color: lightgreen">Logout</span> </a>
+            </li>
+
+          </ul>
+        </div>
+
+      </div>
+    </nav>
   </header>
   <div>
     <app-add-transaction *ngIf="addTransaction"></app-add-transaction>

@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { AuthModule } from "./auth/auth.module";
 import { SplashModule } from "./splash/splash.module";
 import { CashHandlerModule } from "./cash-handler/cash-handler.module";
-import { DashboardComponent } from './cash-handler/components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -17,8 +16,7 @@ import { DashboardComponent } from './cash-handler/components/dashboard/dashboar
     AppRoutingModule,
     AuthModule,
     SplashModule,
-    CashHandlerModule,
-    DashboardComponent
+    CashHandlerModule
   ],
   providers: [],
   bootstrap: [AppComponent]
