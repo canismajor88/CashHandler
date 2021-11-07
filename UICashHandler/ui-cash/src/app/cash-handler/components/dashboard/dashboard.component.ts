@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-dashboard',
@@ -11,10 +12,11 @@ export class DashboardComponent implements OnInit {
   rebalance!: boolean;
   userProfile!: boolean;
 
-  constructor() {
+  constructor(private router: Router) {
   }
 
   ngOnInit(): void {
+    // if user token is invalid, route them back to login
     this.addTransaction = false;
     this.listTransactions = true;
     this.rebalance = false;
@@ -47,6 +49,11 @@ export class DashboardComponent implements OnInit {
     this.listTransactions = false;
     this.rebalance = false;
     this.userProfile = true;
+  }
+
+  logout(): void {
+    localStorage.setItem('token', "");
+    this.router.navigate(['/splash']);
   }
 
 }
