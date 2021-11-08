@@ -6,7 +6,7 @@ namespace CashHandlerAPI.Helper
 {
   public  interface IDatabaseHelper
   {
-      #region Auth
+        #region Auth
 
       public Task<bool> IsValidLogin(string userName, string password);
       public Task<bool> CreateNewUser(string userName, string password, string email);

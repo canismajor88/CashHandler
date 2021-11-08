@@ -24,7 +24,11 @@ namespace CashHandlerAPI.Helper
             _context = context;
         }
         #endregion
+
         #region public methods
+
+        #region AuthHelpers
+
         public async Task<bool> IsValidLogin(string userName, string password)
         {
             var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
@@ -34,7 +38,7 @@ namespace CashHandlerAPI.Helper
             if (passwordResult == PasswordVerificationResult.Failed) return false;
             if (currentUser.EmailConfirmed == false) return false;
             currentUser.LastSignIn = DateTime.Now;
-            return await _context.SaveChangesAsync(true) > 0; 
+            return await _context.SaveChangesAsync(true) > 0;
         }
 
         public async Task<bool> CreateNewUser(string userName, string password, string email)
@@ -88,6 +92,11 @@ namespace CashHandlerAPI.Helper
             return result.Succeeded;
         }
 
+        #endregion
+
+
+        #region MoneyAmountsHelpers
+
         public async Task<bool> UpdateMoneyAmount(MoneyAmountViewModel moneyAmountViewModel, string username)
         {
             var user = await _userManager.FindByNameAsync(username);
@@ -99,21 +108,26 @@ namespace CashHandlerAPI.Helper
             _context.Update(moneyAmountDB);
             return await _context.SaveChangesAsync(true) > 0;
         }
+
+        #endregion
+
+        #region transactionHelpers
+
         //moneyAmountViewModel here is with what ever amount customer has given
         public async Task<AddTransactionResult> RunTransaction(MoneyAmountViewModel moneyAmountViewModel, string username, decimal itemCost)
         {
             var user = await _userManager.FindByNameAsync(username);
-            if (user == null) return new AddTransactionResult{Success = false};
+            if (user == null) return new AddTransactionResult { Success = false };
             var moneyAmountDB = await _context.MoneyAmounts.FindAsync(user.MoneyAmountId);
             await _context.Transactions.AddAsync(new Transaction
             {
-                Amount = (double) itemCost,
+                Amount = (double)itemCost,
                 TransDate = DateTime.Now,
                 Denominations = "hello",
                 UserId = user.Id,
                 User = user
             });
-            if (moneyAmountDB==null) return new AddTransactionResult{Success = false};
+            if (moneyAmountDB == null) return new AddTransactionResult { Success = false };
             moneyAmountDB = MoneyAmountsLogic.RunTransaction(moneyAmountDB, moneyAmountViewModel, itemCost);
             var giveBackString = MoneyAmountsLogic.GenerateTransactionString(moneyAmountDB, moneyAmountViewModel);
             _context.Update(user);
@@ -125,17 +139,17 @@ namespace CashHandlerAPI.Helper
             return transactionResult;
         }
 
-        public async Task<GetTransactionsResult> GetTransactions( string username)
+        public async Task<GetTransactionsResult> GetTransactions(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
             if (user == null) return new GetTransactionsResult { Success = false };
-         
+
             return new GetTransactionsResult
             {
                 Success = true,
                 Transactions = await _context.Transactions.Where(x => x.UserId == user.Id).ToListAsync()
             };
-            
+
         }
 
         public async Task<Transaction> GetTransaction(long transactionId)
@@ -154,6 +168,10 @@ namespace CashHandlerAPI.Helper
                 MoneyAmountViewModel = MoneyAmountsLogic.CreateMoneyAmountViewModel(moneyAmountDB)
             };
         }
+
+
+        #endregion
+
 
 
         #endregion

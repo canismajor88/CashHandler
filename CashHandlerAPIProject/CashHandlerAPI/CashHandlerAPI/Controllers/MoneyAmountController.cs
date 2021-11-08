@@ -12,9 +12,17 @@ namespace CashHandlerAPI.Controllers
 {
     public class MoneyAmountController : Controller
     {
+      
+
+        #region private
+
         private readonly ILogger<TransactionController> _logger;
         private readonly IDatabaseHelper _databaseHelper;
         private readonly ITokenHelper _tokenHelper;
+
+        #endregion
+
+        #region constructors
 
         public MoneyAmountController(ILogger<TransactionController> logger, IDatabaseHelper databaseHelper,
             ITokenHelper tokenHelper)
@@ -23,6 +31,11 @@ namespace CashHandlerAPI.Controllers
             _databaseHelper = databaseHelper;
             _tokenHelper = tokenHelper;
         }
+
+
+        #endregion
+
+        #region endpoints
 
         [Authorize]
         [HttpPost]
@@ -100,5 +113,8 @@ namespace CashHandlerAPI.Controllers
                 });
             }
         }
+
+        #endregion
+
     }
 }

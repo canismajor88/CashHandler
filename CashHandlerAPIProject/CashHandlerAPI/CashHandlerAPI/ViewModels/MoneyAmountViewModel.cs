@@ -5,6 +5,8 @@ namespace CashHandlerAPI.ViewModels
 {
     public class MoneyAmountViewModel
     {
+        #region public propeties
+
         [Required]
         public int DollarCoinAmount { get; set; }
         [Required]
@@ -33,5 +35,8 @@ namespace CashHandlerAPI.ViewModels
         public decimal? TotalAmount { get; set; }
         [AllowNull]
         public decimal? TransactionAmount { get; set; }
+
+        #endregion
+
     }
 }

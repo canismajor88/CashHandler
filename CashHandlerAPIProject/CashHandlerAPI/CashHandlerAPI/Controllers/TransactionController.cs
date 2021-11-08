@@ -15,18 +15,27 @@ namespace CashHandlerAPI.Controllers
 {
     public class TransactionController : Controller
     {
+        #region private
 
         private readonly ILogger<TransactionController> _logger;
         private readonly IDatabaseHelper _databaseHelper;
         private readonly ITokenHelper _tokenHelper;
 
-        public TransactionController(ILogger<TransactionController> logger, IDatabaseHelper databaseHelper, 
+        #endregion
+
+        #region constructors
+
+         public TransactionController(ILogger<TransactionController> logger, IDatabaseHelper databaseHelper, 
             ITokenHelper tokenHelper)
         {
             _logger = logger;
             _databaseHelper = databaseHelper;
             _tokenHelper = tokenHelper;
         }
+
+        #endregion
+
+        #region endpoints
 
         [Authorize]
         [HttpPost]
@@ -38,7 +47,7 @@ namespace CashHandlerAPI.Controllers
             try
             {
                 var username = _tokenHelper.GetUserName(_tokenHelper.GetToken(authorization));
-                var dbResult = await _databaseHelper.RunTransaction(moneyAmount, username,(decimal)moneyAmount.TransactionAmount);
+                var dbResult = await _databaseHelper.RunTransaction(moneyAmount, username, (decimal)moneyAmount.TransactionAmount);
 
                 if (dbResult.Success)
                 {
@@ -110,10 +119,10 @@ namespace CashHandlerAPI.Controllers
         {
             try
             {
-                
-                Transaction dbResult =  await _databaseHelper.GetTransaction(getTransactionViewModel.TransactionId);
 
-                if (dbResult!=null)
+                Transaction dbResult = await _databaseHelper.GetTransaction(getTransactionViewModel.TransactionId);
+
+                if (dbResult != null)
                 {
                     return Ok(new TransactionViewModel
                     {
@@ -143,6 +152,12 @@ namespace CashHandlerAPI.Controllers
                 });
             }
         }
+
+        #endregion
+
+
+
+
     }
 
 }

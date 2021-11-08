@@ -2,6 +2,11 @@
 {
     public class GetTransactionViewModel
     {
-        public int TransactionId { get; set; }
+        #region public properties
+
+         public int TransactionId { get; set; }
+
+        #endregion
+       
     }
 }

@@ -5,24 +5,26 @@ namespace CashHandlerAPI.CashHandlerLogic
 {
     public static class MoneyAmountsLogic
     {
-      public static decimal GetMoneyAmountsTotal(MoneyAmountViewModel moneyAmount)
+        #region public
+
+        public static decimal GetMoneyAmountsTotal(MoneyAmountViewModel moneyAmount)
         {
-            var coinAmount =(decimal)( moneyAmount.DollarCoinAmount + moneyAmount.HalfDollarAmount * .5 +
+            var coinAmount = (decimal)(moneyAmount.DollarCoinAmount + moneyAmount.HalfDollarAmount * .5 +
                              moneyAmount.QuartersAmount * .25 + moneyAmount.DimesAmount * .1 +
                              moneyAmount.NicklesAmount * .05 + moneyAmount.PenniesAmount * .01);
 
-            var dollarAmount =(decimal) (moneyAmount.HundredsAmount * 100 + moneyAmount.FiftiesAmount * 50 +
+            var dollarAmount = (decimal)(moneyAmount.HundredsAmount * 100 + moneyAmount.FiftiesAmount * 50 +
                                 moneyAmount.TwentiesAmount * 20 + moneyAmount.FivesAmount * 5 +
                                 moneyAmount.OnesAmount + moneyAmount.TensAmount * 10);
             return coinAmount + dollarAmount;
         }
 
-      public static MoneyAmount RunTransaction(MoneyAmount moneyAmountDB,MoneyAmountViewModel moneyAmountViewModel ,decimal itemCost)
-      {
-            var realTotal = (decimal) moneyAmountDB.TotalAmount + itemCost;//money we are actually at
+        public static MoneyAmount RunTransaction(MoneyAmount moneyAmountDB, MoneyAmountViewModel moneyAmountViewModel, decimal itemCost)
+        {
+            var realTotal = (decimal)moneyAmountDB.TotalAmount + itemCost;//money we are actually at
 
             moneyAmountDB = UpdateMoneyAmount(moneyAmountDB, moneyAmountViewModel);//update money amount to what user has given us before we make change
-            
+
             var amountOfChangeToGiveBack = moneyAmountDB.TotalAmount - realTotal;
 
             if (amountOfChangeToGiveBack <= 0) return moneyAmountDB;
@@ -53,7 +55,7 @@ namespace CashHandlerAPI.CashHandlerLogic
                 TransactionAmountsProcessor((int)moneyAmountDB.PenniesAmount, (decimal).01, realTotal, moneyAmountDB);
             // todo calculates correctly but still need a way to give message back to user
             return moneyAmountDB;
-      }
+        }
         private static int TransactionAmountsProcessor(int moneyDenominationAmount, decimal denominationWorth, decimal targetAmount, MoneyAmount moneyAmountDB)
         {
             int i;
@@ -69,29 +71,29 @@ namespace CashHandlerAPI.CashHandlerLogic
             return i;
         }
         public static MoneyAmount UpdateMoneyAmount(MoneyAmount moneyAmountDB, MoneyAmountViewModel moneyAmountViewModel)
-      {
-          moneyAmountDB.DollarCoinAmount = moneyAmountViewModel.DollarCoinAmount;
-          moneyAmountDB.HalfDollarAmount = moneyAmountViewModel.HalfDollarAmount;
-          moneyAmountDB.QuartersAmount = moneyAmountViewModel.QuartersAmount;
-          moneyAmountDB.DimesAmount = moneyAmountViewModel.DimesAmount;
-          moneyAmountDB.NicklesAmount = moneyAmountViewModel.NicklesAmount;
-          moneyAmountDB.PenniesAmount = moneyAmountViewModel.PenniesAmount;
-          moneyAmountDB.HundredsAmount = moneyAmountViewModel.HundredsAmount;
-          moneyAmountDB.FiftiesAmount = moneyAmountViewModel.FiftiesAmount;
-          moneyAmountDB.TwentiesAmount = moneyAmountViewModel.TwentiesAmount;
-          moneyAmountDB.TensAmount = moneyAmountViewModel.TensAmount;
-          moneyAmountDB.FivesAmount = moneyAmountViewModel.FivesAmount;
-          moneyAmountDB.OnesAmount = moneyAmountViewModel.OnesAmount;
-          moneyAmountDB.TotalAmount = GetMoneyAmountsTotal(moneyAmountViewModel);
-          return moneyAmountDB;
-      }
+        {
+            moneyAmountDB.DollarCoinAmount = moneyAmountViewModel.DollarCoinAmount;
+            moneyAmountDB.HalfDollarAmount = moneyAmountViewModel.HalfDollarAmount;
+            moneyAmountDB.QuartersAmount = moneyAmountViewModel.QuartersAmount;
+            moneyAmountDB.DimesAmount = moneyAmountViewModel.DimesAmount;
+            moneyAmountDB.NicklesAmount = moneyAmountViewModel.NicklesAmount;
+            moneyAmountDB.PenniesAmount = moneyAmountViewModel.PenniesAmount;
+            moneyAmountDB.HundredsAmount = moneyAmountViewModel.HundredsAmount;
+            moneyAmountDB.FiftiesAmount = moneyAmountViewModel.FiftiesAmount;
+            moneyAmountDB.TwentiesAmount = moneyAmountViewModel.TwentiesAmount;
+            moneyAmountDB.TensAmount = moneyAmountViewModel.TensAmount;
+            moneyAmountDB.FivesAmount = moneyAmountViewModel.FivesAmount;
+            moneyAmountDB.OnesAmount = moneyAmountViewModel.OnesAmount;
+            moneyAmountDB.TotalAmount = GetMoneyAmountsTotal(moneyAmountViewModel);
+            return moneyAmountDB;
+        }
 
         public static string GenerateTransactionString(MoneyAmount moneyAmountDb,
             MoneyAmountViewModel moneyAmountViewModel)
         {
             string output = "Give back ";
             if (moneyAmountViewModel.HundredsAmount - moneyAmountDb.HundredsAmount > 0)
-                output = output +( moneyAmountViewModel.HundredsAmount - moneyAmountDb.HundredsAmount) + " hundreds, ";
+                output = output + (moneyAmountViewModel.HundredsAmount - moneyAmountDb.HundredsAmount) + " hundreds, ";
             if (moneyAmountViewModel.FiftiesAmount - moneyAmountDb.FiftiesAmount > 0)
                 output = output + (moneyAmountViewModel.FiftiesAmount - moneyAmountDb.FiftiesAmount) + " fifties, ";
             if (moneyAmountViewModel.TwentiesAmount - moneyAmountDb.TwentiesAmount > 0)
@@ -133,5 +135,8 @@ namespace CashHandlerAPI.CashHandlerLogic
                 TotalAmount = (int)moneyAmountDb.TotalAmount
             };
         }
+
+        #endregion
+
     }
 }

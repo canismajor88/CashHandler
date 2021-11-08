@@ -7,12 +7,17 @@ namespace CashHandlerAPI.ViewModels
 {
     public class TransactionViewModel
     {
-        public long  TransactionId { get; set; }
+        #region public properties
+
+        public long TransactionId { get; set; }
 
         public double Amount { get; set; }
 
         public string Denominations { get; set; }
 
         public DateTime TransDate { get; set; }
+
+        #endregion
+
     }
 }
