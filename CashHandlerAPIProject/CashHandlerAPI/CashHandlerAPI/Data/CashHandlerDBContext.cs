@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CashHandlerAPI.Data
 {
-    public partial class CashHandlerDBContext : IdentityDbContext<User>
+    public class CashHandlerDBContext : IdentityDbContext<User>
     {
 
         public CashHandlerDBContext(DbContextOptions<CashHandlerDBContext> options)

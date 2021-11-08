@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace CashHandlerAPI.Models
 {
-    public partial class User:IdentityUser
+    public class User:IdentityUser
     {
         #region contructors
 

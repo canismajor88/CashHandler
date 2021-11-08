@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 #nullable disable
 
 namespace CashHandlerAPI.Models
 {
-    public partial class MoneyAmount
+    public class MoneyAmount
     {
         public MoneyAmount()
         {

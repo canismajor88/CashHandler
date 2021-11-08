@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Xml.Serialization;
 using CashHandlerAPI.CashHandlerLogic;
 using CashHandlerAPI.Data;
 using CashHandlerAPI.Models;
@@ -33,7 +32,9 @@ namespace CashHandlerAPI.Helper
             var passwordResult = _userManager.PasswordHasher.VerifyHashedPassword(currentUser, currentUser.PasswordHash,
                 password);
             if (passwordResult == PasswordVerificationResult.Failed) return false;
-            return currentUser.EmailConfirmed != false;
+            if (currentUser.EmailConfirmed == false) return false;
+            currentUser.LastSignIn = DateTime.Now;
+            return true;
         }
 
         public async Task<bool> CreateNewUser(string userName, string password, string email)
@@ -87,7 +88,7 @@ namespace CashHandlerAPI.Helper
             return result.Succeeded;
         }
 
-        public async Task<bool> InitializeMoneyAmount(MoneyAmountViewModel moneyAmountViewModel, string username)
+        public async Task<bool> UpdateMoneyAmount(MoneyAmountViewModel moneyAmountViewModel, string username)
         {
             var user = await _userManager.FindByNameAsync(username);
             if (user == null) return false;
@@ -124,12 +125,37 @@ namespace CashHandlerAPI.Helper
             return transactionResult;
         }
 
-        public async Task<MoneyAmountViewModel> GetMoneyAmountViewModel(string username)
+        public async Task<GetTransactionsResult> GetTransactions( string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null) return new GetTransactionsResult { Success = false };
+         
+            return new GetTransactionsResult
+            {
+                Success = true,
+                Transactions = await _context.Transactions.Where(x => x.UserId == user.Id).ToListAsync()
+            };
+            
+        }
+
+        public async Task<Transaction> GetTransaction(long transactionId)
+        {
+            return await _context.Transactions.FirstOrDefaultAsync(x => x.TransactionId == transactionId);
+        }
+
+        public async Task<GetMoneyAmountResult> GetMoneyAmountViewModel(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
             var moneyAmountDB = await _context.MoneyAmounts.FindAsync(user.MoneyAmountId);
-            return MoneyAmountsLogic.CreateMoneyAmountViewModel(moneyAmountDB);
+            if (moneyAmountDB == null) return new GetMoneyAmountResult { Success = false };
+            return new GetMoneyAmountResult
+            {
+                Success = true,
+                MoneyAmountViewModel = MoneyAmountsLogic.CreateMoneyAmountViewModel(moneyAmountDB)
+            };
         }
+
+
         #endregion
     }
 }

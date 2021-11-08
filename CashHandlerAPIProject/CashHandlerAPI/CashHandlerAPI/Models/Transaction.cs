@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 
 #nullable disable
 
 namespace CashHandlerAPI.Models
 {
-    public partial class Transaction
+    public class Transaction
     {
         public long TransactionId { get; set; }
         public double Amount { get; set; }

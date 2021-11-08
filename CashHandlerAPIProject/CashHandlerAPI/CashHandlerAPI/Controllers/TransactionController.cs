@@ -1,14 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using CashHandlerAPI.Models;
 using System.Net.Mime;
 using CashHandlerAPI.ViewModels;
 using Microsoft.Extensions.Logging;
 using CashHandlerAPI.Helper;
-using Microsoft.Extensions.Options;
-using Microsoft.AspNetCore.Identity;
 using System;
-using CashHandlerAPI.Data;
+using System.Collections.Generic;
+using System.Linq;
+using CashHandlerAPI.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 
 namespace CashHandlerAPI.Controllers
@@ -17,97 +17,35 @@ namespace CashHandlerAPI.Controllers
     {
 
         private readonly ILogger<TransactionController> _logger;
-        private readonly ITokenGenerator _tokenGenerator;
-        private readonly IEmailHelper _emailHelper;
-        private readonly IOptions<EmailOptions> _emailOptions;
-        private readonly UserManager<User> _userManager;
-        private readonly CashHandlerDBContext _context;
         private readonly IDatabaseHelper _databaseHelper;
         private readonly ITokenHelper _tokenHelper;
 
-        public TransactionController(ILogger<TransactionController> logger, ITokenGenerator tokenGenerator,
-            UserManager<User> userManager, CashHandlerDBContext context, IDatabaseHelper databaseHelper, 
+        public TransactionController(ILogger<TransactionController> logger, IDatabaseHelper databaseHelper, 
             ITokenHelper tokenHelper)
         {
             _logger = logger;
-            _tokenGenerator = tokenGenerator;
-            _userManager = userManager;
-            _context = context;
             _databaseHelper = databaseHelper;
             _tokenHelper = tokenHelper;
         }
 
-        // POST: TransactionController/Create
-        [HttpPost]
-        [Route("Add")]
-        public async Task<StatusCodeResult> Create()
-        {
-
-            return null;
-        }
-
-        //// GET: TransactionController/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: TransactionController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: TransactionController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: TransactionController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
+        [Authorize]
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
-        [Route("initialize-moneyamount")]
-        public async Task<IActionResult> InitializeMoneyAmount([FromBody] MoneyAmountViewModel moneyAmount,
+        [Route("run-transaction")]
+        public async Task<IActionResult> RunTransaction([FromBody] MoneyAmountViewModel moneyAmount,
             [FromHeader] string authorization)
         {
             try
             {
                 var username = _tokenHelper.GetUserName(_tokenHelper.GetToken(authorization));
-                var dbResult = await _databaseHelper.InitializeMoneyAmount(moneyAmount, username);
-                
-                if (dbResult)
+                var dbResult = await _databaseHelper.RunTransaction(moneyAmount, username,(decimal)moneyAmount.TransactionAmount);
+
+                if (dbResult.Success)
                 {
-                    return Ok(new Result
-                    {
-                        Payload = _databaseHelper.GetMoneyAmountViewModel(username).Result
-                    });
+                    return Ok(dbResult);
                 }
 
-                return Unauthorized();
+                return BadRequest();
 
 
             }
@@ -127,23 +65,66 @@ namespace CashHandlerAPI.Controllers
             }
         }
 
-        [HttpPost]
-        [Consumes(MediaTypeNames.Application.Json)]
-        [Route("run-transaction")]
-        public async Task<IActionResult> RunTransaction([FromBody] MoneyAmountViewModel moneyAmount,
-            [FromHeader] string authorization)
+        [Authorize]
+        [HttpGet]
+        [Route("get-transactions")]
+        public async Task<IActionResult> GetTransactions([FromHeader] string authorization)
         {
             try
             {
                 var username = _tokenHelper.GetUserName(_tokenHelper.GetToken(authorization));
-                var dbResult = await _databaseHelper.RunTransaction(moneyAmount, username,(decimal)moneyAmount.TransactionAmount);
+                var dbResult = await _databaseHelper.GetTransactions(username);
 
                 if (dbResult.Success)
                 {
-                    return Ok(dbResult);
+                    IList<TransactionViewModel> transactionViewModels = dbResult.Transactions.Select(transaction => new TransactionViewModel { TransactionId = transaction.TransactionId, TransDate = transaction.TransDate, Amount = transaction.Amount, Denominations = transaction.Denominations }).ToList();
+
+                    return Ok(transactionViewModels);
                 }
 
-                return Unauthorized();
+                return BadRequest();
+
+
+            }
+            catch (Exception e)
+            {
+                _logger.Log(LogLevel.Error, e.Message);
+                var badResult = new Result
+                {
+                    Payload = "server error",
+                    Status = StatusCodes.Status500InternalServerError,
+                    Success = false
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    badResult
+                });
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Route("get-transaction")]
+        public async Task<IActionResult> GetTransaction([FromBody] GetTransactionViewModel getTransactionViewModel)
+        {
+            try
+            {
+                
+                Transaction dbResult =  await _databaseHelper.GetTransaction(getTransactionViewModel.TransactionId);
+
+                if (dbResult!=null)
+                {
+                    return Ok(new TransactionViewModel
+                    {
+                        Amount = dbResult.Amount,
+                        Denominations = dbResult.Denominations,
+                        TransactionId = dbResult.TransactionId,
+                        TransDate = dbResult.TransDate
+                    });
+                }
+
+                return BadRequest();
 
 
             }

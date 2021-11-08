@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using CashHandlerAPI.Models;
+﻿using CashHandlerAPI.Models;
 using CashHandlerAPI.ViewModels;
 
 namespace CashHandlerAPI.CashHandlerLogic
