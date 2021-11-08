@@ -34,7 +34,7 @@ namespace CashHandlerAPI.Helper
             if (passwordResult == PasswordVerificationResult.Failed) return false;
             if (currentUser.EmailConfirmed == false) return false;
             currentUser.LastSignIn = DateTime.Now;
-            return true;
+            return await _context.SaveChangesAsync(true) > 0; 
         }
 
         public async Task<bool> CreateNewUser(string userName, string password, string email)
