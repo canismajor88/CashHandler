@@ -62,8 +62,8 @@ namespace CashHandlerAPI.Migrations
                     b.Property<int?>("TensAmount")
                         .HasColumnType("int");
 
-                    b.Property<int?>("TotalAmount")
-                        .HasColumnType("int");
+                    b.Property<decimal?>("TotalAmount")
+                        .HasColumnType("decimal(18,0)");
 
                     b.Property<int?>("TwentiesAmount")
                         .HasColumnType("int");
@@ -326,7 +326,7 @@ namespace CashHandlerAPI.Migrations
             modelBuilder.Entity("CashHandlerAPI.Models.User", b =>
                 {
                     b.HasOne("CashHandlerAPI.Models.MoneyAmount", "MoneyAmount")
-                        .WithMany()
+                        .WithMany("AspNetUsers")
                         .HasForeignKey("MoneyAmountId");
 
                     b.Navigation("MoneyAmount");
@@ -381,6 +381,11 @@ namespace CashHandlerAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("CashHandlerAPI.Models.MoneyAmount", b =>
+                {
+                    b.Navigation("AspNetUsers");
                 });
 
             modelBuilder.Entity("CashHandlerAPI.Models.User", b =>

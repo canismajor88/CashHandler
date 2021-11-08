@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CashHandlerAPI.Migrations
 {
-    public partial class New_schema : Migration
+    public partial class New_schema_again : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,7 +39,7 @@ namespace CashHandlerAPI.Migrations
                     TensAmount = table.Column<int>(type: "int", nullable: true),
                     FivesAmount = table.Column<int>(type: "int", nullable: true),
                     OnesAmount = table.Column<int>(type: "int", nullable: true),
-                    TotalAmount = table.Column<int>(type: "int", nullable: true)
+                    TotalAmount = table.Column<decimal>(type: "decimal(18,0)", nullable: true)
                 },
                 constraints: table =>
                 {

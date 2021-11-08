@@ -1,70 +1,163 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using CashHandlerAPI.Data;
+using System.Net.Mime;
+using CashHandlerAPI.ViewModels;
+using Microsoft.Extensions.Logging;
+using CashHandlerAPI.Helper;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using CashHandlerAPI.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 namespace CashHandlerAPI.Controllers
 {
     public class TransactionController : Controller
     {
+        #region private
 
-        private readonly CashHandlerDBContext _context;
+        private readonly ILogger<TransactionController> _logger;
+        private readonly IDatabaseHelper _databaseHelper;
+        private readonly ITokenHelper _tokenHelper;
 
-        public TransactionController(CashHandlerDBContext context)
+        #endregion
+
+        #region constructors
+
+         public TransactionController(ILogger<TransactionController> logger, IDatabaseHelper databaseHelper, 
+            ITokenHelper tokenHelper)
         {
-            _context = context;
+            _logger = logger;
+            _databaseHelper = databaseHelper;
+            _tokenHelper = tokenHelper;
         }
 
+        #endregion
 
-        // POST: TransactionController/Create
+        #region endpoints
+
+        [Authorize]
         [HttpPost]
-        [Route("Add")]
-        public async Task<StatusCodeResult> Create()
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Route("run-transaction")]
+        public async Task<IActionResult> RunTransaction([FromBody] MoneyAmountViewModel moneyAmount,
+            [FromHeader] string authorization)
         {
+            try
+            {
+                var username = _tokenHelper.GetUserName(_tokenHelper.GetToken(authorization));
+                var dbResult = await _databaseHelper.RunTransaction(moneyAmount, username, (decimal)moneyAmount.TransactionAmount);
 
-            return null;
+                if (dbResult.Success)
+                {
+                    return Ok(dbResult);
+                }
+
+                return BadRequest();
+
+
+            }
+            catch (Exception e)
+            {
+                _logger.Log(LogLevel.Error, e.Message);
+                var badResult = new Result
+                {
+                    Payload = "server error",
+                    Status = StatusCodes.Status500InternalServerError,
+                    Success = false
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    badResult
+                });
+            }
         }
 
-        //// GET: TransactionController/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
+        [Authorize]
+        [HttpGet]
+        [Route("get-transactions")]
+        public async Task<IActionResult> GetTransactions([FromHeader] string authorization)
+        {
+            try
+            {
+                var username = _tokenHelper.GetUserName(_tokenHelper.GetToken(authorization));
+                var dbResult = await _databaseHelper.GetTransactions(username);
 
-        //// POST: TransactionController/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+                if (dbResult.Success)
+                {
+                    IList<TransactionViewModel> transactionViewModels = dbResult.Transactions.Select(transaction => new TransactionViewModel { TransactionId = transaction.TransactionId, TransDate = transaction.TransDate, Amount = transaction.Amount, Denominations = transaction.Denominations }).ToList();
 
-        //// GET: TransactionController/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
+                    return Ok(transactionViewModels);
+                }
 
-        //// POST: TransactionController/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
+                return BadRequest();
+
+
+            }
+            catch (Exception e)
+            {
+                _logger.Log(LogLevel.Error, e.Message);
+                var badResult = new Result
+                {
+                    Payload = "server error",
+                    Status = StatusCodes.Status500InternalServerError,
+                    Success = false
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    badResult
+                });
+            }
+        }
+
+        [Authorize]
+        [HttpPost]
+        [Consumes(MediaTypeNames.Application.Json)]
+        [Route("get-transaction")]
+        public async Task<IActionResult> GetTransaction([FromBody] GetTransactionViewModel getTransactionViewModel)
+        {
+            try
+            {
+
+                Transaction dbResult = await _databaseHelper.GetTransaction(getTransactionViewModel.TransactionId);
+
+                if (dbResult != null)
+                {
+                    return Ok(new TransactionViewModel
+                    {
+                        Amount = dbResult.Amount,
+                        Denominations = dbResult.Denominations,
+                        TransactionId = dbResult.TransactionId,
+                        TransDate = dbResult.TransDate
+                    });
+                }
+
+                return BadRequest();
+
+
+            }
+            catch (Exception e)
+            {
+                _logger.Log(LogLevel.Error, e.Message);
+                var badResult = new Result
+                {
+                    Payload = "server error",
+                    Status = StatusCodes.Status500InternalServerError,
+                    Success = false
+                };
+                return StatusCode(StatusCodes.Status500InternalServerError, new
+                {
+                    badResult
+                });
+            }
+        }
+
+        #endregion
+
+
+
+
     }
+
 }

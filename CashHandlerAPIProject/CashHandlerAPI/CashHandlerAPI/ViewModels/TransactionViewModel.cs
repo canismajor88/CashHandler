@@ -1,17 +1,23 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
-#nullable disable
-
-namespace CashHandlerAPI.Models
+namespace CashHandlerAPI.ViewModels
 {
-    public class Transaction
+    public class TransactionViewModel
     {
-        public long TransactionId { get; set; }
-        public double Amount { get; set; }
-        public string Denominations { get; set; }
-        public DateTime TransDate { get; set; }
-        public string UserId { get; set; }
+        #region public properties
 
-        public virtual User User { get; set; }
+        public long TransactionId { get; set; }
+
+        public double Amount { get; set; }
+
+        public string Denominations { get; set; }
+
+        public DateTime TransDate { get; set; }
+
+        #endregion
+
     }
 }
