@@ -28,7 +28,7 @@ export class MoneyAmountsDisplayComponent implements OnInit {
 
   ngOnInit(): void {
     let token = localStorage.getItem('token')
-    if (token == "" || token == null) this.router.navigate(['/transactions']);
+    if (token == "" || token == null) this.router.navigate(['/login']);
     if (localStorage.getItem('moneyAmount') != null)
       this.populateMoneyAmounts()
   }

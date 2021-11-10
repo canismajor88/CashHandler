@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top gradient ">
   <div class="container">
 
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" routerLink="/transactions">
       <span style="color: lightgreen ; font-weight: bold" >Cash</span>
       <span style="font-weight: bolder">Handler</span>
       <i class="bi bi-currency-exchange"></i></a>
@@ -19,22 +19,17 @@
 
     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
       <ul class="navbar-nav ms-auto">
-
-        <li class="nav-item">
-          <a class="nav-link active" routerLink="/add-transaction">
-            <span style="font-weight: bold ; color: lightgreen">Add New</span> </a>
-        </li>
         <li class="nav-item">
           <a class="nav-link active" routerLink="/transactions">
             <span style="font-weight: bold ; color: lightgreen">Dashboard</span></a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" routerLink="/rebalance" >
-            <span style="font-weight: bold ; color: lightgreen">Rebalance</span> </a>
+          <a class="nav-link active" routerLink="/add-transaction">
+            <span style="font-weight: bold ; color: lightgreen">Run Transaction</span> </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" routerLink="/user-profile" >
-            <span style="font-weight: bold ; color: lightgreen">Profile</span> </a>
+          <a class="nav-link active" routerLink="/rebalance" >
+            <span style="font-weight: bold ; color: lightgreen">Re-balance/Initialize-Register</span> </a>
         </li>
         <li class="nav-item">
           <a class="nav-link active" routerLink="/splash" >
@@ -46,3 +41,5 @@
 
   </div>
 </nav>
+<div style="height: 1rem;width: auto" class=" fixed-bottom gradientBottom">
+</div>

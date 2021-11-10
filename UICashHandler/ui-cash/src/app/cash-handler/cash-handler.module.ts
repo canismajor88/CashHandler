@@ -8,7 +8,8 @@ import { RebalanceComponent } from './components/rebalance/rebalance.component';
 import { InternalNavComponent } from './components/internal-nav/internal-nav.component';
 import { MoneyAmountsDisplayComponent } from './components/money-amounts-display/money-amounts-display.component';
 import { TransactionTableComponent } from './components/transaction-table/transaction-table.component';
-
+import { RunTrasactionFormComponent } from './components/run-trasaction-form/run-trasaction-form.component';
+import { FormsModule } from "@angular/forms";
 
 
 @NgModule({
@@ -19,11 +20,13 @@ import { TransactionTableComponent } from './components/transaction-table/transa
     RebalanceComponent,
     InternalNavComponent,
     MoneyAmountsDisplayComponent,
-    TransactionTableComponent
+    TransactionTableComponent,
+    RunTrasactionFormComponent,
   ],
   imports: [
     CommonModule,
-    CashHandlerRoutingModule
+    CashHandlerRoutingModule,
+    FormsModule
   ],
   exports: [
   ]

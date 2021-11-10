@@ -15,7 +15,7 @@ export class TransactionsComponent implements OnInit {
 
   constructor(private moneyAmountService : MoneyAmountService, private router: Router, private  transactionService: TransactionsService) {
     let token=  localStorage.getItem('token')
-    if(token==""||token==null) this.router.navigate(['/transactions']);
+    if(token==""||token==null) this.router.navigate(['/login']);
     this.populatePage()
   }
 
@@ -27,17 +27,18 @@ export class TransactionsComponent implements OnInit {
     this.moneyAmountService.getMoneyAmount().subscribe(
       x=>{
         this.moneyAmountLoaded=true;
+        this.transactionService.getTransactions().subscribe(
+          x=>{
+            this.transactionsLoaded=true
+          },error => {
+            console.log(error)
+          }
+        )
       },error => {
         console.log(error)
       }
     )
-    this.transactionService.getTransactions().subscribe(
-      x=>{
-        this.transactionsLoaded=true
-      },error => {
-        console.log(error)
-      }
-    )
+
 
   }
 }
