@@ -25,7 +25,6 @@ export class MoneyAmountService {
       map((response:any)=> {
         const moneyAmount = response.Result;
         if (moneyAmount.Success) {
-          console.log(moneyAmount.MoneyAmountViewModel)
           localStorage.setItem('moneyAmount', JSON.stringify(moneyAmount.MoneyAmountViewModel));
         }
       }))

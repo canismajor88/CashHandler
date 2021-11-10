@@ -38,7 +38,6 @@ export class MoneyAmountsDisplayComponent implements OnInit {
     if (moneyAmountStr) {
       this.moneyAmounts = JSON.parse(moneyAmountStr) as MoneyAmount;
     }
-    console.log(this.moneyAmounts)
     this.hundreds = this.moneyAmounts.HundredsAmount;
     this.fifties = this.moneyAmounts.FiftiesAmount;
     this.twenties = this.moneyAmounts.TwentiesAmount;

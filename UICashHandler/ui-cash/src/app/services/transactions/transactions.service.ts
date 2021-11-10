@@ -23,8 +23,7 @@ export class TransactionsService {
     return this.http.get(url, httpOptions).pipe(
       map((response:any)=>{
           if(response){
-            console.log(response)
-            console.log(JSON.stringify(response))
+           // console.log(JSON.stringify(response))
             localStorage.setItem('transactions',JSON.stringify(response));
           }
         }))
@@ -43,19 +42,21 @@ export class TransactionsService {
       catchError(this.handleError));
   }
 
-  postTransaction(data: Transaction): Observable<any> {
-    const url = `${apiUrl}/addTransaction`;
+  runTransaction(data: Transaction): Observable<any> {
+    const url = `${apiUrl}/run-transaction`;
     return this.http.post(url, data, httpOptions)
       .pipe(
         map((response:any)=>{
           const transaction = response;
-          if(transaction.Result.Success){
-            console.log(transaction.Result)
-            localStorage.setItem('transaction',transaction.Result.Payload);
+          console.log(response)
+          if(transaction.Success){
+            localStorage.setItem('giveBackString',transaction.GiveBackString)
+          }else{
+            if(transaction.GiveBackString!== undefined){
+              localStorage.setItem('giveBackString',transaction.GiveBackString)
+            }
           }
-        }),
-        catchError(this.handleError)
-      );
+        }))
   }
 
   private handleError(error: HttpErrorResponse) {

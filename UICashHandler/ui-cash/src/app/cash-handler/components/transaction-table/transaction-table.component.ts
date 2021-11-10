@@ -23,7 +23,6 @@ export class TransactionTableComponent implements OnInit {
     if (TransactionsStr) {
       this.transactions = JSON.parse(TransactionsStr) as Transaction ;
     }
-    console.log(this.transactions)
 
   }
 }

@@ -54,7 +54,7 @@ namespace CashHandlerAPI.Controllers
                     return Ok(dbResult);
                 }
 
-                return BadRequest();
+                return BadRequest(dbResult);
 
 
             }

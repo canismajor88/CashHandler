@@ -36,6 +36,8 @@ namespace CashHandlerAPI.ViewModels
         [AllowNull]
         public decimal? TransactionAmount { get; set; }
 
+        [AllowNull]
+        public string? Description { get; set; }
         #endregion
 
     }

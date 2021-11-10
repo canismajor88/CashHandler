@@ -119,17 +119,22 @@ namespace CashHandlerAPI.Helper
             var user = await _userManager.FindByNameAsync(username);
             if (user == null) return new AddTransactionResult { Success = false };
             var moneyAmountDB = await _context.MoneyAmounts.FindAsync(user.MoneyAmountId);
+            var originalMoneyAmounts = MoneyAmountsLogic.CreateMoneyAmountViewModel(moneyAmountDB);
+            if (moneyAmountDB == null) return new AddTransactionResult { Success = false };
+            moneyAmountDB = MoneyAmountsLogic.RunTransaction(moneyAmountDB, moneyAmountViewModel, itemCost);
+            if (moneyAmountDB==null)
+            {
+                return new AddTransactionResult { Success = true,GiveBackString = "Something Went Wrong Need To Re-Balance Money Amounts, can't make change"};
+            }
+            var giveBackString = MoneyAmountsLogic.GenerateTransactionString(moneyAmountDB, originalMoneyAmounts);
             await _context.Transactions.AddAsync(new Transaction
             {
                 Amount = (double)itemCost,
                 TransDate = DateTime.Now,
-                Denominations = "hello",
+                Denominations = moneyAmountViewModel.Description,
                 UserId = user.Id,
                 User = user
             });
-            if (moneyAmountDB == null) return new AddTransactionResult { Success = false };
-            moneyAmountDB = MoneyAmountsLogic.RunTransaction(moneyAmountDB, moneyAmountViewModel, itemCost);
-            var giveBackString = MoneyAmountsLogic.GenerateTransactionString(moneyAmountDB, moneyAmountViewModel);
             _context.Update(user);
             _context.Update(moneyAmountDB);
             var transactionResult = new AddTransactionResult();
