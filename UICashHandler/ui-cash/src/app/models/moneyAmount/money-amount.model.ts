@@ -12,5 +12,6 @@ export class MoneyAmount {
   tensAmount?: number;
   fivesAmount?: number;
   onesAmount?: number;
-  totalAmount!: number;
+  totalAmount?: number;
+  transactionAmount?:number;
 }

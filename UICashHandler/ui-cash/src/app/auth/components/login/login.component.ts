@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
     this.loginAttempted=true;
   this.apiService.login(f.value).subscribe(
     x=>{
-      console.log()
+      console.log(x)
       this.loginAttempted=false;
       this.loginSuccess=true;
       this.loginError=false;

@@ -6,6 +6,8 @@ import { AddTransactionComponent } from './components/add-transaction/add-transa
 import { UserProfileComponent } from './components/user-profile/user-profile.component';
 import { RebalanceComponent } from './components/rebalance/rebalance.component';
 import { InternalNavComponent } from './components/internal-nav/internal-nav.component';
+import { MoneyAmountsDisplayComponent } from './components/money-amounts-display/money-amounts-display.component';
+import { TransactionTableComponent } from './components/transaction-table/transaction-table.component';
 
 
 
@@ -15,7 +17,9 @@ import { InternalNavComponent } from './components/internal-nav/internal-nav.com
     AddTransactionComponent,
     UserProfileComponent,
     RebalanceComponent,
-    InternalNavComponent
+    InternalNavComponent,
+    MoneyAmountsDisplayComponent,
+    TransactionTableComponent
   ],
   imports: [
     CommonModule,

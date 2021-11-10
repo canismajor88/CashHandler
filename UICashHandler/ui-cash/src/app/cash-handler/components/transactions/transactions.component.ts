@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import {CashHandlerAuthService} from "../../../services/cash-handler-auth/cash-handler-auth.service";
+import {MoneyAmountService} from "../../../services/money-amount/money-amount.service";
+import {Router} from "@angular/router";
+import {TransactionsService} from "../../../services/transactions/transactions.service";
 
 @Component({
   selector: 'app-transactions',
@@ -6,10 +10,34 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./transactions.component.css']
 })
 export class TransactionsComponent implements OnInit {
+   moneyAmountLoaded=false
+  transactionsLoaded=false
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private moneyAmountService : MoneyAmountService, private router: Router, private  transactionService: TransactionsService) {
+    let token=  localStorage.getItem('token')
+    if(token==""||token==null) this.router.navigate(['/transactions']);
+    this.populatePage()
   }
 
+  ngOnInit(): void {
+
+  }
+
+  populatePage(){
+    this.moneyAmountService.getMoneyAmount().subscribe(
+      x=>{
+        this.moneyAmountLoaded=true;
+      },error => {
+        console.log(error)
+      }
+    )
+    this.transactionService.getTransactions().subscribe(
+      x=>{
+        this.transactionsLoaded=true
+      },error => {
+        console.log(error)
+      }
+    )
+
+  }
 }

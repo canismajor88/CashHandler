@@ -7,7 +7,7 @@ import {Transaction} from "../../models/transaction/transaction.model";
 
 const httpOptions = {headers: new HttpHeaders()
   .set('Content-Type', 'application/json')
-  .set('authorization', localStorage.token)};
+  .set('Authorization', "bearer " + localStorage.getItem('token'))};
 
 const apiUrl = "https://localhost:5001";
 
@@ -19,16 +19,15 @@ export class TransactionsService {
   constructor(private http: HttpClient) { }
 
   getTransactions(): Observable<any> {
-    const url = `${apiUrl}/transactions`;
+    const url = `${apiUrl}/get-transactions`;
     return this.http.get(url, httpOptions).pipe(
       map((response:any)=>{
-          const transactions = response;
-          if(transactions.Result.Success){
-            console.log(transactions.Result)
-            localStorage.setItem('transactions',transactions.Result.Payload);
+          if(response){
+            console.log(response)
+            console.log(JSON.stringify(response))
+            localStorage.setItem('transactions',JSON.stringify(response));
           }
-        }),
-      catchError(this.handleError));
+        }))
   }
 
   getTransaction(id: string): Observable<any> {

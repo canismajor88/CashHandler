@@ -1,12 +1,14 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from "@angular/common/http";
-import { Observable, throwError } from "rxjs";
-import { catchError, map } from "rxjs/operators";
-import { MoneyAmount } from "../../models/moneyAmount/money-amount.model";
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpErrorResponse, HttpHeaders} from "@angular/common/http";
+import {Observable, throwError} from "rxjs";
+import {catchError, map} from "rxjs/operators";
+import {MoneyAmount} from "../../models/moneyAmount/money-amount.model";
 
-const httpOptions = {headers: new HttpHeaders()
+const httpOptions = {
+  headers: new HttpHeaders()
     .set('Content-Type', 'application/json')
-    .set('authorization', localStorage.token)};
+    .set('Authorization', "bearer " + localStorage.getItem('token'))
+};
 
 const apiUrl = "https://localhost:5001";
 
@@ -18,16 +20,15 @@ export class MoneyAmountService {
   constructor(private http: HttpClient) { }
 
   getMoneyAmount(): Observable<any> {
-    const url = `${apiUrl}/moneyAmount`;
+    const url = `${apiUrl}/get-moneyAmount`;
     return this.http.get(url, httpOptions).pipe(
-      map((response:any)=>{
-        const moneyAmount = response;
-        if(moneyAmount.Result.Success){
-          console.log(moneyAmount.Result)
-          localStorage.setItem('moneyAmount',moneyAmount.Result.Payload);
+      map((response:any)=> {
+        const moneyAmount = response.Result;
+        if (moneyAmount.Success) {
+          console.log(moneyAmount.MoneyAmountViewModel)
+          localStorage.setItem('moneyAmount', JSON.stringify(moneyAmount.MoneyAmountViewModel));
         }
-      }),
-      catchError(this.handleError));
+      }))
   }
 
   updateMoneyAmount(data: MoneyAmount): Observable<any> {
@@ -36,9 +37,9 @@ export class MoneyAmountService {
       .pipe(
         map((response:any)=>{
           const moneyAmount = response;
-          if(moneyAmount.Result.Success){
+          if (moneyAmount.Success) {
             console.log(moneyAmount.Result)
-            localStorage.setItem('moneyAmount',moneyAmount.Result.Payload);
+            localStorage.setItem('moneyAmount', JSON.stringify(moneyAmount.moneyAmountViewModel));
           }
         }),
         catchError(this.handleError)

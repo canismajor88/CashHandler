@@ -88,10 +88,7 @@ namespace CashHandlerAPI.Controllers
                 var dbResult = _databaseHelper.GetMoneyAmountViewModel(username);
                 if (dbResult.Result.Success)
                 {
-                    return Ok(new Result
-                    {
-                        Payload = dbResult.Result
-                    });
+                    return Ok(dbResult);
                 }
 
                 return BadRequest();

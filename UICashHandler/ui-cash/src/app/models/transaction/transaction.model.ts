@@ -1,9 +1,8 @@
 import {MoneyAmount} from "../moneyAmount/money-amount.model";
 
-export class Transaction {
-  transactionId!: string;
-  userId!: string;
-  description?: string;
-  amount!: number;
-  transactionDate!: Date;
+export interface Transaction {
+  TransactionId: string;
+  Denominations: string;
+  Amount: number;
+  transactionDate: Date;
 }

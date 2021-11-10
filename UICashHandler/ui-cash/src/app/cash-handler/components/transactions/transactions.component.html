@@ -1,10 +1,15 @@
 <app-internal-nav></app-internal-nav>
 <body>
-<div class="container m-25-p-10">
+<div class="container m-26-p-15 mt-5">
   <div class="row">
-    <div class="col m-25-p-10 rounded-corners green-block">
-      <p>Under Construction :)</p>
+    <div *ngIf="!transactionsLoaded||!moneyAmountLoaded" class="col m-25-p-10 rounded-corners green-block">
+      <p>Loading</p>
+    </div>
+    <div *ngIf="transactionsLoaded&&moneyAmountLoaded" class="col m-25-p-10 rounded-corners">
+     <app-money-amounts-display></app-money-amounts-display>
     </div>
   </div>
+  <app-transaction-table></app-transaction-table>
 </div>
+
 </body>
