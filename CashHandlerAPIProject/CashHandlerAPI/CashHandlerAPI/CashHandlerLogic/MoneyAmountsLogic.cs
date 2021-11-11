@@ -149,7 +149,7 @@ namespace CashHandlerAPI.CashHandlerLogic
             if (moneyAmountViewModel.TensAmount - moneyAmountDb.TensAmount > 0)
                 output = output + (moneyAmountViewModel.TensAmount - moneyAmountDb.TensAmount) + " tens, ";
             if (moneyAmountViewModel.FivesAmount - moneyAmountDb.FivesAmount > 0)
-                output = output + (moneyAmountViewModel.FivesAmount - moneyAmountDb.FiftiesAmount) + " fives, ";
+                output = output + (moneyAmountViewModel.FivesAmount - moneyAmountDb.FivesAmount) + " fives, ";
             if (moneyAmountViewModel.OnesAmount - moneyAmountDb.OnesAmount > 0)
                 output = output + (moneyAmountViewModel.OnesAmount - moneyAmountDb.OnesAmount) + " ones, ";
             if (moneyAmountViewModel.DollarCoinAmount - moneyAmountDb.DollarCoinAmount > 0)
