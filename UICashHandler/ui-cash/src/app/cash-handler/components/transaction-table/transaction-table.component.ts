@@ -18,11 +18,14 @@ export class TransactionTableComponent implements OnInit {
     if (localStorage.getItem('moneyAmount') != null)
       this.populateTransactions()
   }
-  populateTransactions(){
+  populateTransactions() {
     let TransactionsStr: string | null = localStorage.getItem("transactions");
     if (TransactionsStr) {
-      this.transactions = JSON.parse(TransactionsStr) as Transaction ;
+      this.transactions = JSON.parse(TransactionsStr) as Transaction;
     }
-
   }
+  parseDateTime(dateboi: string){
+      let date = new Date(dateboi);
+      return date;
+    }
 }
