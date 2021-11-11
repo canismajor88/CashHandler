@@ -31,7 +31,7 @@ export class RunTransactionFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
   }
 
 

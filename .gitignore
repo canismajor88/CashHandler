@@ -278,6 +278,7 @@ UICashHandler/ui-cash/node_modules/
 
 # Angular crap that we don't need
 *.pack
+.angular/
 
 # Visual Studio 6 build log
 *.plg
