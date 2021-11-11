@@ -3,68 +3,126 @@
   <div class="container m-26-p-15 mt-5">
     <div class="row">
       <div class="col m-25-p-10 rounded-corners">
-        <h1>Money Amounts</h1>
+        <h1>Update Money Amount</h1>
         <legend>Total:<span style="color: green"> <i class="bi bi-currency-dollar"></i>{{total}}</span></legend>
       </div>
     </div>
   </div>
-      <div class="container">
-        <div class="row">
-          <div class="col-2">
-            <label for="hundreds" class="form-label">Hundreds</label>
-            <input type="text" id="hundreds" class="form-control" placeholder="{{hundreds}}">
-          </div>
-          <div class="col-2">
-            <label for="fifties" class="form-label">Fifties</label>
-            <input type="text" id="fifties" class="form-control" placeholder="{{halfDollars}}">
-          </div>
-          <div class="col-2">
-            <label for="twenties" class="form-label">Twenties</label>
-            <input type="text" id="twenties" class="form-control" placeholder="{{twenties}}">
-          </div>
-          <div class="col-2">
-            <label for="tens" class="form-label">Tens</label>
-            <input type="text" id="tens" class="form-control" placeholder="{{tens}}">
-          </div>
-          <div class="col-2">
-            <label for="fives" class="form-label">Fives</label>
-            <input type="text" id="fives" class="form-control" placeholder="{{fives}}">
-          </div>
-          <div class="col-2">
-            <label for="ones" class="form-label">Ones</label>
-            <input type="text" id="ones" class="form-control" placeholder="{{ones}}">
-          </div>
+  <div class="mb-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-2">
+          <label for="HundredsAmount" class="form-label">Hundreds</label>
+          <input type="number" id="HundredsAmount" class="form-control"
+                 name="HundredsAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #HundredsAmount ="ngModel"
+                 class="form-control"
+                 placeholder="0">
         </div>
-        <div class="row">
-          <div class="col-2">
-            <label for="dollarCoins" class="form-label" >Dollar Coins</label>
-            <input type="text" id="dollarCoins" class="form-control" placeholder="{{dollarCoins}}">
-          </div>
-          <div class="col-2">
-            <label for="halfDollar" class="form-label" >Half Dollars</label>
-            <input type="text" id="halfDollar" class="form-control" placeholder="{{halfDollars}}">
-          </div>
-          <div class="col-2">
-            <label for="quarters" class="form-label">Quarters</label>
-            <input type="text" id="quarters" class="form-control" placeholder="{{quarters}}">
-          </div>
-          <div class="col-2">
-            <label for="dimes" class="form-label">Dimes</label>
-            <input type="text" id="dimes" class="form-control" placeholder="{{dimes}}">
-          </div>
-          <div class="col-2">
-            <label for="nickles" class="form-label">Nickels</label>
-            <input type="text" id="nickles" class="form-control" placeholder="{{nickles}}">
-          </div>
-          <div class="col-2">
-            <label for="pennies" class="form-label">Pennies</label>
-            <input type="text" id="pennies" class="form-control" placeholder="{{pennies}}">
-          </div>
+        <div class="col-2">
+          <label for="FiftiesAmount" class="form-label">Fifties</label>
+          <input type="number" id="FiftiesAmount" class="form-control"
+                 name="FiftiesAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #FiftiesAmount ="ngModel"
+                 class="form-control"
+                 placeholder="0">
         </div>
-        <button type="submit"
-                [disabled]="f.invalid"
-                class="btn btn-primary"><i class="bi bi-upload"></i>Update Money Amount</button>
+        <div class="col-2">
+          <label for="TwentiesAmount" class="form-label">Twenties</label>
+          <input type="number" id="TwentiesAmount" class="form-control"
+                 name="TwentiesAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #TwentiesAmount="ngModel"placeholder="0">
+        </div>
+        <div class="col-2">
+          <label for="TensAmount" class="form-label">Tens</label>
+          <input type="number" id="TensAmount" class="form-control"
+                 name="TensAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #TensAmount="ngModel"
+                 placeholder="0">
+        </div>
+        <div class="col-2">
+          <label for="FivesAmount" class="form-label">Fives</label>
+          <input type="number" id="FivesAmount" class="form-control"
+                 name="FivesAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #FivesAmount="ngModel"placeholder="0">
+        </div>
+        <div class="col-2">
+          <label for="OnesAmount" class="form-label">Ones</label>
+          <input type="number" id="OnesAmount" class="form-control"
+                 name="OnesAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #OnesAmount="ngModel"placeholder="0">
+        </div>
       </div>
+      <div class="row">
+        <div class="col-2">
+          <label for="DollarCoinAmount" class="form-label" >Dollar Coins</label>
+          <input type="number" id="DollarCoinAmount" class="form-control"
+                 name="DollarCoinAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #DollarCoinAmount="ngModel"placeholder="0">
+        </div>
+        <div class="col-2">
+          <label for="HalfDollarAmount" class="form-label" >Half Dollars</label>
+          <input type="number" id="HalfDollarAmount" class="form-control"
+                 name="HalfDollarAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #HalfDollarAmount="ngModel"
+                 placeholder="0">
+        </div>
+        <div class="col-2">
+          <label for="QuartersAmount" class="form-label">Quarters</label>
+          <input type="number" id="QuartersAmount" class="form-control"
+                 name="QuartersAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #QuartersAmount="ngModel" placeholder="0">
+        </div>
+        <div class="col-2">
+          <label for="DimesAmount" class="form-label">Dimes</label>
+          <input type="number" id="DimesAmount" class="form-control"
+                 name="DimesAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #DimesAmount="ngModel"placeholder="0">
+        </div>
+        <div class="col-2">
+          <label for="NicklesAmount" class="form-label">Nickels</label>
+          <input type="number" id="NicklesAmount" class="form-control"
+                 name="NicklesAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #NicklesAmount="ngModel"
+                 placeholder="0">
+        </div>
+        <div class="col-2">
+          <label for="PenniesAmount" class="form-label">Pennies</label>
+          <input type="number" id="PenniesAmount" class="form-control"
+                 name="PenniesAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #PenniesAmount="ngModel"placeholder="0">
+        </div>
+      </div>
+      <button type="submit"
+              [disabled]="f.invalid"
+              class="btn btn-primary"><i class="bi bi-cash-coin"></i>Run Transaction</button>
+    </div>
+  </div>
+</form>
   <form #f="ngForm" (ngSubmit)="updateMoneyAmounts(f)">
     <div class="container m-26-p-15 mt-5">
       <div class="row">
