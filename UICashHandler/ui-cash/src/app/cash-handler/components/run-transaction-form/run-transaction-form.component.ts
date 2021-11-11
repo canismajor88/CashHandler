@@ -1,39 +1,87 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { NgForm } from "@angular/forms";
 import { TransactionsService } from "../../../services/transactions/transactions.service";
+
+
+
 @Component({
   selector: 'app-run-transaction-form',
   templateUrl: './run-transaction-form.component.html',
   styleUrls: ['./run-transaction-form.component.css']
 })
+
+
 export class RunTransactionFormComponent implements OnInit {
   hasSubmitted=false;
   transactionSuccess=false;
   transactionError=false;
-  form: any;
   defaultVal = 0;
+  totalCashIn = 0;
+  transaction = {
+    hundredsAmount: this.defaultVal,
+    fiftiesAmount: this.defaultVal,
+    twentiesAmount: this.defaultVal,
+    tensAmount: this.defaultVal,
+    fivesAmount: this.defaultVal,
+    onesAmount: this.defaultVal,
+    dollarCoinAmount: this.defaultVal,
+    halfDollarsAmount: this.defaultVal,
+    quartersAmount: this.defaultVal,
+    dimesAmount: this.defaultVal,
+    nickelsAmount: this.defaultVal,
+    penniesAmount: this.defaultVal,
+    description: "",
+  };
+
   giveBack: string | null ="error has occurred";
   constructor(private transService :TransactionsService) {
-    // f.setValue({
-    //   HundredsAmount: this.defaultVal,
-    //   FiftiesAmount: this.defaultVal,
-    //   TwentiesAmount: this.defaultVal,
-    //   TensAmount: this.defaultVal,
-    //   FivesAmount: this.defaultVal,
-    //   OnesAmount: this.defaultVal,
-    //   DollarCoinAmount: this.defaultVal,
-    //   HalfDollarAmount: this.defaultVal,
-    //   QuartersAmount: this.defaultVal,
-    //   DimesAmount: this.defaultVal,
-    //   NicklesAmount: this.defaultVal,
-    //   PenniesAmount: this.defaultVal,
-    // });
   }
 
   ngOnInit(): void {
-
   }
 
+  convertToCurrency(amount: number) {
+    return amount.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+    });
+  }
+
+  getHundredsValue() {
+    return this.convertToCurrency(this.transaction.hundredsAmount * 100);
+  }
+
+  getFiftiesValue() {
+    return this.convertToCurrency(this.transaction.fiftiesAmount * 50);
+  }
+  getTwentiesValue() {
+    return this.convertToCurrency(this.transaction.twentiesAmount * 20);
+  }
+  getTensValue() {
+    return this.convertToCurrency(this.transaction.tensAmount * 10);
+  }
+  getFivesValue() {
+    return this.convertToCurrency(this.transaction.fivesAmount * 5);
+  }
+  getOnesValue() {
+    return this.convertToCurrency(this.transaction.onesAmount * 1);
+  }
+  getHalfDollarsValue() {
+    return this.convertToCurrency(this.transaction.halfDollarsAmount * 0.5);
+  }
+  getQuartersValue() {
+    return this.convertToCurrency(this.transaction.quartersAmount * 0.25);
+  }
+  getDimesValue() {
+    return this.convertToCurrency(this.transaction.dimesAmount * 0.10);
+  }
+  getNickelsValue() {
+    return this.convertToCurrency(this.transaction.nickelsAmount * 0.05);
+  }
+  getPenniesValue() {
+    return this.convertToCurrency(this.transaction.penniesAmount * 0.01);
+  }
 
   runTransaction(f: NgForm) {
     this.hasSubmitted=true;
