@@ -7,7 +7,6 @@ import {TransactionsService} from "../../../services/transactions/transactions.s
   styleUrls: ['./run-trasaction-form.component.css']
 })
 export class RunTrasactionFormComponent implements OnInit {
-  defaultValue="0"
   hasSubmitted=false;
   transactionSuccess=false;
   transactionError=false
@@ -17,12 +16,7 @@ export class RunTrasactionFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  OnInit(f: NgForm): void {
-    f.HundredsAmo.setValue();
-  }
-
   runTransaction(f: NgForm) {
-    console.log(f.value);
   this.hasSubmitted=true;
  this.transService.runTransaction(f.value).subscribe(x=>{
    this.giveBack=localStorage.getItem('giveBackString')

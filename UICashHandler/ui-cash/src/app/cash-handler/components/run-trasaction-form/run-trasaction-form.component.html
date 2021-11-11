@@ -2,7 +2,7 @@
 <div class="row">
   <form #f="ngForm" (ngSubmit)="runTransaction(f)">
   <div class="mb-3">
-    <legend>Enter Cash Amount</legend>
+    <legend>Money Amounts Customer Has Given</legend>
     <div class="container">
       <div class="row">
         <div class="col-2">
@@ -10,62 +10,53 @@
           <input type="number" id="HundredsAmount" class="form-control"
                  name="HundredsAmount"
                  ngModel
-                 required
-                 pattern="\s*\d*"
+                 required pattern="\s*\d*"
                  #HundredsAmount ="ngModel"
                  class="form-control"
-                 value="0">
+                 placeholder="0">
         </div>
         <div class="col-2">
           <label for="FiftiesAmount" class="form-label">Fifties</label>
           <input type="number" id="FiftiesAmount" class="form-control"
                  name="FiftiesAmount"
                  ngModel
-                 required
-                 pattern="\s*\d*"
+                 required pattern="\s*\d*"
                  #FiftiesAmount ="ngModel"
                  class="form-control"
-                 value="0">
+                 placeholder="0">
         </div>
         <div class="col-2">
           <label for="TwentiesAmount" class="form-label">Twenties</label>
           <input type="number" id="TwentiesAmount" class="form-control"
                  name="TwentiesAmount"
                  ngModel
-                 required
-                 pattern="\s*\d*"
-                 #TwentiesAmount="ngModel"
-                 value="0">
+                 required pattern="\s*\d*"
+                 #TwentiesAmount="ngModel"placeholder="0">
         </div>
         <div class="col-2">
           <label for="TensAmount" class="form-label">Tens</label>
           <input type="number" id="TensAmount" class="form-control"
                  name="TensAmount"
                  ngModel
-                 required
-                 pattern="\s*\d*"
+                 required pattern="\s*\d*"
                  #TensAmount="ngModel"
-                 value="0">
+                 placeholder="0">
         </div>
         <div class="col-2">
           <label for="FivesAmount" class="form-label">Fives</label>
           <input type="number" id="FivesAmount" class="form-control"
                  name="FivesAmount"
                  ngModel
-                 required
-                 pattern="\s*\d*"
-                 #FivesAmount="ngModel"
-                 value="0">
+                 required pattern="\s*\d*"
+                 #FivesAmount="ngModel"placeholder="0">
         </div>
         <div class="col-2">
           <label for="OnesAmount" class="form-label">Ones</label>
           <input type="number" id="OnesAmount" class="form-control"
                  name="OnesAmount"
                  ngModel
-                 required
-                 pattern="\s*\d*"
-                 #OnesAmount="ngModel"
-                 value="0">
+                 required pattern="\s*\d*"
+                 #OnesAmount="ngModel"placeholder="0">
         </div>
       </div>
       <div class="row">
@@ -74,60 +65,50 @@
           <input type="number" id="DollarCoinAmount" class="form-control"
                  name="DollarCoinAmount"
                  ngModel
-                 required
-                 pattern="\s*\d*"
-                 #DollarCoinAmount="ngModel"
-                 value="0">
+                 required pattern="\s*\d*"
+                 #DollarCoinAmount="ngModel"placeholder="0">
         </div>
         <div class="col-2">
           <label for="HalfDollarAmount" class="form-label" >Half Dollars</label>
           <input type="number" id="HalfDollarAmount" class="form-control"
                  name="HalfDollarAmount"
                  ngModel
-                 required
-                 pattern="\s*\d*"
+                 required pattern="\s*\d*"
                  #HalfDollarAmount="ngModel"
-                 value="0">
+                 placeholder="0">
         </div>
         <div class="col-2">
           <label for="QuartersAmount" class="form-label">Quarters</label>
           <input type="number" id="QuartersAmount" class="form-control"
                  name="QuartersAmount"
                  ngModel
-                 required
-                 pattern="\s*\d*"
-                 #QuartersAmount="ngModel"
-                 value="0">
+                 required pattern="\s*\d*"
+                 #QuartersAmount="ngModel" placeholder="0">
         </div>
         <div class="col-2">
           <label for="DimesAmount" class="form-label">Dimes</label>
           <input type="number" id="DimesAmount" class="form-control"
                  name="DimesAmount"
                  ngModel
-                 required
-                 pattern="\s*\d*"
-                 #DimesAmount="ngModel"
-                 value="0">
+                 required pattern="\s*\d*"
+                 #DimesAmount="ngModel"placeholder="0">
         </div>
         <div class="col-2">
           <label for="NicklesAmount" class="form-label">Nickels</label>
           <input type="number" id="NicklesAmount" class="form-control"
                  name="NicklesAmount"
                  ngModel
-                 required
-                 pattern="\s*\d*"
+                 required pattern="\s*\d*"
                  #NicklesAmount="ngModel"
-                 value="0">
+                 placeholder="0">
         </div>
         <div class="col-2">
           <label for="PenniesAmount" class="form-label">Pennies</label>
           <input type="number" id="PenniesAmount" class="form-control"
                  name="PenniesAmount"
                  ngModel
-                 required
-                 pattern="\s*\d*"
-                 #PenniesAmount="ngModel"
-                 value="0">
+                 required pattern="\s*\d*"
+                 #PenniesAmount="ngModel"placeholder="0">
         </div>
       </div>
       <div class="col-2">
@@ -159,13 +140,16 @@
     <div class="alert alert-primary" *ngIf="hasSubmitted" role="alert">
       Loading
     </div>
-    <div class="col-md-6 offset-md-3 mt-4">
-      <div class="alert alert-primary" *ngIf="transactionSuccess" role="alert">
-        {{giveBack}}
-      </div>
-      <div class="alert alert-warning" *ngIf="transactionError" role="alert">
-        {{giveBack}}
-      </div>
+  <div class="col-md-6 offset-md-3 mt-4">
+    <div class="alert alert-primary" *ngIf="transactionSuccess" role="alert">
+      {{giveBack}}
+    </div>
+    <div class="alert alert-warning" *ngIf="transactionError" role="alert">
+      {{giveBack}}
     </div>
   </div>
 </div>
+</div>
+
+
+

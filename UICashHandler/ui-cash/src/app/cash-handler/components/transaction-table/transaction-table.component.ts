@@ -13,20 +13,16 @@ export class TransactionTableComponent implements OnInit {
   constructor(private router: Router) { }
 
   ngOnInit(): void {
-    let token = localStorage.getItem('token');
+    let token = localStorage.getItem('token')
     if (token == "" || token == null) this.router.navigate(['/login']);
     if (localStorage.getItem('moneyAmount') != null)
-      this.populateTransactions();
+      this.populateTransactions()
   }
   populateTransactions(){
     let TransactionsStr: string | null = localStorage.getItem("transactions");
     if (TransactionsStr) {
       this.transactions = JSON.parse(TransactionsStr) as Transaction ;
     }
-  }
-  parseDateTime(dateboi: string){
-    //@ts-ignore
-    let date = new Date(dateboi);
-   return (date);
+
   }
 }

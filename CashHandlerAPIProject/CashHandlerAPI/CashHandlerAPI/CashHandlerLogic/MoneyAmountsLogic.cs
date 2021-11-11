@@ -46,7 +46,7 @@ namespace CashHandlerAPI.CashHandlerLogic
            
             moneyAmountDB.TwentiesAmount -=
                 TransactionAmountsProcessor((int)moneyAmountDB.TwentiesAmount, 20, realTotal, moneyAmountDB);
-            if (moneyAmountDB.TwentiesAmount < moneyAmountTemp.TwentiesAmount) isChangeMade = true;
+            if (moneyAmountDB.TwentiesAmount <= moneyAmountTemp.TwentiesAmount) isChangeMade = true;
            
             moneyAmountDB.TensAmount -=
                 TransactionAmountsProcessor((int)moneyAmountDB.TensAmount, 10, realTotal, moneyAmountDB);
