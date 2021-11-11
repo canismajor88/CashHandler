@@ -11,7 +11,7 @@
   <tr *ngFor="let transaction of transactions">
     <th scope="row"><span style="color: darkgreen"><i class="bi bi-cash-coin"></i>{{transaction.Amount}}</span></th>
     <td>{{transaction.Denominations}}</td>
-    <td>{{transaction.TransDate}}</td>
+    <td>{{parseDateTime(transaction.TransDate)}}</td>
 
   </tr>
 </table>
