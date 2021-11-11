@@ -274,7 +274,10 @@ FakesAssemblies/
 # Node.js Tools for Visual Studio
 .ntvs_analysis.dat
 node_modules/
-UICashHandler/ui-cash/node_modules
+UICashHandler/ui-cash/node_modules/
+
+# Angular crap that we don't need
+*.pack
 
 # Visual Studio 6 build log
 *.plg
@@ -284,6 +287,9 @@ UICashHandler/ui-cash/node_modules
 
 # Visual Studio 6 auto-generated workspace file (contains which files were open etc.)
 *.vbw
+
+WebStorm settings
+.editorconfig
 
 # Visual Studio LightSwitch build output
 **/*.HTMLClient/GeneratedArtifacts
