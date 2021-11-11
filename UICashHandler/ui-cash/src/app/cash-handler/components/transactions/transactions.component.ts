@@ -10,48 +10,48 @@ import {TransactionsService} from "../../../services/transactions/transactions.s
   styleUrls: ['./transactions.component.css']
 })
 export class TransactionsComponent implements OnInit {
-   moneyAmountLoaded=false
-  transactionsLoaded=false
+  moneyAmountLoaded = false
+  transactionsLoaded = false
 
-  constructor(private moneyAmountService : MoneyAmountService, private router: Router, private  transactionService: TransactionsService) {
-    let token=  localStorage.getItem('token')
-    if(token==""||token==null) this.router.navigate(['/login']);
+  constructor(private moneyAmountService: MoneyAmountService, private router: Router, private transactionService: TransactionsService) {
+    let token = localStorage.getItem('token')
+    if (token == "" || token == null) this.router.navigate(['/login']);
     this.populatePage()
   }
 
   ngOnInit(): void {
-    let token=  localStorage.getItem('token')
-    if(token==""||token==null) this.router.navigate(['/login']);
+    let token = localStorage.getItem('token')
+    if (token == "" || token == null) this.router.navigate(['/login']);
     console.log("init")
 
     this.populatePage()
   }
-  reLoadpage(){
+
+  reLoadpage() {
     window.location.reload();
   }
-  populatePage(){
 
-    this.transactionService.getTransactions().subscribe(()=>{
-      this.transactionsLoaded=true
-    },() =>
-    {
+  populatePage() {
+
+    this.transactionService.getTransactions().subscribe(() => {
+      this.transactionsLoaded = true
+    }, () => {
       //if error try again
-      this.transactionService.getTransactions().subscribe(()=>{
-        this.transactionsLoaded=true
-      },error =>
-      {
-        this.transactionsLoaded=false
+      this.transactionService.getTransactions().subscribe(() => {
+        this.transactionsLoaded = true
+      }, error => {
+        this.transactionsLoaded = false
         console.log(error)
       })
     })
-    this.moneyAmountService.getMoneyAmount().subscribe(()=>{
-      this.moneyAmountLoaded=true
-    },()=>{
+    this.moneyAmountService.getMoneyAmount().subscribe(() => {
+      this.moneyAmountLoaded = true
+    }, () => {
       //if error try again
-      this.moneyAmountService.getMoneyAmount().subscribe(()=>{
-        this.moneyAmountLoaded=true
-      },error=>{
-        this.router.routeReuseStrategy.shouldReuseRoute = function(){
+      this.moneyAmountService.getMoneyAmount().subscribe(() => {
+        this.moneyAmountLoaded = true
+      }, error => {
+        this.router.routeReuseStrategy.shouldReuseRoute = function () {
           return false;
         };
         this.router.events.subscribe((evt) => {
@@ -62,11 +62,10 @@ export class TransactionsComponent implements OnInit {
             window.scrollTo(0, 0);
           }
         });
-        this.moneyAmountLoaded=false
+        this.moneyAmountLoaded = false
         console.log(error)
       })
     })
-
 
 
   }
