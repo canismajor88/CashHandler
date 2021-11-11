@@ -1,0 +1,77 @@
+<app-nav-bar></app-nav-bar>
+<div class="row pt-5">
+  <div class="col-md-6 offset-md-3 mt-4">
+    <h3>Register</h3>
+    <form #f="ngForm"
+          (ngSubmit)="register(f)">
+      <div class="form-group">
+        <label for="loginUsername">Email</label>
+        <input type="text"
+               name="Email"
+               ngModel
+               required pattern="[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+"
+               #email="ngModel"
+               class="form-control"
+               id="Email"
+               placeholder="Enter Email">
+        <div *ngIf="!email.valid && email.touched"> Email is not valid </div>
+      </div>
+      <div class="form-group">
+        <label for="loginUsername">Username</label>
+        <input type="text"
+               name="username"
+               ngModel
+               required
+               #username="ngModel"
+               class="form-control"
+               id="loginUsername"
+               placeholder="Enter username">
+        <div *ngIf="!username.valid && username.touched"> Username is not valid </div>
+      </div>
+      <hr/>
+      <p></p>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password"
+               name="password"
+               ngModel
+               required pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$"
+               #password="ngModel"
+               class="form-control"
+               id="RegisterPassword"
+               placeholder="Password">
+        <div *ngIf="!password.valid && password.touched">
+          Password requires at least 8 characters, one upper case, one lower case,and one special character
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Re-Enter Password</label>
+        <input type="password"
+               name="passwordConfirm"
+               ngModel
+               required pattern="^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$"
+               #passwordConfirm="ngModel"
+               class="form-control"
+               id="loginPassword"
+               placeholder="Password">
+        <div *ngIf="passwordConfirm.value != password.value"> Passwords does not match</div>
+      </div>
+      <button type="submit"
+              [disabled]="f.invalid"
+              class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i>Register</button>
+      <div *ngIf="userCreated"> <a [routerLink]="['/login']">Login</a></div>
+    </form>
+    <div class="col-md-6 offset-md-3 mt-4">
+      <div class="alert alert-primary" *ngIf="userSubmitted" role="alert">
+       Loading
+      </div>
+      <div class="alert alert-primary" *ngIf="userCreated" role="alert">
+        Account Created Check Email for Account Verification
+      </div>
+      <div class="alert alert-warning" *ngIf="creationError" role="alert">
+        Username or Email was taken
+      </div>
+    </div>
+  </div>
+</div>
+<svg class="fixed-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#24cba7" fill-opacity="1" d="M0,64L48,85.3C96,107,192,149,288,186.7C384,224,480,256,576,229.3C672,203,768,117,864,74.7C960,32,1056,32,1152,74.7C1248,117,1344,203,1392,245.3L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>

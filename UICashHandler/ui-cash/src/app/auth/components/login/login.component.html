@@ -1,0 +1,57 @@
+<app-nav-bar></app-nav-bar>
+<div class="row pt-5 ">
+  <div class="col-md-6 offset-md-3 mt-4">
+    <h3>Login</h3>
+    <form #f="ngForm"
+          (ngSubmit)="login(f)">
+      <div class="form-group">
+        <label for="loginUsername">Username</label>
+        <input type="text"
+               name="username"
+               ngModel
+               required
+               #username="ngModel"
+               class="form-control"
+               id="loginUsername"
+               placeholder="Enter username">
+        <div *ngIf="!username.valid && username.touched"> Username is not valid </div>
+      </div>
+      <hr/>
+      <p></p>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input type="password"
+               name="password"
+               ngModel
+               required
+               #password="ngModel"
+               class="form-control"
+               id="loginPassword"
+               placeholder="Password">
+        <div *ngIf="!password.valid && password.touched"> Password is not valid </div>
+      </div>
+      <div class="form-group form-check">
+      </div>
+      <button type="submit"
+              [disabled]="f.invalid"
+              class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i>Login</button>
+      <div class="text-danger" *ngIf="loginError"> Username or Password was not valid </div>
+      <div> <a [routerLink]="['/reset-password']">Forgot Password</a></div>
+    </form>
+  </div>
+</div>
+<div class="col-md-6 offset-md-3 mt-4">
+  <div class="alert alert-primary" *ngIf="loginAttempted" role="alert">
+    Loading
+  </div>
+  <div class="alert alert-primary" *ngIf="loginSuccess" role="alert">
+  This is a place holder we will navigate to cash handler home
+  </div>
+  <div class="alert alert-warning" *ngIf="loginError" role="alert">
+    Username or password is incorrect or Account my not be verified. Please check email
+  </div>
+
+</div>
+
+  <svg class="fixed-bottom" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="#24cba7" fill-opacity="1" d="M0,64L48,85.3C96,107,192,149,288,186.7C384,224,480,256,576,229.3C672,203,768,117,864,74.7C960,32,1056,32,1152,74.7C1248,117,1344,203,1392,245.3L1440,288L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+
