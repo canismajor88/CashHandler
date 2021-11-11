@@ -1,0 +1,203 @@
+<div class="container m-26-p-15 mt-5">
+  <div class="row">
+    <form id="transForm" #f="ngForm" (ngSubmit)="runTransaction(f)">
+      <div class="mb-3">
+
+
+        <div class="container card">
+
+          <div class="row">
+            <div class="col-12">
+              <h3>Transaction Details</h3>
+              <h5>Enter transaction total and description</h5>
+            </div>
+          </div>
+
+          <div class="row first-row">
+            <div class="col-sm-4">
+              <label for="TransactionAmount" class="form-label" >Purchase Total</label>
+            </div>
+            <div class="col-sm-4">
+              <input type="number" id="TransactionAmount" class="form-control"
+                     name="TransactionAmount" ngModel required placeholder="0.00">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <label for="description" class="form-label" >Description</label>
+            </div>
+            <div class="col-sm-8">
+              <input type="text" id="description" class="form-control" name="description"
+                     required [(ngModel)]="transaction.description"
+                     placeholder="ID / Type / General Info">
+            </div>
+          </div>
+
+        </div>
+        <div class="container card">
+
+          <div class="row">
+            <div class="col-12">
+              <h3>Cash In</h3>
+              <h5>Enter the count of each denomination</h5>
+            </div>
+          </div>
+
+          <div class="row first-row">
+            <div class="col-sm-4">
+              <label for="HundredsAmount" class="form-label">Hundreds</label>
+            </div>
+            <div class="col-sm-4">
+              <input type="number" id="HundredsAmount" class="form-control" name="HundredsAmount"
+                     required pattern="\s*\d*" [(ngModel)]="transaction.hundredsAmount">
+            </div>
+            <div class="col-sm-4 display-currency">{{getHundredsValue()}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-4">
+              <label for="FiftiesAmount" class="form-label">Fifties</label>
+            </div>
+            <div class="col-sm-4">
+              <input type="number" id="FiftiesAmount" class="form-control" name="FiftiesAmount"
+                     required pattern="\s*\d*" [(ngModel)]="transaction.fiftiesAmount">
+            </div>
+            <div class="col-sm-4 display-currency">{{getFiftiesValue()}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <label for="TwentiesAmount" class="form-label">Twenties</label>
+            </div>
+            <div class="col-sm-4">
+              <input type="number" id="TwentiesAmount" class="form-control" name="TwentiesAmount"
+                     required pattern="\s*\d*" [(ngModel)]="transaction.twentiesAmount">
+            </div>
+            <div class="col-sm-4 display-currency">{{getTwentiesValue()}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <label for="TensAmount" class="form-label">Tens</label>
+            </div>
+            <div class="col-sm-4">
+              <input type="number" id="TensAmount" class="form-control" name="TensAmount"
+                     required pattern="\s*\d*" [(ngModel)]="transaction.tensAmount">
+            </div>
+            <div class="col-sm-4 display-currency">{{getTensValue()}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <label for="FivesAmount" class="form-label">Fives</label>
+            </div>
+            <div class="col-sm-4">
+              <input type="number" id="FivesAmount" class="form-control" name="FivesAmount"
+                     required pattern="\s*\d*" [(ngModel)]="transaction.fivesAmount">
+            </div>
+            <div class="col-sm-4 display-currency">{{getFivesValue()}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <label for="OnesAmount" class="form-label">Ones</label>
+            </div>
+            <div class="col-sm-4">
+              <input type="number" id="OnesAmount" class="form-control" name="OnesAmount"
+                     required pattern="\s*\d*" [(ngModel)]="transaction.onesAmount">
+            </div>
+            <div class="col-sm-4 display-currency">{{getOnesValue()}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <label for="DollarCoinAmount" class="form-label" >Dollar Coins</label>
+            </div>
+            <div class="col-sm-4">
+              <input type="number" id="DollarCoinAmount" class="form-control" name="DollarCoinAmount"
+                     required pattern="\s*\d*" [(ngModel)]="transaction.dollarCoinAmount">
+            </div>
+            <div class="col-sm-4 display-currency">{{getOnesValue()}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <label for="HalfDollarAmount" class="form-label" >Half Dollars</label>
+            </div>
+            <div class="col-sm-4">
+              <input type="number" id="HalfDollarAmount" class="form-control" name="HalfDollarAmount"
+                     required pattern="\s*\d*" [(ngModel)]="transaction.halfDollarsAmount">
+            </div>
+            <div class="col-sm-4 display-currency">{{getHalfDollarsValue()}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <label for="QuartersAmount" class="form-label">Quarters</label>
+            </div>
+            <div class="col-sm-4">
+              <input type="number" id="QuartersAmount" class="form-control" name="QuartersAmount"
+                     required pattern="\s*\d*" [(ngModel)]="transaction.quartersAmount">
+            </div>
+            <div class="col-sm-4 display-currency">{{getQuartersValue()}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <label for="DimesAmount" class="form-label">Dimes</label>
+            </div>
+            <div class="col-sm-4">
+              <input type="number" id="DimesAmount" class="form-control" name="DimesAmount"
+                     required pattern="\s*\d*" [(ngModel)]="transaction.dimesAmount">
+            </div>
+            <div class="col-sm-4 display-currency">{{getDimesValue()}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <label for="NicklesAmount" class="form-label">Nickels</label>
+            </div>
+            <div class="col-sm-4">
+              <input type="number" id="NicklesAmount" class="form-control" name="NicklesAmount"
+                     required pattern="\s*\d*" [(ngModel)]="transaction.nickelsAmount">
+            </div>
+            <div class="col-sm-4 display-currency">{{getNickelsValue()}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-sm-4">
+              <label for="PenniesAmount" class="form-label">Pennies</label>
+            </div>
+            <div class="col-sm-4">
+              <input type="number" id="PenniesAmount" class="form-control" name="PenniesAmount"
+                     required pattern="\s*\d*" [(ngModel)]="transaction.penniesAmount">
+            </div>
+            <div class="col-sm-4 display-currency">{{getPenniesValue()}}</div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <button type="submit" [disabled]="f.invalid" class="btn btn-primary" id="submit-btn">
+                Run Transaction <i class="bi bi-cash-coin"></i>
+              </button>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </form>
+    <div class="col-md-6 offset-md-3 mt-4">
+      <td class="alert alert-primary" *ngIf="hasSubmitted" role="alert">Loading</td>
+    </div>
+    <div class="col-md-6 offset-md-3 mt-4">
+      <div class="alert alert-primary" *ngIf="transactionSuccess" role="alert">
+        {{giveBack}}
+      </div>
+      <div class="alert alert-warning" *ngIf="transactionError" role="alert">
+        {{giveBack}}
+      </div>
+    </div>
+  </div>
+</div>
