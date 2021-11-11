@@ -19,7 +19,7 @@
                  required pattern="\s*\d*"
                  #HundredsAmount ="ngModel"
                  class="form-control"
-                 placeholder="0">
+                 placeholder="{{hundreds}}">
         </div>
         <div class="col-2">
           <label for="FiftiesAmount" class="form-label">Fifties</label>
@@ -29,7 +29,7 @@
                  required pattern="\s*\d*"
                  #FiftiesAmount ="ngModel"
                  class="form-control"
-                 placeholder="0">
+                 placeholder="{{fifties}}">
         </div>
         <div class="col-2">
           <label for="TwentiesAmount" class="form-label">Twenties</label>
@@ -37,7 +37,7 @@
                  name="TwentiesAmount"
                  ngModel
                  required pattern="\s*\d*"
-                 #TwentiesAmount="ngModel"placeholder="0">
+                 #TwentiesAmount="ngModel"placeholder="{{twenties}}">
         </div>
         <div class="col-2">
           <label for="TensAmount" class="form-label">Tens</label>
@@ -46,7 +46,7 @@
                  ngModel
                  required pattern="\s*\d*"
                  #TensAmount="ngModel"
-                 placeholder="0">
+                 placeholder="{{tens}}">
         </div>
         <div class="col-2">
           <label for="FivesAmount" class="form-label">Fives</label>
@@ -54,7 +54,7 @@
                  name="FivesAmount"
                  ngModel
                  required pattern="\s*\d*"
-                 #FivesAmount="ngModel"placeholder="0">
+                 #FivesAmount="ngModel"placeholder="{{fives}}">
         </div>
         <div class="col-2">
           <label for="OnesAmount" class="form-label">Ones</label>
@@ -62,7 +62,7 @@
                  name="OnesAmount"
                  ngModel
                  required pattern="\s*\d*"
-                 #OnesAmount="ngModel"placeholder="0">
+                 #OnesAmount="ngModel"placeholder="{{ones}}">
         </div>
       </div>
       <div class="row">
@@ -72,7 +72,7 @@
                  name="DollarCoinAmount"
                  ngModel
                  required pattern="\s*\d*"
-                 #DollarCoinAmount="ngModel"placeholder="0">
+                 #DollarCoinAmount="ngModel"placeholder="{{dollarCoins}}">
         </div>
         <div class="col-2">
           <label for="HalfDollarAmount" class="form-label" >Half Dollars</label>
@@ -81,7 +81,7 @@
                  ngModel
                  required pattern="\s*\d*"
                  #HalfDollarAmount="ngModel"
-                 placeholder="0">
+                 placeholder="{{halfDollars}}">
         </div>
         <div class="col-2">
           <label for="QuartersAmount" class="form-label">Quarters</label>
@@ -89,7 +89,7 @@
                  name="QuartersAmount"
                  ngModel
                  required pattern="\s*\d*"
-                 #QuartersAmount="ngModel" placeholder="0">
+                 #QuartersAmount="ngModel" placeholder="{{quarters}}">
         </div>
         <div class="col-2">
           <label for="DimesAmount" class="form-label">Dimes</label>
@@ -97,7 +97,7 @@
                  name="DimesAmount"
                  ngModel
                  required pattern="\s*\d*"
-                 #DimesAmount="ngModel"placeholder="0">
+                 #DimesAmount="ngModel"placeholder="{{dimes}}">
         </div>
         <div class="col-2">
           <label for="NicklesAmount" class="form-label">Nickels</label>
@@ -106,7 +106,7 @@
                  ngModel
                  required pattern="\s*\d*"
                  #NicklesAmount="ngModel"
-                 placeholder="0">
+                 placeholder="{{nickles}}">
         </div>
         <div class="col-2">
           <label for="PenniesAmount" class="form-label">Pennies</label>
@@ -114,12 +114,12 @@
                  name="PenniesAmount"
                  ngModel
                  required pattern="\s*\d*"
-                 #PenniesAmount="ngModel"placeholder="0">
+                 #PenniesAmount="ngModel"placeholder="{{pennies}}">
         </div>
       </div>
       <button type="submit"
               [disabled]="f.invalid"
-              class="btn btn-primary"><i class="bi bi-cash-coin"></i>Run Transaction</button>
+              class="btn btn-primary"><i class="bi bi-cash-coin"></i>Update Money Amount</button>
     </div>
   </div>
 </form>

@@ -30,7 +30,7 @@ namespace CashHandlerAPI.Helper
 
         public Task<GetMoneyAmountResult> GetMoneyAmountViewModel(string username);
         public Task<bool> UpdateMoneyAmount(MoneyAmountViewModel moneyAmountViewModel, string username);
-
+        public Task<ReBalanceResult> ReBalanceMoneyAmount(decimal targetAmount, string username);
         #endregion
 
 

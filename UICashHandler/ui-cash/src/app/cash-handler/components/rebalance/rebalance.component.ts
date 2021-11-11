@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {MoneyAmount} from "../../../models/moneyAmount/money-amount.model";
 import {Router} from "@angular/router";
-
+import { NgForm } from "@angular/forms";
+import {MoneyAmountService} from "../../../services/money-amount/money-amount.service";
 @Component({
   selector: 'app-rebalance',
   templateUrl: './rebalance.component.html',
@@ -23,7 +24,7 @@ export class RebalanceComponent implements OnInit {
   total="0"
   moneyAmounts: any
 
-  constructor(private router: Router) {
+  constructor(private router: Router, private moneyAmountService:MoneyAmountService) {
   }
 
   ngOnInit(): void {
@@ -54,7 +55,14 @@ export class RebalanceComponent implements OnInit {
 
   }
 
-  updateMoneyAmounts(f: any) {
+  updateMoneyAmounts(f: NgForm) {
+    console.log(f.value)
+  this.moneyAmountService.updateMoneyAmount(f.value).subscribe(()=>{
+    window.location.reload();
+  },error => {console.log(error)})
+  }
+
+  ReBalanceMoneyAmounts(f: NgForm) {
 
   }
 }
