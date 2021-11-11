@@ -29,7 +29,7 @@ namespace CashHandlerAPI.CashHandlerLogic
             moneyAmountDB = AddMoneyAmounts(moneyAmountDB, moneyAmountViewModel);//update money amount to what user has given us before we make change
             
             //creates a temp money amount to detect if change was made
-            var moneyAmountTemp = UpdateMoneyAmount(moneyAmountDB, CreateMoneyAmountViewModel(moneyAmountDB));
+            var moneyAmountTemp = CreateMoneyAmountViewModel(moneyAmountDB);
 
             var amountOfChangeToGiveBack = moneyAmountDB.TotalAmount - realTotal;
 
@@ -46,7 +46,7 @@ namespace CashHandlerAPI.CashHandlerLogic
            
             moneyAmountDB.TwentiesAmount -=
                 TransactionAmountsProcessor((int)moneyAmountDB.TwentiesAmount, 20, realTotal, moneyAmountDB);
-            if (moneyAmountDB.TwentiesAmount < moneyAmountTemp.TwentiesAmount) isChangeMade = true;
+            if (moneyAmountDB.TwentiesAmount <= moneyAmountTemp.TwentiesAmount) isChangeMade = true;
            
             moneyAmountDB.TensAmount -=
                 TransactionAmountsProcessor((int)moneyAmountDB.TensAmount, 10, realTotal, moneyAmountDB);
@@ -166,7 +166,7 @@ namespace CashHandlerAPI.CashHandlerLogic
             {
                 output = "No change";
             }
-            return output;
+            return output.Remove(output.Length-2);
         }
         public static MoneyAmountViewModel CreateMoneyAmountViewModel(MoneyAmount moneyAmountDb)
         {
