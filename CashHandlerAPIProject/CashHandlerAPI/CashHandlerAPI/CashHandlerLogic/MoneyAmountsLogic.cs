@@ -46,7 +46,7 @@ namespace CashHandlerAPI.CashHandlerLogic
            
             moneyAmountDB.TwentiesAmount -=
                 TransactionAmountsProcessor((int)moneyAmountDB.TwentiesAmount, 20, realTotal, moneyAmountDB);
-            if (moneyAmountDB.TwentiesAmount <= moneyAmountTemp.TwentiesAmount) isChangeMade = true;
+            if (moneyAmountDB.TwentiesAmount < moneyAmountTemp.TwentiesAmount) isChangeMade = true;
            
             moneyAmountDB.TensAmount -=
                 TransactionAmountsProcessor((int)moneyAmountDB.TensAmount, 10, realTotal, moneyAmountDB);
@@ -148,6 +148,8 @@ namespace CashHandlerAPI.CashHandlerLogic
                 output = output + (moneyAmountViewModel.TwentiesAmount - moneyAmountDb.TwentiesAmount) + " twenties, ";
             if (moneyAmountViewModel.TensAmount - moneyAmountDb.TensAmount > 0)
                 output = output + (moneyAmountViewModel.TensAmount - moneyAmountDb.TensAmount) + " tens, ";
+            if (moneyAmountViewModel.FivesAmount - moneyAmountDb.FivesAmount > 0)
+                output = output + (moneyAmountViewModel.FivesAmount - moneyAmountDb.FiftiesAmount) + " fives, ";
             if (moneyAmountViewModel.OnesAmount - moneyAmountDb.OnesAmount > 0)
                 output = output + (moneyAmountViewModel.OnesAmount - moneyAmountDb.OnesAmount) + " ones, ";
             if (moneyAmountViewModel.DollarCoinAmount - moneyAmountDb.DollarCoinAmount > 0)
