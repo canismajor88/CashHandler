@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RunTrasactionFormComponent } from './run-trasaction-form.component';
+import { RunTransactionFormComponent } from './run-transaction-form.component';
 
-describe('RunTrasactionFormComponent', () => {
-  let component: RunTrasactionFormComponent;
-  let fixture: ComponentFixture<RunTrasactionFormComponent>;
+describe('RunTransactionFormComponent', () => {
+  let component: RunTransactionFormComponent;
+  let fixture: ComponentFixture<RunTransactionFormComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RunTrasactionFormComponent ]
+      declarations: [ RunTransactionFormComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RunTrasactionFormComponent);
+    fixture = TestBed.createComponent(RunTransactionFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
