@@ -49,13 +49,7 @@ namespace CashHandlerAPI.Controllers
                 var username = _tokenHelper.GetUserName(_tokenHelper.GetToken(authorization));
                 var dbResult = await _databaseHelper.RunTransaction(moneyAmount, username, (decimal)moneyAmount.TransactionAmount);
 
-                if (dbResult.Success)
-                {
-                    return Ok(dbResult);
-                }
-
-                return BadRequest(dbResult);
-
+                return Ok(dbResult);
 
             }
             catch (Exception e)

@@ -6,6 +6,7 @@ using CashHandlerAPI.Data;
 using CashHandlerAPI.Models;
 using CashHandlerAPI.ViewModels;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CashHandlerAPI.Helper
@@ -109,6 +110,36 @@ namespace CashHandlerAPI.Helper
             return await _context.SaveChangesAsync(true) > 0;
         }
 
+        public async Task<ReBalanceResult> ReBalanceMoneyAmount(decimal targetAmount, string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null) return new ReBalanceResult{Success = false};
+            var moneyAmountDB = await _context.MoneyAmounts.FindAsync(user.MoneyAmountId);
+            if (moneyAmountDB == null) return new ReBalanceResult{Success = false};
+            var oldMoneyAmounts = MoneyAmountsLogic.CreateMoneyAmountViewModel(moneyAmountDB);
+            moneyAmountDB = MoneyAmountsLogic.ReBalanceMoneyAmount(moneyAmountDB, targetAmount);
+            if (moneyAmountDB == null)
+                return new ReBalanceResult
+                {
+                    Success = false,
+                    TakeOutString = "Bills need to be broken or not enough in Money Amounts to Re-Balance"
+                };
+            await _context.Transactions.AddAsync(new Transaction
+            {
+                Amount = -1 * ((double)oldMoneyAmounts.TotalAmount - (double)targetAmount),
+                TransDate = DateTime.Now,
+                Denominations = "Re-Balance and Money Amounts Withdraw",
+                UserId = user.Id,
+                User = user
+            });
+           _context.Update(moneyAmountDB);
+           if (await _context.SaveChangesAsync(true) <= 0) return new ReBalanceResult { Success = false };
+           return new ReBalanceResult
+           {
+               Success = true, TakeOutString = MoneyAmountsLogic.GenerateTakeOutString(moneyAmountDB, oldMoneyAmounts)
+           };
+        }
+
         #endregion
 
         #region transactionHelpers
@@ -126,7 +157,7 @@ namespace CashHandlerAPI.Helper
             {
                 return new AddTransactionResult { Success = true,GiveBackString = "Something Went Wrong Need To Re-Balance Money Amounts, can't make change"};
             }
-            var giveBackString = MoneyAmountsLogic.GenerateTransactionString(moneyAmountDB, originalMoneyAmounts);
+            var giveBackString = MoneyAmountsLogic.GenerateTakeOutString(moneyAmountDB, originalMoneyAmounts);
             await _context.Transactions.AddAsync(new Transaction
             {
                 Amount = (double)itemCost,

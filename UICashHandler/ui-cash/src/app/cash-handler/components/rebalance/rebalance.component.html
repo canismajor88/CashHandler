@@ -1,1 +1,157 @@
 <app-internal-nav></app-internal-nav>
+<form #f="ngForm" (ngSubmit)="updateMoneyAmounts(f)">
+  <div class="container m-26-p-15 mt-5">
+    <div class="row">
+      <div class="col m-25-p-10 rounded-corners">
+        <button class="btn btn-primary" type="reset" (click)="reLoadpage()">Refresh Money Amounts Table<i class="bi bi-arrow-clockwise"></i> </button>
+        <h1>Update Money Amount</h1>
+        <legend>Total:<span style="color: green"> <i class="bi bi-currency-dollar"></i>{{total}}</span></legend>
+      </div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <div class="container">
+      <div class="row">
+        <div class="col-2">
+          <label for="HundredsAmount" class="form-label">Hundreds</label>
+          <input type="number" id="HundredsAmount" class="form-control"
+                 name="HundredsAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #HundredsAmount ="ngModel"
+                 class="form-control"
+                 placeholder="{{hundreds}}">
+        </div>
+        <div class="col-2">
+          <label for="FiftiesAmount" class="form-label">Fifties</label>
+          <input type="number" id="FiftiesAmount" class="form-control"
+                 name="FiftiesAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #FiftiesAmount ="ngModel"
+                 class="form-control"
+                 placeholder="{{fifties}}">
+        </div>
+        <div class="col-2">
+          <label for="TwentiesAmount" class="form-label">Twenties</label>
+          <input type="number" id="TwentiesAmount" class="form-control"
+                 name="TwentiesAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #TwentiesAmount="ngModel"placeholder="{{twenties}}">
+        </div>
+        <div class="col-2">
+          <label for="TensAmount" class="form-label">Tens</label>
+          <input type="number" id="TensAmount" class="form-control"
+                 name="TensAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #TensAmount="ngModel"
+                 placeholder="{{tens}}">
+        </div>
+        <div class="col-2">
+          <label for="FivesAmount" class="form-label">Fives</label>
+          <input type="number" id="FivesAmount" class="form-control"
+                 name="FivesAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #FivesAmount="ngModel"placeholder="{{fives}}">
+        </div>
+        <div class="col-2">
+          <label for="OnesAmount" class="form-label">Ones</label>
+          <input type="number" id="OnesAmount" class="form-control"
+                 name="OnesAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #OnesAmount="ngModel"placeholder="{{ones}}">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-2">
+          <label for="DollarCoinAmount" class="form-label" >Dollar Coins</label>
+          <input type="number" id="DollarCoinAmount" class="form-control"
+                 name="DollarCoinAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #DollarCoinAmount="ngModel"placeholder="{{dollarCoins}}">
+        </div>
+        <div class="col-2">
+          <label for="HalfDollarAmount" class="form-label" >Half Dollars</label>
+          <input type="number" id="HalfDollarAmount" class="form-control"
+                 name="HalfDollarAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #HalfDollarAmount="ngModel"
+                 placeholder="{{halfDollars}}">
+        </div>
+        <div class="col-2">
+          <label for="QuartersAmount" class="form-label">Quarters</label>
+          <input type="number" id="QuartersAmount" class="form-control"
+                 name="QuartersAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #QuartersAmount="ngModel" placeholder="{{quarters}}">
+        </div>
+        <div class="col-2">
+          <label for="DimesAmount" class="form-label">Dimes</label>
+          <input type="number" id="DimesAmount" class="form-control"
+                 name="DimesAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #DimesAmount="ngModel"placeholder="{{dimes}}">
+        </div>
+        <div class="col-2">
+          <label for="NicklesAmount" class="form-label">Nickels</label>
+          <input type="number" id="NicklesAmount" class="form-control"
+                 name="NicklesAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #NicklesAmount="ngModel"
+                 placeholder="{{nickles}}">
+        </div>
+        <div class="col-2">
+          <label for="PenniesAmount" class="form-label">Pennies</label>
+          <input type="number" id="PenniesAmount" class="form-control"
+                 name="PenniesAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #PenniesAmount="ngModel"placeholder="{{pennies}}">
+        </div>
+      </div>
+      <button type="submit"
+              [disabled]="f.invalid"
+              class="btn btn-primary"><i class="bi bi-cash-coin"></i>Update Money Amount</button>
+    </div>
+  </div>
+</form>
+  <form #fTwo="ngForm" (ngSubmit)= "ReBalanceMoneyAmounts(fTwo)">
+    <div class="container m-26-p-15 mt-5">
+      <div class="row">
+        <div class="col m-25-p-10 rounded-corners">
+          <h1>Re-Balance Money Amount</h1>
+          <legend>Re-balance Total Amount to Target Amount</legend>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="col-2">
+          <label for="TargetAmount" class="form-label">Target Amount</label>
+          <input type="number" id="TargetAmount"
+                 name="TargetAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #TargetAmount="ngModel"
+                 class="form-control" placeholder="0">
+        </div>
+      </div>
+      <button type="submit"
+              [disabled]="fTwo.invalid"
+              class="btn btn-primary"><i class="bi bi-cash-stack"></i>Re-balance</button>
+    </div>
+</form>
+<div class="col-md-6 offset-md-3 mt-4">
+  <div class="alert alert-primary" *ngIf="takeOutString!=null" role="alert">
+   {{takeOutString}} Page need refresh for updated money amounts
+  </div>
+</div>

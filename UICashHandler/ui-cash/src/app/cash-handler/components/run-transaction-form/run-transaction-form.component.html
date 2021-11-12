@@ -175,7 +175,19 @@
             </div>
             <div class="col-sm-4 display-currency">{{getPenniesValue()}}</div>
           </div>
-
+          <div class="row">
+            <div class="col-md-6 offset-md-3 mt-4">
+              <td class="alert alert-primary" *ngIf="hasSubmitted" role="alert">Loading</td>
+            </div>
+            <div class="col-md-6 offset-md-3 mt-4">
+              <div class="alert alert-primary" *ngIf="transactionSuccess" role="alert">
+                {{giveBack}}
+              </div>
+              <div class="alert alert-warning" *ngIf="transactionError" role="alert">
+                {{giveBack}}
+              </div>
+            </div>
+          </div>
           <div class="row">
             <div class="col-12">
               <button type="submit" [disabled]="f.invalid" class="btn btn-primary" id="submit-btn">
@@ -187,17 +199,7 @@
         </div>
 
       </div>
+
     </form>
-    <div class="col-md-6 offset-md-3 mt-4">
-      <td class="alert alert-primary" *ngIf="hasSubmitted" role="alert">Loading</td>
-    </div>
-    <div class="col-md-6 offset-md-3 mt-4">
-      <div class="alert alert-primary" *ngIf="transactionSuccess" role="alert">
-        {{giveBack}}
-      </div>
-      <div class="alert alert-warning" *ngIf="transactionError" role="alert">
-        {{giveBack}}
-      </div>
-    </div>
   </div>
 </div>

@@ -31,19 +31,27 @@ export class MoneyAmountService {
   }
 
   updateMoneyAmount(data: MoneyAmount): Observable<any> {
-    const url = `${apiUrl}/updateMoneyAmount`;
+    const url = `${apiUrl}/update-moneyAmount`;
     return this.http.post(url, data, httpOptions)
       .pipe(
         map((response:any)=>{
           const moneyAmount = response;
-          if (moneyAmount.Success) {
-            console.log(moneyAmount.Result)
-            localStorage.setItem('moneyAmount', JSON.stringify(moneyAmount.moneyAmountViewModel));
+          if (moneyAmount.Payload.Success) {
+            localStorage.setItem('moneyAmount', JSON.stringify(moneyAmount.Payload.MoneyAmountViewModel));
           }
-        }),
-        catchError(this.handleError)
-      );
+        }))
   }
+
+  ReBalanceMoneyAmount(data: MoneyAmount): Observable<any> {
+    const url = `${apiUrl}/reBalance-moneyAmount`;
+    return this.http.post(url, data, httpOptions)
+      .pipe(
+        map((response:any)=>{
+          const moneyAmount = response;
+            localStorage.setItem('TakeOutString', JSON.stringify(moneyAmount.TakeOutString));
+        }))
+  }
+
 
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

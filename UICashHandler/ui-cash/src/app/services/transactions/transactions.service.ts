@@ -49,13 +49,7 @@ export class TransactionsService {
         map((response:any)=>{
           const transaction = response;
           console.log(response)
-          if(transaction.Success){
             localStorage.setItem('giveBackString',transaction.GiveBackString)
-          }else{
-            if(transaction.GiveBackString!== undefined){
-              localStorage.setItem('giveBackString',transaction.GiveBackString)
-            }
-          }
         }))
   }
 
