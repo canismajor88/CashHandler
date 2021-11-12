@@ -21,7 +21,7 @@ namespace CashHandlerAPI.CashHandlerLogic
         }
         public static MoneyAmount? ReBalanceMoneyAmount(MoneyAmount moneyAmountDB, decimal targetAmount)
         {
-            if (moneyAmountDB.TotalAmount < targetAmount) return null;
+            if (moneyAmountDB.TotalAmount <= targetAmount) return null;
             moneyAmountDB.HundredsAmount -=
                 TransactionAmountsProcessor((int)moneyAmountDB.HundredsAmount, 100, targetAmount, moneyAmountDB);
           
