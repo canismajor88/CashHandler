@@ -19,9 +19,9 @@ namespace CashHandlerAPI.CashHandlerLogic
                                 moneyAmount.OnesAmount + moneyAmount.TensAmount * 10);
             return coinAmount + dollarAmount;
         }
-        public static MoneyAmount ReBalanceMoneyAmount(MoneyAmount moneyAmountDB, decimal targetAmount)
+        public static MoneyAmount? ReBalanceMoneyAmount(MoneyAmount moneyAmountDB, decimal targetAmount)
         {
-
+            if (moneyAmountDB.TotalAmount < targetAmount) return null;
             moneyAmountDB.HundredsAmount -=
                 TransactionAmountsProcessor((int)moneyAmountDB.HundredsAmount, 100, targetAmount, moneyAmountDB);
           
@@ -68,10 +68,8 @@ namespace CashHandlerAPI.CashHandlerLogic
 
             moneyAmountDB.PenniesAmount -=
                 TransactionAmountsProcessor((int)moneyAmountDB.PenniesAmount, (decimal).01, targetAmount, moneyAmountDB);
-       
 
-            return moneyAmountDB;
-
+            return moneyAmountDB.TotalAmount != targetAmount ? null : moneyAmountDB;
         }
         public static MoneyAmount? RunTransaction(MoneyAmount moneyAmountDB, MoneyAmountViewModel moneyAmountViewModel, decimal itemCost)
         {

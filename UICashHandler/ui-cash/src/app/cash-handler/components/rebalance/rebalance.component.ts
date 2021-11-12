@@ -23,7 +23,7 @@ export class RebalanceComponent implements OnInit {
   pennies = "0"
   total="0"
   moneyAmounts: any
-
+  takeOutString: string | null =null
   constructor(private router: Router, private moneyAmountService:MoneyAmountService) {
   }
 
@@ -58,11 +58,23 @@ export class RebalanceComponent implements OnInit {
   updateMoneyAmounts(f: NgForm) {
     console.log(f.value)
   this.moneyAmountService.updateMoneyAmount(f.value).subscribe(()=>{
-    window.location.reload();
+  this.populateMoneyAmounts()
   },error => {console.log(error)})
   }
 
   ReBalanceMoneyAmounts(f: NgForm) {
+  this.moneyAmountService.ReBalanceMoneyAmount(f.value).subscribe(()=>{
+    this.takeOutString=localStorage.getItem('TakeOutString')
+    this.moneyAmountService.getMoneyAmount().subscribe(()=>
+    this.populateMoneyAmounts()
+    )
+  },()=>{
+    this.takeOutString=null
+  })
 
+  }
+
+  reLoadpage() {
+    window.location.reload();
   }
 }

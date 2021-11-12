@@ -118,6 +118,20 @@ namespace CashHandlerAPI.Helper
             if (moneyAmountDB == null) return new ReBalanceResult{Success = false};
             var oldMoneyAmounts = MoneyAmountsLogic.CreateMoneyAmountViewModel(moneyAmountDB);
             moneyAmountDB = MoneyAmountsLogic.ReBalanceMoneyAmount(moneyAmountDB, targetAmount);
+            if (moneyAmountDB == null)
+                return new ReBalanceResult
+                {
+                    Success = false,
+                    TakeOutString = "Bills need to be broken or not enough in Money Amounts to Re-Balance"
+                };
+            await _context.Transactions.AddAsync(new Transaction
+            {
+                Amount = -1 * ((double)oldMoneyAmounts.TotalAmount - (double)targetAmount),
+                TransDate = DateTime.Now,
+                Denominations = "Re-Balance and Money Amounts Withdraw",
+                UserId = user.Id,
+                User = user
+            });
            _context.Update(moneyAmountDB);
            if (await _context.SaveChangesAsync(true) <= 0) return new ReBalanceResult { Success = false };
            return new ReBalanceResult

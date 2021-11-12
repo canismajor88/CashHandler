@@ -42,6 +42,17 @@ export class MoneyAmountService {
         }))
   }
 
+  ReBalanceMoneyAmount(data: MoneyAmount): Observable<any> {
+    const url = `${apiUrl}/reBalance-moneyAmount`;
+    return this.http.post(url, data, httpOptions)
+      .pipe(
+        map((response:any)=>{
+          const moneyAmount = response;
+            localStorage.setItem('TakeOutString', JSON.stringify(moneyAmount.TakeOutString));
+        }))
+  }
+
+
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.

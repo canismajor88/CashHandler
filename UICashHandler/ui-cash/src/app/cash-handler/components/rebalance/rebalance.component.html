@@ -3,6 +3,7 @@
   <div class="container m-26-p-15 mt-5">
     <div class="row">
       <div class="col m-25-p-10 rounded-corners">
+        <button class="btn btn-primary" type="reset" (click)="reLoadpage()">Refresh Money Amounts Table<i class="bi bi-arrow-clockwise"></i> </button>
         <h1>Update Money Amount</h1>
         <legend>Total:<span style="color: green"> <i class="bi bi-currency-dollar"></i>{{total}}</span></legend>
       </div>
@@ -123,7 +124,7 @@
     </div>
   </div>
 </form>
-  <form #f="ngForm" (ngSubmit)="updateMoneyAmounts(f)">
+  <form #fTwo="ngForm" (ngSubmit)= "ReBalanceMoneyAmounts(fTwo)">
     <div class="container m-26-p-15 mt-5">
       <div class="row">
         <div class="col m-25-p-10 rounded-corners">
@@ -135,12 +136,22 @@
     <div class="container">
       <div class="row">
         <div class="col-2">
-          <label for="targetAmount" class="form-label">Target Amount</label>
-          <input type="number" id="targetAmount" class="form-control" placeholder="0">
+          <label for="TargetAmount" class="form-label">Target Amount</label>
+          <input type="number" id="TargetAmount"
+                 name="TargetAmount"
+                 ngModel
+                 required pattern="\s*\d*"
+                 #TargetAmount="ngModel"
+                 class="form-control" placeholder="0">
         </div>
       </div>
       <button type="submit"
-              [disabled]="f.invalid"
+              [disabled]="fTwo.invalid"
               class="btn btn-primary"><i class="bi bi-cash-stack"></i>Re-balance</button>
     </div>
 </form>
+<div class="col-md-6 offset-md-3 mt-4">
+  <div class="alert alert-primary" *ngIf="takeOutString!=null" role="alert">
+   {{takeOutString}} Page need refresh for updated money amounts
+  </div>
+</div>
