@@ -5,10 +5,6 @@ VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashHandlerAPI", "CashHandlerAPI\CashHandlerAPI.csproj", "{9F6E0DF8-8EBE-4F2A-B0E5-B6AD06492985}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegisterDropCalculator", "RegisterDropCalculator\RegisterDropCalculator.csproj", "{98B9A6C5-DF16-4EE9-8673-C3DA04239B4C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegisterDropCalculatorTests", "RegisterDropCalculatorTests\RegisterDropCalculatorTests.csproj", "{A6A26928-E085-45EC-859F-4D9DC1C022D1}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,14 +15,6 @@ Global
 		{9F6E0DF8-8EBE-4F2A-B0E5-B6AD06492985}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F6E0DF8-8EBE-4F2A-B0E5-B6AD06492985}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F6E0DF8-8EBE-4F2A-B0E5-B6AD06492985}.Release|Any CPU.Build.0 = Release|Any CPU
-		{98B9A6C5-DF16-4EE9-8673-C3DA04239B4C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{98B9A6C5-DF16-4EE9-8673-C3DA04239B4C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{98B9A6C5-DF16-4EE9-8673-C3DA04239B4C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{98B9A6C5-DF16-4EE9-8673-C3DA04239B4C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A6A26928-E085-45EC-859F-4D9DC1C022D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A6A26928-E085-45EC-859F-4D9DC1C022D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A6A26928-E085-45EC-859F-4D9DC1C022D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A6A26928-E085-45EC-859F-4D9DC1C022D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
