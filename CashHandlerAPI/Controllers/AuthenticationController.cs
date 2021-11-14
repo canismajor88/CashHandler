@@ -248,7 +248,7 @@ namespace CashHandlerAPI.Controllers
         [Authorize]
         [HttpGet]
         [Route("token-health")]
-        public ActionResult Get()
+        public ActionResult Get([FromHeader] string authorization)
         {
             _logger.LogInformation("_health");
             return Ok();
