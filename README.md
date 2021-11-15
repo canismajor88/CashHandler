@@ -46,3 +46,13 @@ Images and Style:
 - [Many Pixels](https://www.manypixels.co/gallery)
 - [Unsplash](https://unsplash.com/)
 - [Getwaves](https://getwaves.io/https://newbedev.com/how-to-refresh-a-page-programmatically-in-angular-code-example)
+
+## Asides
+
+Our senstive information such as our database connection string and our token hash key have benn moved into app settings json in our API project from our user secrets. Only for the purpose of making our app easier to build for judging purposes.
+
+If you builder and running our appliction. When you try to access the database it will give your erros because it is being hosted in azure and we need to allow your ip through our database fire wall. Please contact me to do so 
+
+email: cvgq6b@mail.umkc.edu
+
+phone number:8166171867
