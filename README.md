@@ -6,6 +6,8 @@ The custom-built API handles all the business logic for the application. We foll
 
 ## Cash Handler UI
 
+[Link to Github repo for the UI project](https://github.com/canismajor88/CashHandlerUI)
+
 The user interface is the bridge between the user and the business logic. The user interface is built with Angular 13 and Bootstrap 5 to provide a responsive and intuitive foundation upon which users can access the app from either a desktop or mobile device.
 
 The database is currently hosted on Azure, though the API and Angular project have not yet been deployed. Please contact Zach (zjuvz6@mail.umkc.edu) if you are running the API locally and need access to the database, as we will have to add a firewall exception for your local machine.
