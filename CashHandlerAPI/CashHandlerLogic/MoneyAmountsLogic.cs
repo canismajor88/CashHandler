@@ -238,7 +238,7 @@ namespace CashHandlerAPI.CashHandlerLogic
                 TensAmount = (int)moneyAmountDb.TensAmount,
                 FivesAmount = (int)moneyAmountDb.FivesAmount,
                 OnesAmount = (int)moneyAmountDb.OnesAmount,
-                TotalAmount = (int)moneyAmountDb.TotalAmount
+                TotalAmount = (decimal)moneyAmountDb.TotalAmount
             };
         }
 
