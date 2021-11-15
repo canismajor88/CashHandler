@@ -6,6 +6,7 @@ using CashHandlerAPI.Data;
 using CashHandlerAPI.Helper;
 using CashHandlerAPI.Models;
 using CashHandlerAPI.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -243,6 +244,14 @@ namespace CashHandlerAPI.Controllers
                     badResult
                 });
             }
+        }
+        [Authorize]
+        [HttpGet]
+        [Route("token-health")]
+        public ActionResult Get([FromHeader] string authorization)
+        {
+            _logger.LogInformation("_health");
+            return Ok();
         }
 
         #endregion
