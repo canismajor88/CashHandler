@@ -22,6 +22,9 @@ namespace CashHandlerAPI.Helper
         #endregion
 
         #region publicMethods
+        /// <summary>
+        /// creates a token with a username stored in it
+        /// </summary>
         public string CreateToken(string userName)
         {
             var timeGap = short.Parse(_configuration["TokenSettings:ExpirationLength"]);

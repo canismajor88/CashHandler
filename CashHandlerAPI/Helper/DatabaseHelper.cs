@@ -192,7 +192,9 @@ namespace CashHandlerAPI.Helper
             };
             return transactionResult;
         }
-
+        /// <summary>
+        /// grabs all transaction from database for a given username
+        /// </summary>
         public async Task<GetTransactionsResult> GetTransactions(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
@@ -205,12 +207,16 @@ namespace CashHandlerAPI.Helper
             };
 
         }
-
+        /// <summary>
+        /// gets a transaction from database for a given username
+        /// </summary>
         public async Task<Transaction> GetTransaction(long transactionId)
         {
             return await _context.Transactions.FirstOrDefaultAsync(x => x.TransactionId == transactionId);
         }
-
+        /// <summary>
+        /// gets a moneyAmountView Model for a given user
+        /// </summary>
         public async Task<GetMoneyAmountResult> GetMoneyAmountViewModel(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
@@ -225,8 +231,6 @@ namespace CashHandlerAPI.Helper
 
 
         #endregion
-
-
 
         #endregion
     }

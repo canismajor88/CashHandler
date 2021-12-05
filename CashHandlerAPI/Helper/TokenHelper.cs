@@ -6,6 +6,9 @@ namespace CashHandlerAPI.Helper
     public class TokenHelper:ITokenHelper
     {
         #region public methods
+        /// <summary>
+        /// gets user name out of a token
+        /// </summary>
         public string GetUserName(string token)
         {
 
@@ -14,7 +17,9 @@ namespace CashHandlerAPI.Helper
             var userName = jsonToken?.Claims.FirstOrDefault(claims => claims.Type == "unique_name")?.Value;
             return userName;
         }
-
+        /// <summary>
+        /// gets a token from an authorizationString
+        /// </summary>
         public string GetToken(string authorizationString)
         {
             //takes Bearer off of authorization so we can just get the token string

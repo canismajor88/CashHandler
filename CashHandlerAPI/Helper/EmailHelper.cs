@@ -10,6 +10,9 @@ namespace CashHandlerAPI.Helper
     public class EmailHelper:IEmailHelper
     {
         #region public methods
+        /// <summary>
+        /// sends email to given email address
+        /// </summary>
         public Task Send(string emailAddress, string body, string subject ,EmailOptions emailOptions)
         {
             MailMessage mailMessage = new(emailOptions.UserName_SenderEmail, emailAddress);
@@ -25,8 +28,10 @@ namespace CashHandlerAPI.Helper
             smtpClient.Send(mailMessage);
             return Task.CompletedTask;
         }
-
-        public  string UrlStringBuilder(string receiverAddress, string token, string userId)
+        /// <summary>
+        /// builds URL with token and userId attached to it
+        /// </summary>
+        public string UrlStringBuilder(string receiverAddress, string token, string userId)
         {
             var uriBuilder = new UriBuilder(receiverAddress);
             var query = HttpUtility.ParseQueryString(uriBuilder.Query);
