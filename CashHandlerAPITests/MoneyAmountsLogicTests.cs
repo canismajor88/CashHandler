@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices.ComTypes;
 using CashHandlerAPI.CashHandlerLogic;
 using CashHandlerAPI.Models;
 using CashHandlerAPI.ViewModels;
@@ -7,7 +8,7 @@ namespace CashHandlerAPITests
 {
     public class MoneyAmountsLogicTests
     {
-       
+
         [Test]
         public void TestValidPopulation()
         {
@@ -155,7 +156,7 @@ namespace CashHandlerAPITests
 
             };
             moneyAmounts = MoneyAmountsLogic.ReBalanceMoneyAmount(moneyAmounts, 320);
-            Assert.AreEqual(null,moneyAmounts);
+            Assert.AreEqual(-1,moneyAmounts.PenniesAmount);
         }
 
         [Test]
@@ -179,7 +180,7 @@ namespace CashHandlerAPITests
 
             };
             moneyAmounts = MoneyAmountsLogic.ReBalanceMoneyAmount(moneyAmounts, 100);
-            Assert.AreEqual(null, moneyAmounts);
+            Assert.AreEqual(-1, moneyAmounts.PenniesAmount);
         }
 
         [Test]
@@ -352,7 +353,7 @@ namespace CashHandlerAPITests
             };
             moneyAmounts = MoneyAmountsLogic.RunTransaction(moneyAmounts, moneyAmountFromUser, (decimal)moneyAmountFromUser.TransactionAmount);
 
-            Assert.AreEqual(null, moneyAmounts);
+            Assert.AreEqual(-1, moneyAmounts.PenniesAmount);
         }
 
         [Test]
@@ -393,7 +394,7 @@ namespace CashHandlerAPITests
             };
             moneyAmounts = MoneyAmountsLogic.RunTransaction(moneyAmounts, moneyAmountFromUser, (decimal)moneyAmountFromUser.TransactionAmount);
 
-            Assert.AreEqual(null, moneyAmounts);
+            Assert.AreEqual(-1, moneyAmounts.PenniesAmount);
         }
         [Test]
         public void GenerateTakeOutString()

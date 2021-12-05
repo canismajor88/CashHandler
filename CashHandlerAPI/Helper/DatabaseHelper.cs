@@ -29,7 +29,9 @@ namespace CashHandlerAPI.Helper
         #region public methods
 
         #region AuthHelpers
-
+        /// <summary>
+        /// checks if username and password are a valid user in DB
+        /// </summary>
         public async Task<bool> IsValidLogin(string userName, string password)
         {
             var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
@@ -41,7 +43,9 @@ namespace CashHandlerAPI.Helper
             currentUser.LastSignIn = DateTime.Now;
             return await _context.SaveChangesAsync(true) > 0;
         }
-
+        /// <summary>
+        /// creates new user with a username, password, and email
+        /// </summary>
         public async Task<bool> CreateNewUser(string userName, string password, string email)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.UserName == userName);
@@ -78,14 +82,18 @@ namespace CashHandlerAPI.Helper
             _context.Update(currentUser);
             return await _context.SaveChangesAsync(true) > 0;
         }
-
+        /// <summary>
+        /// confirms email for user and takes a permissions token
+        /// </summary>
         public async Task<bool> ConfirmEmail(string userId, string token)
         {
             var user = await _userManager.FindByIdAsync(userId);
             var confirm = await _userManager.ConfirmEmailAsync(user, Uri.UnescapeDataString(token));
             return confirm.Succeeded;
         }
-
+        /// <summary>
+        /// changes password for user takes a permissions token
+        /// </summary>
         public async Task<bool> ChangePassword(string userId, string token, string newPassword)
         {
             var user = await _userManager.FindByIdAsync(userId);
@@ -97,19 +105,23 @@ namespace CashHandlerAPI.Helper
 
 
         #region MoneyAmountsHelpers
-
+        /// <summary>
+        /// updates a moneyAmount and updates its values to the values in moneyAmountViewModel
+        /// </summary>
         public async Task<bool> UpdateMoneyAmount(MoneyAmountViewModel moneyAmountViewModel, string username)
         {
             var user = await _userManager.FindByNameAsync(username);
             if (user == null) return false;
             var moneyAmountDB = await _context.MoneyAmounts.FindAsync(user.MoneyAmountId);
-            if (moneyAmountDB == null) return false;
+            if (moneyAmountDB.PenniesAmount == null) return false;
             moneyAmountDB = MoneyAmountsLogic.UpdateMoneyAmount(moneyAmountDB, moneyAmountViewModel);
             _context.Update(user);
             _context.Update(moneyAmountDB);
             return await _context.SaveChangesAsync(true) > 0;
         }
-
+        /// <summary>
+        /// re-balances money amount to target amount
+        /// </summary>
         public async Task<ReBalanceResult> ReBalanceMoneyAmount(decimal targetAmount, string username)
         {
             var user = await _userManager.FindByNameAsync(username);
@@ -118,7 +130,7 @@ namespace CashHandlerAPI.Helper
             if (moneyAmountDB == null) return new ReBalanceResult{Success = false};
             var oldMoneyAmounts = MoneyAmountsLogic.CreateMoneyAmountViewModel(moneyAmountDB);
             moneyAmountDB = MoneyAmountsLogic.ReBalanceMoneyAmount(moneyAmountDB, targetAmount);
-            if (moneyAmountDB == null)
+            if (moneyAmountDB.PenniesAmount == -1)
                 return new ReBalanceResult
                 {
                     Success = false,
@@ -144,7 +156,11 @@ namespace CashHandlerAPI.Helper
 
         #region transactionHelpers
 
-        //moneyAmountViewModel here is with what ever amount customer has given
+
+        /// <summary>
+        /// runs transaction and add it to database
+        /// moneyAmountViewModel here is with whatever amount customer has given
+        /// </summary>
         public async Task<AddTransactionResult> RunTransaction(MoneyAmountViewModel moneyAmountViewModel, string username, decimal itemCost)
         {
             var user = await _userManager.FindByNameAsync(username);
@@ -153,7 +169,7 @@ namespace CashHandlerAPI.Helper
             var originalMoneyAmounts = MoneyAmountsLogic.CreateMoneyAmountViewModel(moneyAmountDB);
             if (moneyAmountDB == null) return new AddTransactionResult { Success = false };
             moneyAmountDB = MoneyAmountsLogic.RunTransaction(moneyAmountDB, moneyAmountViewModel, itemCost);
-            if (moneyAmountDB==null)
+            if (moneyAmountDB.PenniesAmount==-1)
             {
                 return new AddTransactionResult { Success = true,GiveBackString = "Something Went Wrong Need To Re-Balance Money Amounts, can't make change"};
             }
@@ -168,10 +184,12 @@ namespace CashHandlerAPI.Helper
             });
             _context.Update(user);
             _context.Update(moneyAmountDB);
-            var transactionResult = new AddTransactionResult();
-            transactionResult.MoneyAmountViewModel = MoneyAmountsLogic.CreateMoneyAmountViewModel(moneyAmountDB);
-            transactionResult.Success = await _context.SaveChangesAsync(true) > 0;
-            transactionResult.GiveBackString = giveBackString;
+            var transactionResult = new AddTransactionResult
+            {
+                MoneyAmountViewModel = MoneyAmountsLogic.CreateMoneyAmountViewModel(moneyAmountDB),
+                Success = await _context.SaveChangesAsync(true) > 0,
+                GiveBackString = giveBackString
+            };
             return transactionResult;
         }
 
