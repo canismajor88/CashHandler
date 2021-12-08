@@ -1,4 +1,6 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using System;
+using System.Globalization;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 
 namespace CashHandlerAPI.Helper
@@ -25,6 +27,14 @@ namespace CashHandlerAPI.Helper
             //takes Bearer off of authorization so we can just get the token string
             var tokenString = authorizationString.Split(' ').Last();
             return tokenString;
+        }
+
+        public DateTime GetExpirationDate(string token)
+        {
+            var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
+            var jsonToken = jwtSecurityTokenHandler.ReadToken(token) as JwtSecurityToken;
+            var exp = jsonToken?.Claims.FirstOrDefault(claims => claims.Type == "exp")?.Value;
+            return DateTimeOffset.FromUnixTimeSeconds(long.Parse(exp)).DateTime.ToUniversalTime();
         }
 
         #endregion
