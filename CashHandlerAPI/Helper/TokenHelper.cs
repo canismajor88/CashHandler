@@ -34,7 +34,7 @@ namespace CashHandlerAPI.Helper
             var jwtSecurityTokenHandler = new JwtSecurityTokenHandler();
             var jsonToken = jwtSecurityTokenHandler.ReadToken(token) as JwtSecurityToken;
             var exp = jsonToken?.Claims.FirstOrDefault(claims => claims.Type == "exp")?.Value;
-            return DateTimeOffset.FromUnixTimeSeconds(long.Parse(exp)).DateTime.ToUniversalTime();
+            return DateTimeOffset.FromUnixTimeSeconds(long.Parse(exp)).DateTime.ToUniversalTime().AddHours(-12);
         }
 
         #endregion

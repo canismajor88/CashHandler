@@ -31,9 +31,10 @@ namespace CashHandlerAPITests
             var token = sut.CreateToken("BobBuilder");
             var tokenHelper = new TokenHelper();
             Assert.True("BobBuilder" == tokenHelper.GetUserName(token));
-            var now = DateTime.Now.Hour-12;
+            var now = DateTime.Now;
+            var nowHours = now.Hour;
             var exp = tokenHelper.GetExpirationDate(token);
-            var hoursToExpire = exp.Hour - now;
+            var hoursToExpire = exp.Hour - nowHours;
             Assert.True(hoursToExpire == 1);
         }
 
@@ -45,10 +46,10 @@ namespace CashHandlerAPITests
            //sut
            var sut = new TokenHelper();
            Assert.True("Bob" == sut.GetUserName(token));
-           var now = DateTime.Now.Minute;
+           var now = DateTime.Now;
            var exp = sut.GetExpirationDate(token);
-           var hoursToExpire = exp.Minute - now;
-           Assert.True(hoursToExpire < 1);
+           var hoursToExpire = exp - now;
+           Assert.True(hoursToExpire.ToString().Contains("-"));
        }
 
       [Test]

@@ -437,7 +437,46 @@ namespace CashHandlerAPITests
             var takeOutString = MoneyAmountsLogic.GenerateTakeOutString(moneyAmounts, moneyAmountOriginal);
             Assert.AreEqual(takeOutString, "Take Out 9 dollar coins");
         }
+        [Test]
+        public void GenerateTakeOutStringReBalanceTest()
+        {
+            var moneyAmounts = new MoneyAmount
+            {
+                DollarCoinAmount = 1000,
+                HalfDollarAmount = 1000,
+                QuartersAmount = 1000,
+                DimesAmount = 1000,
+                NicklesAmount = 1000,
+                PenniesAmount = 1000,
+                HundredsAmount = 1000,
+                FiftiesAmount = 1000,
+                TwentiesAmount = 1000,
+                TensAmount = 1000,
+                FivesAmount = 1000,
+                OnesAmount = 10000,
+                TotalAmount = (decimal)196910
 
+            };
+             MoneyAmountsLogic.ReBalanceMoneyAmount(moneyAmounts, 1);
+             var oldMoneyAmount = new MoneyAmount
+             {
+                 DollarCoinAmount = 1000,
+                 HalfDollarAmount = 1000,
+                 QuartersAmount = 1000,
+                 DimesAmount = 1000,
+                 NicklesAmount = 1000,
+                 PenniesAmount = 1000,
+                 HundredsAmount = 1000,
+                 FiftiesAmount = 1000,
+                 TwentiesAmount = 1000,
+                 TensAmount = 1000,
+                 FivesAmount = 1000,
+                 OnesAmount = 10000,
+                 TotalAmount = (decimal)196910
+             };
+            var takeOutString = MoneyAmountsLogic.GenerateTakeOutString(moneyAmounts, MoneyAmountsLogic.CreateMoneyAmountViewModel(oldMoneyAmount));
+            Assert.AreEqual(takeOutString, "Take Out 1000 hundreds, 1000 fifties, 1000 twenties, 1000 tens, 1000 fives, 10000 ones, 1000 dollar coins, 1000 half dollars, 1000 quarters, 1000 dimes, 1000 nickles, 900 pennies");
+        }
         [Test]
         public void GenerateTakeOutStringExactChange()
         {
@@ -518,6 +557,60 @@ namespace CashHandlerAPITests
             };
             var sut = MoneyAmountsLogic.CreateMoneyAmountViewModel(moneyAmounts);
             Assert.AreEqual(moneyAmountViewModel, sut);
+        }
+        [Test]
+        public void UpdateMoneyAmountTest()
+        {
+            var moneyAmounts = new MoneyAmount
+            {
+                DollarCoinAmount = 0,
+                HalfDollarAmount = 0,
+                QuartersAmount = 0,
+                DimesAmount = 0,
+                NicklesAmount = 0,
+                PenniesAmount = 0,
+                HundredsAmount = 0,
+                FiftiesAmount = 0,
+                TwentiesAmount = 0,
+                TensAmount = 0,
+                FivesAmount = 0,
+                OnesAmount = 0,
+                TotalAmount = (decimal)0
+
+            };
+            var moneyAmountViewModel = new MoneyAmountViewModel()
+            {
+                DollarCoinAmount = 99,
+                HalfDollarAmount = 3,
+                QuartersAmount = 20,
+                DimesAmount = 64,
+                NicklesAmount = 40,
+                PenniesAmount = 110,
+                HundredsAmount = 0,
+                FiftiesAmount = 0,
+                TwentiesAmount = 0,
+                TensAmount = 0,
+                FivesAmount = 0,
+                OnesAmount = 0,
+                TotalAmount = (decimal)115
+            };
+            var sut = MoneyAmountsLogic.UpdateMoneyAmount(moneyAmounts, moneyAmountViewModel);
+            Assert.AreEqual(MoneyAmountsLogic.CreateMoneyAmountViewModel(new MoneyAmount
+            {
+                DollarCoinAmount = 99,
+                HalfDollarAmount = 3,
+                QuartersAmount = 20,
+                DimesAmount = 64,
+                NicklesAmount = 40,
+                PenniesAmount = 110,
+                HundredsAmount = 0,
+                FiftiesAmount = 0,
+                TwentiesAmount = 0,
+                TensAmount = 0,
+                FivesAmount = 0,
+                OnesAmount = 0,
+                TotalAmount = (decimal)115
+            }), MoneyAmountsLogic.CreateMoneyAmountViewModel(sut));
         }
     }
 }
