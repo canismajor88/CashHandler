@@ -60,10 +60,10 @@ namespace CashHandlerAPI
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateLifetime = true,
+                    ValidateLifetime = false,
                     ValidateIssuerSigningKey = true,
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("TokenSettings:Key")),
                     ValidIssuer = Configuration["TokenSettings:IssuerLocation"], // location of ASP.NET?
                     ValidAudience = Configuration["TokenSettings:AudienceLocation"]
