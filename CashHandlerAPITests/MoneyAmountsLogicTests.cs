@@ -479,6 +479,46 @@ namespace CashHandlerAPITests
             var takeOutString = MoneyAmountsLogic.GenerateTakeOutString(moneyAmounts, moneyAmountOriginal);
             Assert.AreEqual(takeOutString, "No change");
         }
+
+        [Test]
+        public void CreateMoneyAmountViewModelTest()
+        {
+            var moneyAmounts = new MoneyAmount
+            {
+                DollarCoinAmount = 99,
+                HalfDollarAmount = 3,
+                QuartersAmount = 20,
+                DimesAmount = 64,
+                NicklesAmount = 40,
+                PenniesAmount = 110,
+                HundredsAmount = 0,
+                FiftiesAmount = 0,
+                TwentiesAmount = 0,
+                TensAmount = 0,
+                FivesAmount = 0,
+                OnesAmount = 0,
+                TotalAmount = (decimal)115
+
+            };
+            var moneyAmountViewModel = new MoneyAmountViewModel()
+            {
+                DollarCoinAmount = 99,
+                HalfDollarAmount = 3,
+                QuartersAmount = 20,
+                DimesAmount = 64,
+                NicklesAmount = 40,
+                PenniesAmount = 110,
+                HundredsAmount = 0,
+                FiftiesAmount = 0,
+                TwentiesAmount = 0,
+                TensAmount = 0,
+                FivesAmount = 0,
+                OnesAmount = 0,
+                TotalAmount = (decimal)115
+            };
+            var sut = MoneyAmountsLogic.CreateMoneyAmountViewModel(moneyAmounts);
+            Assert.AreEqual(moneyAmountViewModel, sut);
+        }
     }
 }
 

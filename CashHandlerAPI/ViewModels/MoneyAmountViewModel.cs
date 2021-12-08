@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace CashHandlerAPI.ViewModels
 {
-    public class MoneyAmountViewModel
+    public record MoneyAmountViewModel
     {
         #region public propeties
 
