@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashHandlerAPI", "CashHandlerAPI\CashHandlerAPI.csproj", "{9F6E0DF8-8EBE-4F2A-B0E5-B6AD06492985}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashHandlerAPITests", "CashHandlerAPITests\CashHandlerAPITests.csproj", "{6D7BBF0B-8A1F-4F3E-99F6-EC38A94F28F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CashHandlerAPITests", "CashHandlerAPITests\CashHandlerAPITests.csproj", "{53F4368B-BD88-4245-A75C-E92A6E90AA29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{9F6E0DF8-8EBE-4F2A-B0E5-B6AD06492985}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F6E0DF8-8EBE-4F2A-B0E5-B6AD06492985}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F6E0DF8-8EBE-4F2A-B0E5-B6AD06492985}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6D7BBF0B-8A1F-4F3E-99F6-EC38A94F28F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6D7BBF0B-8A1F-4F3E-99F6-EC38A94F28F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6D7BBF0B-8A1F-4F3E-99F6-EC38A94F28F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6D7BBF0B-8A1F-4F3E-99F6-EC38A94F28F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53F4368B-BD88-4245-A75C-E92A6E90AA29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53F4368B-BD88-4245-A75C-E92A6E90AA29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53F4368B-BD88-4245-A75C-E92A6E90AA29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53F4368B-BD88-4245-A75C-E92A6E90AA29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
