@@ -21,7 +21,9 @@ namespace CashHandlerAPI.Controllers
         #endregion
 
         #region endpoints
-
+        /// <summary>
+        /// returns ok when hit
+        /// </summary>
         [HttpGet]
         [Route("_health")]
         public ActionResult Get()

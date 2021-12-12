@@ -36,7 +36,9 @@ namespace CashHandlerAPI.Controllers
         #endregion
 
         #region endpoints
-
+        /// <summary>
+        /// gets a moneyAmountViewModel and an authorization string and returns an updated moneyAmountViewModel
+        /// </summary>
         [Authorize]
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -76,6 +78,9 @@ namespace CashHandlerAPI.Controllers
                 });
             }
         }
+        /// <summary>
+        /// gets a reBalanceViewModel and an authorization string and returns an Re-balance Result
+        /// </summary>
         [Authorize]
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -108,6 +113,9 @@ namespace CashHandlerAPI.Controllers
                 });
             }
         }
+        /// <summary>
+        /// gets an authorization string and returns an GetMoneyAmount Result
+        /// </summary>
         [Authorize]
         [HttpGet]
         [Route("get-moneyAmount")]

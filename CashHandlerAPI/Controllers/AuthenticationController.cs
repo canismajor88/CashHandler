@@ -46,7 +46,9 @@ namespace CashHandlerAPI.Controllers
         #endregion
 
         #region endPoints
-
+        /// <summary>
+        /// gets LoginCredential and returns result with a token
+        /// </summary>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [Route("login")]
@@ -84,6 +86,9 @@ namespace CashHandlerAPI.Controllers
                 });
             }
         }
+        /// <summary>
+        /// gets CreateUserCredential and returns result
+        /// </summary>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [Route("register")]
@@ -140,7 +145,9 @@ namespace CashHandlerAPI.Controllers
                 });
             }
         }
-
+        /// <summary>
+        /// gets EmailCredential and returns ok if email was confirmed
+        /// </summary>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [Route("confirm-email")]
@@ -173,7 +180,9 @@ namespace CashHandlerAPI.Controllers
                 });
             }
         }
-
+        /// <summary>
+        /// gets EmailCredential and returns ok if an email was sent to user to confirm email
+        /// </summary>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [Route("reset-password")]
@@ -212,6 +221,9 @@ namespace CashHandlerAPI.Controllers
                 });
             }
         }
+        /// <summary>
+        /// gets ChangePasswordCredential and returns ok if password was changed
+        /// </summary>
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
         [Route("change-password")]

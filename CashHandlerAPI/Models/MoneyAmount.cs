@@ -4,7 +4,7 @@
 
 namespace CashHandlerAPI.Models
 {
-    public class MoneyAmount
+    public record MoneyAmount
     {
         public MoneyAmount()
         {

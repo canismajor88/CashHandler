@@ -36,7 +36,9 @@ namespace CashHandlerAPI.Controllers
         #endregion
 
         #region endpoints
-
+        /// <summary>
+        /// gets an authorization string and a moneyAmountViewModel returns an AddTransaction Result
+        /// </summary>
         [Authorize]
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
@@ -67,7 +69,9 @@ namespace CashHandlerAPI.Controllers
                 });
             }
         }
-
+        /// <summary>
+        /// gets an authorization string returns a list of TransactionViewModel
+        /// </summary>
         [Authorize]
         [HttpGet]
         [Route("get-transactions")]
@@ -104,7 +108,9 @@ namespace CashHandlerAPI.Controllers
                 });
             }
         }
-
+        /// <summary>
+        /// gets a getTransactionViewModel returns a TransactionViewModel
+        /// </summary>
         [Authorize]
         [HttpPost]
         [Consumes(MediaTypeNames.Application.Json)]
